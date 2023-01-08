@@ -9,7 +9,8 @@ import edu.wpi.first.apriltag.AprilTagDetector;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-  AprilTagDetector m_detector = new AprilTagDetector();
+  public boolean m_goingForward = true;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {}
 

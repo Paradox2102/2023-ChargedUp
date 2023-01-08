@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -36,6 +37,19 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    // Driver 1
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX()));
+    // Acts like throttle
+    if (m_stick1.getRightBumper()) {
+      if (m_driveSubsystem.m_goingForward) {
+        m_driveSubsystem.m_goingForward = false;
+      } else {
+        m_driveSubsystem.m_goingForward = true;
+      }
+    }
+
+    // Driver 2
   }
 
   /**
