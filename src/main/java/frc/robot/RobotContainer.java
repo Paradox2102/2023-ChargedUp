@@ -41,7 +41,7 @@ public class RobotContainer {
     // Driver 1
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX()));
     // Acts like throttle
-    if (m_stick1.getRightBumper()) {
+    if (m_stick1.getRightBumperPressed()) {
       if (m_driveSubsystem.m_goingForward) {
         m_driveSubsystem.m_goingForward = false;
       } else {
