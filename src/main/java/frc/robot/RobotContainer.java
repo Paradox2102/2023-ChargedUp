@@ -82,7 +82,7 @@ public class RobotContainer {
     // cancelling on release.
 
     // Driver 1
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX(), new ToggleTrigger(m_directionSwitch)));
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX(), new ToggleTrigger(m_directionSwitch.debounce(.1))));
     
 
     // Driver 2
