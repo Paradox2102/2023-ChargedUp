@@ -37,6 +37,8 @@ public class RobotContainer {
   private final XboxController m_stick1 = new XboxController(0);
   private final Joystick m_stick2 = new Joystick(1);
 
+  public static AprilTagFieldLayout m_tags;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -45,6 +47,9 @@ public class RobotContainer {
     try {
       AprilTagFieldLayout tags = new AprilTagFieldLayout("/home/lvuser/deploy/2023-chargedup.json");
       Logger.log("RobotContainer", 1, tags.toString());
+      Logger.log("RobotContainer", 1, tags.getTagPose(1).get().toString());
+      Logger.log("RobotContainer", 1, String.format("%f", tags.getTagPose(1).get().getRotation().getZ()));
+      m_tags = tags;
     } catch (IOException e) {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }

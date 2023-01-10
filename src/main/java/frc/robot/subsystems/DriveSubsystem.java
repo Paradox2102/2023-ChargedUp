@@ -7,7 +7,9 @@ import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagDetector;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.ApriltagsCamera;
@@ -20,9 +22,12 @@ public class DriveSubsystem extends SubsystemBase {
   ApriltagsCamera m_camera = new ApriltagsCamera();
   Gyro m_gyro = new WPI_PigeonIMU(0);
   LocationTracker m_tracker = new LocationTracker();
+  private final Field2d m_field = new Field2d();
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+    SmartDashboard.putData("Field", m_field);
+  }
 
   public void setPower(double leftPower, double rightPower) {
     // motor stuff
@@ -36,8 +41,12 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    ApriltagsCameraRegions region = m_camera.getRegions();
-    //double[] location = m_tracker.getLocation(region.m_targetHorzPos, region.m_targetVertPos, m_gyro.getAngle(), coordinates for the AprilTag here);
-    //SmartDashboard.putNumberArray("Robot Location", location);
+    ApriltagsCameraRegions regions = m_camera.getRegions();
+    if (regions != null && regions.getRegionCount() >= 1) {
+      ApriltagsCameraRegion region = regions.getRegion(0);
+      Pose2d location = m_tracker.getLocation(region.m_tvec[0], region.m_tvec[2], m_gyro.getAngle(), m_tracker.getTag(region.m_tag));
+      m_field.setRobotPose(location);
+      
+    } 
   }
 }
