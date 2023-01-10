@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTag;
@@ -15,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegion;
 import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegions;
+import frc.robot.Constants;
 import frc.robot.LocationTracker;
 
 public class DriveSubsystem extends SubsystemBase {
-  public boolean m_goingForward = true;
   ApriltagsCamera m_camera = new ApriltagsCamera();
   Gyro m_gyro = new WPI_PigeonIMU(0);
   LocationTracker m_tracker = new LocationTracker();

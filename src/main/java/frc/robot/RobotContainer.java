@@ -13,12 +13,16 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 
 import java.io.IOException;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -33,11 +37,16 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  // Controllers
-  private final XboxController m_stick1 = new XboxController(0);
+  // Driver 1 Controller
+  private final CommandXboxController m_stick1 = new CommandXboxController(0);
+  private final Trigger m_directionSwitch = m_stick1.rightBumper();
+
+  // Driver 2 Controller
   private final Joystick m_stick2 = new Joystick(1);
 
   public static AprilTagFieldLayout m_tags;
+
+  private boolean m_goingForward = true;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -73,15 +82,8 @@ public class RobotContainer {
     // cancelling on release.
 
     // Driver 1
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX()));
-    // Acts like throttle
-    if (m_stick1.getRightBumperPressed()) {
-      if (m_driveSubsystem.m_goingForward) {
-        m_driveSubsystem.m_goingForward = false;
-      } else {
-        m_driveSubsystem.m_goingForward = true;
-      }
-    }
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX(), new ToggleTrigger(m_directionSwitch)));
+    
 
     // Driver 2
   }

@@ -14,13 +14,14 @@ public class ArcadeDriveCommand extends CommandBase {
   DriveSubsystem m_subsystem;
   DoubleSupplier m_getX;
   DoubleSupplier m_getY;
-  boolean m_goingForward;
+  BooleanSupplier m_goingForward;
 
   /** Creates a new ArcadeDriveCommand. */
-  public ArcadeDriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY) {
+  public ArcadeDriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, BooleanSupplier goingForward) {
     m_subsystem = driveSubsystem;
     m_getX = getX;
     m_getY = getY;
+    m_goingForward = goingForward;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
@@ -35,7 +36,7 @@ public class ArcadeDriveCommand extends CommandBase {
   public void execute() {
     double x = m_getX.getAsDouble();
     double y = -m_getY.getAsDouble();
-    boolean goingForward = m_subsystem.m_goingForward;
+    boolean goingForward = m_goingForward.getAsBoolean();
 
     if (goingForward) {
       m_subsystem.setPower(y+x, y-x);
