@@ -4,4 +4,4 @@
  *Things being worked on right now:*
  > Christopher:
  > - Arcade Drive
- > - Location Tracker
+ > - Brake Mode
