@@ -4,12 +4,17 @@
 
 package frc.robot;
 
+import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import java.io.IOException;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,9 +32,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  // Controllers
   private final XboxController m_stick1 = new XboxController(0);
   private final Joystick m_stick2 = new Joystick(1);
 
@@ -37,19 +40,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-
-    // Driver 1
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX()));
-    // Acts like throttle
-    if (m_stick1.getRightBumperPressed()) {
-      if (m_driveSubsystem.m_goingForward) {
-        m_driveSubsystem.m_goingForward = false;
-      } else {
-        m_driveSubsystem.m_goingForward = true;
-      }
+    
+    String apriltagsPath = RobotContainer.class.getClassLoader().getResource("edu/wpi/first/apriltag/2023-chargedup.json").getPath();
+    Logger.log("RobotContainer", 1, apriltagsPath.toString());
+    try {
+      AprilTagFieldLayout tags = new AprilTagFieldLayout(apriltagsPath);
+    } catch (IOException e){
+      Logger.log("RobotContainer", 1, "AprilTag field not loaded");
     }
-
-    // Driver 2
   }
 
   /**
@@ -68,7 +66,19 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    // Driver 1
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getRightY(), () -> m_stick1.getLeftX()));
+    // Acts like throttle
+    if (m_stick1.getRightBumperPressed()) {
+      if (m_driveSubsystem.m_goingForward) {
+        m_driveSubsystem.m_goingForward = false;
+      } else {
+        m_driveSubsystem.m_goingForward = true;
+      }
+    }
+
+    // Driver 2
   }
 
   /**

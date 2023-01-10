@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     ApriltagsCameraRegions region = m_camera.getRegions();
-    double[] location = m_tracker.getLocation(region.m_targetHorzPos, region.m_targetVertPos, m_gyro.getAngle(), coordinates for the AprilTag here);
-    SmartDashboard.putNumberArray("Robot Location", location);
+    //double[] location = m_tracker.getLocation(region.m_targetHorzPos, region.m_targetVertPos, m_gyro.getAngle(), coordinates for the AprilTag here);
+    //SmartDashboard.putNumberArray("Robot Location", location);
   }
 }
