@@ -28,6 +28,11 @@ public class DriveSubsystem extends SubsystemBase {
     // motor stuff
   }
 
+  public void setBrakeMode(boolean brake){
+    //left drive (IdleMode)
+    // right drive 
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

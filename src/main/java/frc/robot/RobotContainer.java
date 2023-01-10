@@ -14,6 +14,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 
 import java.io.IOException;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -41,12 +42,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     
-    String apriltagsPath = RobotContainer.class.getClassLoader().getResource("edu/wpi/first/apriltag/2023-chargedup.json").getPath();
-    Logger.log("RobotContainer", 1, apriltagsPath.toString());
     try {
-      AprilTagFieldLayout tags = new AprilTagFieldLayout(apriltagsPath);
-    } catch (IOException e){
-      Logger.log("RobotContainer", 1, "AprilTag field not loaded");
+      AprilTagFieldLayout tags = new AprilTagFieldLayout("/home/lvuser/deploy/2023-chargedup.json");
+      Logger.log("RobotContainer", 1, tags.toString());
+    } catch (IOException e) {
+      Logger.log("RobotContainer", 1, "Field didn't load");
     }
   }
 
