@@ -28,11 +28,18 @@ public class DriveSubsystem extends SubsystemBase {
   private final Field2d m_field = new Field2d();
   AprilTagFieldLayout m_tags;
 
+  // motors
+  TalonFX m_rightDrive = new TalonFX(Constants.k_rightDrive);
+  TalonFX m_rightFollower = new TalonFX(Constants.k_rightFollower);
+  TalonFX m_leftDrive = new TalonFX(Constants.k_leftDrive);
+  TalonFX m_leftFollower = new TalonFX(Constants.k_leftFollower);
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem(ApriltagsCamera camera, AprilTagFieldLayout tags) {
     SmartDashboard.putData("Field", m_field);
     m_camera = camera;
     m_tags = tags;
+    m_gyro.reset();
   }
 
   public void setPower(double leftPower, double rightPower) {
@@ -44,6 +51,10 @@ public class DriveSubsystem extends SubsystemBase {
     // right drive 
   }
 
+  public void resetGyro(double angle) {
+    m_gyro.reset();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -52,6 +63,9 @@ public class DriveSubsystem extends SubsystemBase {
       ApriltagsCameraRegion region = regions.getRegion(0);
       Pose2d location = m_tracker.getLocation(region.m_tvec[0], region.m_tvec[2], m_gyro.getAngle(), m_tracker.getTag(region.m_tag, m_tags));
       m_field.setRobotPose(location);
+      SmartDashboard.putNumberArray("T vector", region.m_tvec);
+      SmartDashboard.putNumberArray("R vector", region.m_rvec);
+      SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
       
     } 
     SmartDashboard.putNumber("Region Count", m_camera.getRegions().getRegionCount());
