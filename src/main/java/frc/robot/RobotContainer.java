@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDriveCommand;
@@ -33,9 +34,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
+  // Variables that will be passed into commands and subsystems
+  public AprilTagFieldLayout m_tags;
+  public final ApriltagsCamera m_camera = new ApriltagsCamera();
+
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public final DriveSubsystem m_driveSubsystem;
 
   // Driver 1 Controller
   private final CommandXboxController m_stick1 = new CommandXboxController(0);
@@ -44,16 +50,11 @@ public class RobotContainer {
   // Driver 2 Controller
   private final Joystick m_stick2 = new Joystick(1);
 
-  public static AprilTagFieldLayout m_tags;
-
-  private boolean m_goingForward = true;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
-    
     try {
+      // change this later
       AprilTagFieldLayout tags = new AprilTagFieldLayout("/home/lvuser/deploy/2023-chargedup.json");
       Logger.log("RobotContainer", 1, tags.toString());
       Logger.log("RobotContainer", 1, tags.getTagPose(1).get().toString());
@@ -62,6 +63,12 @@ public class RobotContainer {
     } catch (IOException e) {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }
+    m_camera.connect("10.21.2.10", 5800);
+
+    m_driveSubsystem = new DriveSubsystem(m_camera, m_tags);
+
+    // Configure the trigger bindings
+    configureBindings();
   }
 
   /**
