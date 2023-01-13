@@ -11,9 +11,11 @@ import frc.robot.Navigator.NavigatorPos;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.DoubleSupplier;
 
 import javax.tools.DocumentationTool.Location;
 
+import edu.wpi.first.wpilibj.XboxController;
 import frc.pathfinder.Pathfinder.Path;
 import frc.pathfinder.Pathfinder.Segment;
 
@@ -84,6 +86,9 @@ public class PurePursuit {
 	private Navigator m_navigator;					// Navigator which gives robot position data
 	private SetSpeed m_setSpeed;					// Function to call to set the speed for the left and right motors in FPS
 
+	private DoubleSupplier m_stickX;                // Gets Joystick X
+	private final double k_maxSpeed = 0;            // Max Speed of the robot
+
 	/*
 	 * Logging fields
 	 */
@@ -102,10 +107,11 @@ public class PurePursuit {
 	 * @param setSpeed - Specifies the callback function used to set the robot's speed. This function should accept the speed in feet/second.
 	 * @param rate - Specifies the time between updates in milliseconds
 	 */
-	public PurePursuit(Navigator navigator, SetSpeed setSpeed, int rate) {
+	public PurePursuit(Navigator navigator, SetSpeed setSpeed, int rate, DoubleSupplier stickX) {
 		m_navigator = navigator;
 		m_setSpeed = setSpeed;
 		m_rate = rate;
+		m_stickX = stickX;
 	}
 
 		/**
@@ -359,7 +365,14 @@ public class PurePursuit {
 		// }
 
 		Segment nextPos = m_path.m_centerPath[lookAheadIdx];
-		double velocity = closestPos.velocity;
+		double velocity;
+		if (m_stickX != null) {
+			velocity = closestPos.velocity;
+		} else {
+			double x = m_stickX.getAsDouble();
+			velocity = k_maxSpeed * x;
+		}
+
 
 		if (velocity < k_minSpeed) {
 			velocity = k_minSpeed;
