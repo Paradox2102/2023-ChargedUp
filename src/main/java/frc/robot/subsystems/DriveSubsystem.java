@@ -19,6 +19,7 @@ import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegion;
 import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegions;
 import frc.robot.Constants;
 import frc.robot.LocationTracker;
+import frc.robot.PurePursuit;
 import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -27,6 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
   LocationTracker m_tracker = new LocationTracker();
   private final Field2d m_field = new Field2d();
   AprilTagFieldLayout m_tags;
+  public PurePursuit m_pursuitFollower;
 
   // motors
   TalonFX m_rightDrive = new TalonFX(Constants.k_rightDrive);
@@ -53,6 +55,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetGyro(double angle) {
     m_gyro.reset();
+  }
+
+  public void createTeleopPath() {
+    // m_pursuitFollower = new PurePursuit(m_navigator, (l, r) -> setSpeedFPS(l, r), 20);
+    // something like that ^^^
   }
 
   @Override

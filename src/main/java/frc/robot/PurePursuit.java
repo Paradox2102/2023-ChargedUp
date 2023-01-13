@@ -370,6 +370,7 @@ public class PurePursuit {
 			velocity = closestPos.velocity;
 		} else {
 			double x = m_stickX.getAsDouble();
+			// how many times is this called? ^^^
 			velocity = k_maxSpeed * x;
 		}
 
