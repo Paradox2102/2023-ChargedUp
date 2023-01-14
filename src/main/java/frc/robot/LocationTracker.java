@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.ApriltagsCamera.Logger;
 
 public class LocationTracker {
 
@@ -34,10 +35,15 @@ public class LocationTracker {
 
   public double[] getTag(int tagID, AprilTagFieldLayout tags) {
     //System.out.println(String.format("tag=%d", tagID));
-    Pose3d tag = tags.getTagPose(tagID).get();
-    double AprilTag[] = {tag.getX(), tag.getY()};
+    Optional<Pose3d> optionalTag = tags.getTagPose(tagID);
+    if (optionalTag.isPresent()) {
+      double AprilTag[] = {optionalTag.get().getX(), optionalTag.get().getY()};
+      return AprilTag;
+    } else {
+      Logger.log("LocationTracker", 1, String.format("Tag does not exist %d", tagID));
+    }
 
-    return AprilTag;
+    return null;
   }
   
     

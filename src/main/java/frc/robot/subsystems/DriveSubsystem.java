@@ -42,6 +42,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_camera = camera;
     m_tags = tags;
     m_gyro.reset();
+    SmartDashboard.putNumber("True X", 0);
+    SmartDashboard.putNumber("True Y", 0);
+    SmartDashboard.putNumber("True Yaw", 0);
+
   }
 
   public void setPower(double leftPower, double rightPower) {
@@ -68,12 +72,15 @@ public class DriveSubsystem extends SubsystemBase {
     ApriltagsCameraRegions regions = m_camera.getRegions();
     if (regions != null && regions.getRegionCount() >= 1) {
       ApriltagsCameraRegion region = regions.getRegion(0);
-      Pose2d location = m_tracker.getLocation(region.m_tvec[0], region.m_tvec[2], m_gyro.getAngle(), m_tracker.getTag(region.m_tag, m_tags));
-      m_field.setRobotPose(location);
-      SmartDashboard.putNumberArray("T vector", region.m_tvec);
-      SmartDashboard.putNumberArray("R vector", region.m_rvec);
-      SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
-      
+      double[] tag = m_tracker.getTag(region.m_tag, m_tags);
+      if (tag != null) {
+        Pose2d location = m_tracker.getLocation(region.m_tvec[0], region.m_tvec[2], m_gyro.getAngle(), tag);
+        m_field.setRobotPose(location);
+        SmartDashboard.putNumberArray("T vector", region.m_tvec);
+        SmartDashboard.putNumberArray("R vector", region.m_rvec);
+        SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
+      }      
+      SmartDashboard.putNumber("Tag ID", region.m_tag);
     } 
     SmartDashboard.putNumber("Region Count", m_camera.getRegions().getRegionCount());
   }
