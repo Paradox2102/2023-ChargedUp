@@ -10,6 +10,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.PathFollowingCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 
@@ -87,7 +88,7 @@ public class RobotContainer {
 
     // Driver 1
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getLeftX(), () -> m_stick1.getRightY(), new ToggleTrigger(m_directionSwitch.debounce(.1))));
-    
+    m_stick1.b().onTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_stick1.getRightY()));
 
     // Driver 2
   }

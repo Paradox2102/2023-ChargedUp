@@ -86,8 +86,8 @@ public class PurePursuit {
 	private Navigator m_navigator;					// Navigator which gives robot position data
 	private SetSpeed m_setSpeed;					// Function to call to set the speed for the left and right motors in FPS
 
-	private DoubleSupplier m_stickX;                // Gets Joystick X
-	private final double k_maxSpeed = 0;            // Max Speed of the robot
+	private DoubleSupplier m_speed;                // Gets Joystick X
+	private final double k_maxSpeed = 5;        // Max Speed of the robot
 
 	/*
 	 * Logging fields
@@ -107,11 +107,10 @@ public class PurePursuit {
 	 * @param setSpeed - Specifies the callback function used to set the robot's speed. This function should accept the speed in feet/second.
 	 * @param rate - Specifies the time between updates in milliseconds
 	 */
-	public PurePursuit(Navigator navigator, SetSpeed setSpeed, int rate, DoubleSupplier stickX) {
+	public PurePursuit(Navigator navigator, SetSpeed setSpeed, int rate) {
 		m_navigator = navigator;
 		m_setSpeed = setSpeed;
 		m_rate = rate;
-		m_stickX = stickX;
 	}
 
 		/**
@@ -122,7 +121,7 @@ public class PurePursuit {
 		 * @param isExtended - If true, the path is extended beyond the end, tangent to the ending angle, for the purpose of tracking (the robot will still stop when the original end is reached.)
 		 * @param setPosition - If true, set the starting position and angle based on the first point of the path.
 		 */
-	public void loadPath(Path path, boolean isReversed, boolean isExtended, boolean setPosition) {
+	public void loadPath(Path path, boolean isReversed, boolean isExtended, boolean setPosition, DoubleSupplier speed) {
 		synchronized (m_dataLock) {
 			stopFollow();		// just in case
 
@@ -130,6 +129,7 @@ public class PurePursuit {
 			m_isReversed = isReversed;
 			m_isExtended = isExtended;
 			m_setPosition = setPosition;
+			m_speed = speed;
 
 			m_dt = path.m_dt;
 			m_wheelBase = path.m_wheelBase;
@@ -366,18 +366,22 @@ public class PurePursuit {
 
 		Segment nextPos = m_path.m_centerPath[lookAheadIdx];
 		double velocity;
-		if (m_stickX != null) {
+		if (m_speed == null) {
 			velocity = closestPos.velocity;
+			if (velocity < k_minSpeed) {
+				velocity = k_minSpeed;
+			}
 		} else {
-			double x = m_stickX.getAsDouble();
-			// how many times is this called? ^^^
-			velocity = k_maxSpeed * x;
+			double x = m_speed.getAsDouble();
+			x = x * x * x;
+			if (x < 0) {
+				velocity = 0;
+			} else {
+				velocity = k_maxSpeed * x;
+			}
 		}
 
-
-		if (velocity < k_minSpeed) {
-			velocity = k_minSpeed;
-		}
+		System.out.println(String.format("Velocity = %f", velocity));
 
 		if (m_isReversed) {
 			velocity = -velocity;
@@ -429,7 +433,8 @@ public class PurePursuit {
 		// 		pos.y, closestPos.x, closestPos.y, nextPos.x, nextPos.y, distance, dX, theta, curvature, speedDiff,
 		// 		closestPoint, pos.leftPos, pos.rightPos);	//, pos.updateCount, pos.errorCount);
 
-		return new SpeedContainer(leftSpeed, rightSpeed);
+		// return new SpeedContainer(leftSpeed, rightSpeed);
+		return new SpeedContainer(0, 0);
 	}
 
 	// private class ClosestPoint

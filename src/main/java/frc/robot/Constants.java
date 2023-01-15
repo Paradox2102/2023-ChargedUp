@@ -18,7 +18,7 @@ public final class Constants {
   public static final int k_leftDrive = 5;
   public static final int k_leftFollower = 0;
 
-  public static final double k_feetPerTick = 0;
+  public static final double k_feetPerTick = 12.58 / 188529;
   public static final double k_rampTimeSeconds = .25;
   
   public static class OperatorConstants {}

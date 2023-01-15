@@ -3,10 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTag;
@@ -20,14 +23,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegion;
 import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegions;
+import frc.pathfinder.Pathfinder.Path;
 import frc.robot.Constants;
 import frc.robot.LocationTracker;
+import frc.robot.Navigator;
+import frc.robot.PositionTracker;
 import frc.robot.PurePursuit;
 import frc.robot.RobotContainer;
+import frc.robot.Sensor;
 
 public class DriveSubsystem extends SubsystemBase {
   ApriltagsCamera m_camera;
-  Gyro m_gyro = new WPI_PigeonIMU(0);
+  WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
   LocationTracker m_tracker = new LocationTracker();
   private final Field2d m_field = new Field2d();
   AprilTagFieldLayout m_tags;
@@ -49,6 +56,10 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFX m_leftDrive = new TalonFX(Constants.k_leftDrive);
   TalonFX m_leftFollower = new TalonFX(Constants.k_leftFollower);
 
+  Navigator m_navigator;
+  private Sensor m_sensors;
+  private PositionTracker m_posTracker;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem(ApriltagsCamera camera, AprilTagFieldLayout tags) {
     SmartDashboard.putData("Field", m_field);
@@ -58,6 +69,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("True X", 0);
     SmartDashboard.putNumber("True Y", 0);
     SmartDashboard.putNumber("True Yaw", 0);
+
 
     m_leftFollower.follow(m_leftDrive);
     m_rightFollower.follow(m_rightDrive);
@@ -76,6 +88,14 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightDrive.config_kP(0, k_p, k_timeout);
     m_rightDrive.config_kI(0, k_i, k_timeout);
     m_rightDrive.config_IntegralZone(0, k_iZone, k_timeout);
+
+    m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity(), m_gyro);
+    m_posTracker = new PositionTracker(0, 0, false, m_sensors);
+    m_navigator = new Navigator(m_posTracker);
+    m_navigator.reset(90, 0, 0);
+    m_pursuitFollower = new PurePursuit(m_navigator, (l, r) -> setSpeedFPS(l, r), 20);
+    m_pursuitFollower.enableLogging("/home/lvuser/logs");
+  
   }
 
   public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -85,11 +105,41 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
+  public void setSpeedFPS(double leftSpeed, double rightSpeed)
+  {
+    // // Change speed from FPS to -1 to 1 range
+    leftSpeed = leftSpeed * 1.0/10 * 1.0/Constants.k_feetPerTick;
+    rightSpeed =  rightSpeed * 1.0/10 * 1.0/Constants.k_feetPerTick;
+
+    // Logger.Log("DriveSubsystem", 1, String.format("ls=%f,rs=%s", leftSpeed, rightSpeed));
+
+    // Logger.Log("DriveSubsystem", 1, String.format("setSpeedFPS: left=%f, right=%f", leftSpeed, rightSpeed));
+
+    setSpeed(leftSpeed, rightSpeed);
+  }
+
   public void setPower(double leftPower, double rightPower) {
     synchronized(m_setlock){
       m_rightDrive.set(ControlMode.PercentOutput, rightPower);
       m_leftDrive.set(ControlMode.PercentOutput, leftPower);
       }
+  }
+
+  public void startPath(Path path, boolean isReversed, boolean setPosition, DoubleSupplier speed) {
+    m_pursuitFollower.loadPath(path, isReversed, true, setPosition, speed);
+    m_pursuitFollower.startPath();
+  }
+
+  public void endPath() {
+    m_pursuitFollower.stopFollow();
+  }
+
+  public boolean isPathFinished() {
+    return (m_pursuitFollower.isFinished());
+  }
+
+  public void stop() {
+    setPower(0, 0);
   }
 
   public void setBrakeMode(boolean brake){
@@ -104,13 +154,13 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyro.reset();
   }
 
-  public void createTeleopPath() {
-    // m_pursuitFollower = new PurePursuit(m_navigator, (l, r) -> setSpeedFPS(l, r), 20);
-    // something like that ^^^
-  }
-
   @Override
   public void periodic() {
+
+    SmartDashboard.putNumber("Navigator X", m_navigator.getPos().x);
+    SmartDashboard.putNumber("Navigator Y", m_navigator.getPos().y);
+    SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
+
     // This method will be called once per scheduler run
     ApriltagsCameraRegions regions = m_camera.getRegions();
     if (regions != null && regions.getRegionCount() >= 1) {
