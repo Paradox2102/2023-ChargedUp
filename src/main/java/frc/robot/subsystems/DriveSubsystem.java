@@ -3,6 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
@@ -30,6 +33,16 @@ public class DriveSubsystem extends SubsystemBase {
   AprilTagFieldLayout m_tags;
   public PurePursuit m_pursuitFollower;
 
+  private final double k_maxSpeed = 19000; 
+  private final double k_p = 0.1;
+  private final double k_i = 0.002; 
+  private final double k_f = 0.051; 
+  private final double k_iZone = 300; 
+  private final int k_timeout = 30; 
+  private final double k_rampTimeSeconds = .25;
+
+  Object m_setlock = new Object();
+
   // motors
   TalonFX m_rightDrive = new TalonFX(Constants.k_rightDrive);
   TalonFX m_rightFollower = new TalonFX(Constants.k_rightFollower);
@@ -46,15 +59,44 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("True Y", 0);
     SmartDashboard.putNumber("True Yaw", 0);
 
+    m_leftFollower.follow(m_leftDrive);
+    m_rightFollower.follow(m_rightDrive);
+
+    m_rightDrive.setInverted(false);
+    m_rightFollower.setInverted(false);
+
+    m_leftDrive.setInverted(true);
+    m_leftFollower.setInverted(true);
+
+    m_leftDrive.config_kF(0, k_f, k_timeout); 
+    m_leftDrive.config_kP(0, k_p, k_timeout);
+    m_leftDrive.config_kI(0, k_i, k_timeout);
+    m_leftDrive.config_IntegralZone(0, k_iZone, k_timeout);
+    m_rightDrive.config_kF(0, k_f, k_timeout); 
+    m_rightDrive.config_kP(0, k_p, k_timeout);
+    m_rightDrive.config_kI(0, k_i, k_timeout);
+    m_rightDrive.config_IntegralZone(0, k_iZone, k_timeout);
   }
 
+  public void setSpeed(double leftSpeed, double rightSpeed) {
+    synchronized(m_setlock){
+      m_rightDrive.set(TalonFXControlMode.Velocity, rightSpeed);
+      m_leftDrive.set(TalonFXControlMode.Velocity, leftSpeed);
+      }
+    }
+
   public void setPower(double leftPower, double rightPower) {
-    // motor stuff
+    synchronized(m_setlock){
+      m_rightDrive.set(ControlMode.PercentOutput, rightPower);
+      m_leftDrive.set(ControlMode.PercentOutput, leftPower);
+      }
   }
 
   public void setBrakeMode(boolean brake){
-    //left drive (IdleMode)
-    // right drive 
+    m_leftDrive.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    m_leftFollower.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    m_rightDrive.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    m_rightFollower.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
   }
 
   public void resetGyro(double angle) {
@@ -79,9 +121,9 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumberArray("T vector", region.m_tvec);
         SmartDashboard.putNumberArray("R vector", region.m_rvec);
         SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
+        SmartDashboard.putNumber("Region Count", m_camera.getRegions().getRegionCount());
       }      
       SmartDashboard.putNumber("Tag ID", region.m_tag);
     } 
-    SmartDashboard.putNumber("Region Count", m_camera.getRegions().getRegionCount());
   }
 }

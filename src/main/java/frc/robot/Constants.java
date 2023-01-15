@@ -13,12 +13,13 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final int k_rightDrive = 0;
-  public static final int k_rightFollower = 0;
-  public static final int k_leftDrive = 0;
+  public static final int k_rightDrive = 2;
+  public static final int k_rightFollower = 12;
+  public static final int k_leftDrive = 5;
   public static final int k_leftFollower = 0;
 
   public static final double k_feetPerTick = 0;
+  public static final double k_rampTimeSeconds = .25;
   
   public static class OperatorConstants {}
 }

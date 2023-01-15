@@ -7,7 +7,10 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class ArcadeDriveCommand extends CommandBase {
@@ -15,6 +18,7 @@ public class ArcadeDriveCommand extends CommandBase {
   DoubleSupplier m_getX;
   DoubleSupplier m_getY;
   BooleanSupplier m_goingForward;
+  SlewRateLimiter m_filter = new SlewRateLimiter(1.0 / Constants.k_rampTimeSeconds);
 
   /** Creates a new ArcadeDriveCommand. */
   public ArcadeDriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier getX, DoubleSupplier getY, BooleanSupplier goingForward) {
@@ -29,20 +33,25 @@ public class ArcadeDriveCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("Initialize Arcade Drive");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = m_getX.getAsDouble();
-    double y = -m_getY.getAsDouble();
+    double turn = m_getX.getAsDouble();
+    double drive = -m_getY.getAsDouble();
     boolean goingForward = m_goingForward.getAsBoolean();
 
-    if (goingForward) {
-      m_subsystem.setPower(y+x, y-x);
-    } else {
-      m_subsystem.setPower(-y+x, -y-x);
+    turn = turn * turn * turn / 5;
+    if (!goingForward) {
+      drive = -drive;
     }
+    drive = m_filter.calculate(drive * drive * drive);
+    m_subsystem.setPower(drive+turn, drive-turn);
+    System.out.println(String.format("Drive %f Turn %f", drive, turn));
+
   }
 
   // Called once the command ends or is interrupted.
