@@ -80,10 +80,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void setSpeed(double leftSpeed, double rightSpeed) {
     synchronized(m_setlock){
-      m_rightDrive.set(TalonFXControlMode.Velocity, rightSpeed);
-      m_leftDrive.set(TalonFXControlMode.Velocity, leftSpeed);
-      }
+      m_rightDrive.set(TalonFXControlMode.Velocity, rightSpeed * k_maxSpeed);
+      m_leftDrive.set(TalonFXControlMode.Velocity, leftSpeed * k_maxSpeed);
     }
+  }
 
   public void setPower(double leftPower, double rightPower) {
     synchronized(m_setlock){
@@ -93,10 +93,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setBrakeMode(boolean brake){
-    m_leftDrive.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
-    m_leftFollower.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
-    m_rightDrive.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
-    m_rightFollower.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
+    m_leftDrive.setNeutralMode(mode);
+    m_leftFollower.setNeutralMode(mode);
+    m_rightDrive.setNeutralMode(mode);
+    m_rightFollower.setNeutralMode(mode);
   }
 
   public void resetGyro(double angle) {
@@ -113,6 +114,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     ApriltagsCameraRegions regions = m_camera.getRegions();
     if (regions != null && regions.getRegionCount() >= 1) {
+      SmartDashboard.putNumber("Region Count", regions.getRegionCount());
       ApriltagsCameraRegion region = regions.getRegion(0);
       double[] tag = m_tracker.getTag(region.m_tag, m_tags);
       if (tag != null) {
@@ -121,9 +123,11 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumberArray("T vector", region.m_tvec);
         SmartDashboard.putNumberArray("R vector", region.m_rvec);
         SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
-        SmartDashboard.putNumber("Region Count", m_camera.getRegions().getRegionCount());
       }      
       SmartDashboard.putNumber("Tag ID", region.m_tag);
-    } 
+      SmartDashboard.putBoolean("Has Regions", true);
+    } else {
+      SmartDashboard.putBoolean("Has Regions", false);
+    }
   }
 }

@@ -48,9 +48,11 @@ public class ArcadeDriveCommand extends CommandBase {
     if (!goingForward) {
       drive = -drive;
     }
-    drive = m_filter.calculate(drive * drive * drive);
-    m_subsystem.setPower(drive+turn, drive-turn);
-    System.out.println(String.format("Drive %f Turn %f", drive, turn));
+    drive = drive * drive * drive;
+    drive = m_filter.calculate(drive);
+    // m_subsystem.setPower(drive+turn, drive-turn);
+    m_subsystem.setSpeed(drive+turn, drive-turn);
+    // System.out.println(String.format("Drive %f Turn %f", drive, turn));
 
   }
 
