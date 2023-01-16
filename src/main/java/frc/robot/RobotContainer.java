@@ -25,7 +25,9 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -45,11 +47,12 @@ public class RobotContainer {
   public final DriveSubsystem m_driveSubsystem;
 
   // Driver 1 Controller
-  private final CommandXboxController m_stick1 = new CommandXboxController(0);
-  private final Trigger m_directionSwitch = m_stick1.rightBumper();
+  private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
+  private final CommandJoystick m_joystick1;
 
   // Driver 2 Controller
   private final Joystick m_stick2 = new Joystick(1);
+  private final JoystickButton m_button1 = new JoystickButton(m_stick2, 1);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -67,6 +70,15 @@ public class RobotContainer {
     m_camera.connect("10.21.2.10", 5800);
 
     m_driveSubsystem = new DriveSubsystem(m_camera, m_tags);
+
+    // Choose which Joystick Driver 1 wants
+    if (Constants.k_xboxController) {
+      m_xbox1 = new CommandXboxController(0);
+      m_joystick1 = null;
+    } else {
+      m_joystick1 = new CommandJoystick(0);
+      m_xbox1 = null;
+    }
 
     // Configure the trigger bindings
     configureBindings();
@@ -87,11 +99,18 @@ public class RobotContainer {
     // cancelling on release.
 
     // Driver 1
-    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_stick1.getLeftX(), () -> m_stick1.getRightY(), new ToggleTrigger(m_directionSwitch.debounce(.1))));
-    m_stick1.b().onTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_stick1.getRightY()));
+    if (Constants.k_xboxController) {
+      Trigger directionSwitch = m_xbox1.rightBumper();
+      m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_xbox1.getLeftX(), () -> m_xbox1.getRightY(), new ToggleTrigger(directionSwitch.debounce(.1))));
+      m_xbox1.b().onTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_xbox1.getRightY()));
+    } else {
+      m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), () -> m_joystick1.getThrottle() < 0));
+      m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_joystick1.getY()));
+    }
 
     // Driver 2
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
