@@ -16,6 +16,7 @@ import java.util.function.DoubleSupplier;
 import javax.tools.DocumentationTool.Location;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.pathfinder.Pathfinder.Path;
 import frc.pathfinder.Pathfinder.Segment;
 
@@ -375,13 +376,13 @@ public class PurePursuit {
 			double x = m_speed.getAsDouble();
 			x = x * x * x;
 			if (x < 0) {
-				velocity = 0;
+				return new SpeedContainer(k_maxSpeed * x, k_maxSpeed * x);
 			} else {
 				velocity = k_maxSpeed * x;
 			}
 		}
 
-		System.out.println(String.format("Velocity = %f", velocity));
+		SmartDashboard.putNumber("Velocity", velocity);
 
 		if (m_isReversed) {
 			velocity = -velocity;
@@ -433,8 +434,9 @@ public class PurePursuit {
 		// 		pos.y, closestPos.x, closestPos.y, nextPos.x, nextPos.y, distance, dX, theta, curvature, speedDiff,
 		// 		closestPoint, pos.leftPos, pos.rightPos);	//, pos.updateCount, pos.errorCount);
 
-		// return new SpeedContainer(leftSpeed, rightSpeed);
-		return new SpeedContainer(0, 0);
+		// System.out.println(String.format("right = %f, left = %f", rightSpeed, leftSpeed));
+		return new SpeedContainer(leftSpeed, rightSpeed);
+		// return new SpeedContainer(0, 0);
 	}
 
 	// private class ClosestPoint

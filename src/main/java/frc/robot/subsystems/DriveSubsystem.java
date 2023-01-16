@@ -99,9 +99,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double leftSpeed, double rightSpeed) {
+    // Takes speed in ticks
     synchronized(m_setlock){
-      m_rightDrive.set(TalonFXControlMode.Velocity, rightSpeed * k_maxSpeed);
-      m_leftDrive.set(TalonFXControlMode.Velocity, leftSpeed * k_maxSpeed);
+      m_rightDrive.set(TalonFXControlMode.Velocity, rightSpeed);
+      m_leftDrive.set(TalonFXControlMode.Velocity, leftSpeed);
+      SmartDashboard.putNumber("Right Speed", rightSpeed);
+		  SmartDashboard.putNumber("Left Speed", leftSpeed);
     }
   }
 

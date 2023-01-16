@@ -20,7 +20,7 @@ public class PathFollowingCommand extends CommandBase {
 
   private static final int k_nPoints = 1000;
   private static final double k_dt = 0.020000;
-  private static final double k_maxSpeed = 7.000000;
+  private static final double k_maxSpeed = 4.000000;
   private static final double k_maxAccel = 11.000000;
   private static final double k_maxDecl = 11.000000;
   private static final double k_maxJerk = 100.000000;
@@ -31,7 +31,8 @@ public class PathFollowingCommand extends CommandBase {
   */
   final static Waypoint[] waypoints = { 
       new Waypoint(0, 0, Math.toRadians(90)), 
-      new Waypoint(0, 10, Math.toRadians(90)) };
+      new Waypoint(10, 10, Math.toRadians(90)),
+      new Waypoint(0, 20, Math.toRadians(90)) };
 
       
   /** Creates a new PathFollowingCommand. */
@@ -48,12 +49,15 @@ public class PathFollowingCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("PathFollowingCommand", 1, "initialize");
     m_subsystem.startPath(m_path, false, true, m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    Logger.log("PathFollowingCommand", 1, "execute");
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -66,6 +70,6 @@ public class PathFollowingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isPathFinished();
+    return m_subsystem.isPathFinished() && (m_speed == null || Math.abs(m_speed.getAsDouble()) < .1);
   }
 }

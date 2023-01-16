@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -44,15 +45,19 @@ public class ArcadeDriveCommand extends CommandBase {
     double drive = -m_getY.getAsDouble();
     boolean goingForward = m_goingForward.getAsBoolean();
 
+    drive = MathUtil.applyDeadband(drive, Constants.k_deadBand);
+    turn = MathUtil.applyDeadband(turn, Constants.k_deadBand);
+
     turn = turn * turn * turn / 5;
     if (!goingForward) {
       drive = -drive;
     }
     drive = drive * drive * drive;
     drive = m_filter.calculate(drive);
+    double k_maxSpeed = Constants.k_maxSpeed;
     // m_subsystem.setPower(drive+turn, drive-turn);
-    m_subsystem.setSpeed(drive+turn, drive-turn);
-    // System.out.println(String.format("Drive %f Turn %f", drive, turn));
+    m_subsystem.setSpeed((drive+turn) * k_maxSpeed, (drive-turn) * k_maxSpeed);
+    System.out.println(String.format("Drive %f Turn %f", drive, turn));
 
   }
 

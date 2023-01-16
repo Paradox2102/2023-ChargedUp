@@ -13,7 +13,7 @@ public class SetCoastModeCommand extends CommandBase {
   public SetCoastModeCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_subsystem);
+    // addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.

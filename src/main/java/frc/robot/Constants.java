@@ -20,6 +20,8 @@ public final class Constants {
 
   public static final double k_feetPerTick = 12.58 / 188529;
   public static final double k_rampTimeSeconds = .1;
+  public static final double k_maxSpeed = 19000;
+  public static final double k_deadBand = .1;
 
   public static final boolean k_xboxController = true;
   

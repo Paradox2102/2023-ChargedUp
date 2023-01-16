@@ -102,10 +102,12 @@ public class RobotContainer {
     if (Constants.k_xboxController) {
       Trigger directionSwitch = m_xbox1.rightBumper();
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_xbox1.getLeftX(), () -> m_xbox1.getRightY(), new ToggleTrigger(directionSwitch.debounce(.1))));
-      m_xbox1.b().onTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_xbox1.getRightY()));
+      m_xbox1.b().toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_xbox1.getRightY()));
     } else {
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), () -> m_joystick1.getThrottle() < 0));
-      m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_joystick1.getY()));
+      m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, () -> -m_joystick1.getY()));
+
+      m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
     }
 
     // Driver 2
