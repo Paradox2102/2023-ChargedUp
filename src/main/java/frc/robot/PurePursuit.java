@@ -366,16 +366,18 @@ public class PurePursuit {
 		// }
 
 		Segment nextPos = m_path.m_centerPath[lookAheadIdx];
-		double velocity;
+		double velocity; // FPS (feer per second)
 		if (m_speed == null) {
+			// Use velocity from PurePursuit
 			velocity = closestPos.velocity;
 			if (velocity < k_minSpeed) {
 				velocity = k_minSpeed;
 			}
 		} else {
-			double x = m_speed.getAsDouble();
+			double x = m_speed.getAsDouble(); // -1 to +1 (from joystick)
 			x = x * x * x;
 			if (x < 0) {
+				// Goes backwards in a straight line
 				return new SpeedContainer(k_maxSpeed * x, k_maxSpeed * x);
 			} else {
 				velocity = k_maxSpeed * x;
@@ -436,7 +438,6 @@ public class PurePursuit {
 
 		// System.out.println(String.format("right = %f, left = %f", rightSpeed, leftSpeed));
 		return new SpeedContainer(leftSpeed, rightSpeed);
-		// return new SpeedContainer(0, 0);
 	}
 
 	// private class ClosestPoint
