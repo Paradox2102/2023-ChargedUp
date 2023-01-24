@@ -24,6 +24,10 @@ public final class Constants {
   public static final double k_maxSpeed = 19000;
   public static final double k_deadBand = .1;
 
+  public static final int k_reachMotor = 0;
+  public static final int k_topSensor = 0;
+  public static final int k_bottomSensor = 0;
+
   public static final boolean k_xboxController = false;
   
   public static class OperatorConstants {}
