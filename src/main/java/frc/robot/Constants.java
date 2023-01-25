@@ -25,8 +25,7 @@ public final class Constants {
   public static final double k_deadBand = .1;
 
   public static final int k_reachMotor = 0;
-  public static final int k_topSensor = 0;
-  public static final int k_bottomSensor = 0;
+  public static final int k_canTimeOut = 30;
 
   public static final boolean k_xboxController = false;
   

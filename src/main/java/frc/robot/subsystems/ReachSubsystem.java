@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -13,16 +14,28 @@ import frc.robot.Constants;
 
 public class ReachSubsystem extends SubsystemBase {
   TalonFX m_reachMotor = new TalonFX(Constants.k_reachMotor);
-
+  private static final double m_ticsPerInch = 1000 / 6.0;
 
   /** Creates a new ReachSubsystem. */
   public ReachSubsystem() {
-    m_reachMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.k_bottomSensor);
-    m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.k_topSensor);
-
+    m_reachMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+        Constants.k_canTimeOut);
+    m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+        Constants.k_canTimeOut);
   }
 
-  //move pls
+  public double getExtentInInches() {
+    double rawPosition = m_reachMotor.getSelectedSensorPosition();
+    return rawPosition / m_ticsPerInch;
+  }
+
+  public void setPower(double power) {
+    m_reachMotor.set(ControlMode.PercentOutput, power);
+  }
+
+  public void resetEncoder(double value) {
+    m_reachMotor.setSelectedSensorPosition(value);
+  }
 
   @Override
   public void periodic() {
