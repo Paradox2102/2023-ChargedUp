@@ -32,5 +32,9 @@ public final class Constants {
   public static final int k_armMotor = 1;
   public static final int k_armFollower = 1;
   
+  public static final int k_leftIntakeMotor = 0;
+  public static final int k_rightIntakeMotor = 0;
+  public static final int k_intakeLimitSwitch = 0;
+  
   public static class OperatorConstants {}
 }
