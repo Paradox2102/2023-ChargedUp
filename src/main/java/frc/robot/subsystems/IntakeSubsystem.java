@@ -6,27 +6,31 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants;
 
 // Intake Subsystem 
 public class IntakeSubsystem extends SubsystemBase {
 
   // Left and right motors for the Intake Subsystem 
-  // private CANSparkMax m_leftMotor, m_rightMotor;
+  // private CANSparkMax m_leftIntakeMotor, m_rightIntakeMotor;
   // Limit switch for the Intake Subsystem 
-  private LimitSwitchNormal m_limitSwitch;
+  private DigitalInput m_intakeLimitSwitch;
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
   // m_leftMotor = new CANSparkMax();
   // m_rightMotor = ;
-  // m_limitSwitch = ;
+    m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
   // Sets power of left and right motors of Intake Subsystem
   public void setPower(double leftPower, double rightPower) {
 

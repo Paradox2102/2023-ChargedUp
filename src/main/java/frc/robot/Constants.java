@@ -29,5 +29,9 @@ public final class Constants {
 
   public static final boolean k_xboxController = false;
   
+  public static final int k_leftIntakeMotor = 0;
+  public static final int k_rightIntakeMotor = 0;
+  public static final int k_intakeLimitSwitch = 0;
+  
   public static class OperatorConstants {}
 }
