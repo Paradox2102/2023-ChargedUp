@@ -25,6 +25,10 @@ public class IntakeSubsystem extends SubsystemBase {
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
     m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
+
+    // Set proper inversions
+    m_leftIntakeMotor.setInverted(false);
+    m_rightIntakeMotor.setInverted(false);
   }
   
   @Override
