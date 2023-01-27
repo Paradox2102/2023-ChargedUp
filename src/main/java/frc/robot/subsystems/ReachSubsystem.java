@@ -14,10 +14,11 @@ import frc.robot.Constants;
 
 public class ReachSubsystem extends SubsystemBase {
   TalonFX m_reachMotor = new TalonFX(Constants.k_reachMotor);
-  private static final double m_ticsPerInch = 1000 / 6.0;
+  private static final double k_ticsPerInch = 1000 / 6.0;
 
   /** Creates a new ReachSubsystem. */
   public ReachSubsystem() {
+    // Set limit switches
     m_reachMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
         Constants.k_canTimeOut);
     m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
@@ -26,7 +27,7 @@ public class ReachSubsystem extends SubsystemBase {
 
   public double getExtentInInches() {
     double rawPosition = m_reachMotor.getSelectedSensorPosition();
-    return rawPosition / m_ticsPerInch;
+    return rawPosition / k_ticsPerInch;
   }
 
   public void setPower(double power) {

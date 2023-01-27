@@ -30,12 +30,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {
 
+    // Reset motors
     m_armMotor.restoreFactoryDefaults();
     m_armFollower.restoreFactoryDefaults();
 
     m_armMotor.setInverted(false);
     m_armFollower.setInverted(false);
 
+    // Set limit switches
     m_forwardLimit = m_armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     m_reverseLimit = m_armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   }

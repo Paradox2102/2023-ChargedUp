@@ -9,14 +9,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagDetector;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +25,6 @@ import frc.robot.LocationTracker;
 import frc.robot.Navigator;
 import frc.robot.PositionTracker;
 import frc.robot.PurePursuit;
-import frc.robot.RobotContainer;
 import frc.robot.Sensor;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -80,6 +75,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftDrive.setInverted(true);
     m_leftFollower.setInverted(true);
 
+    // Set PID values
     m_leftDrive.config_kF(0, k_f, k_timeout); 
     m_leftDrive.config_kP(0, k_p, k_timeout);
     m_leftDrive.config_kI(0, k_i, k_timeout);
@@ -110,7 +106,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void setSpeedFPS(double leftSpeed, double rightSpeed)
   {
-    // // Change speed from FPS to -1 to 1 range
+    // Change speed from FPS to -1 to 1 range
     leftSpeed = leftSpeed * 1.0/10 * 1.0/Constants.k_feetPerTick;
     rightSpeed =  rightSpeed * 1.0/10 * 1.0/Constants.k_feetPerTick;
 
@@ -128,6 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
   }
 
+  // Start autonomous path during Teleop
   public void startPath(Path path, boolean isReversed, boolean setPosition, DoubleSupplier speed) {
     m_pursuitFollower.loadPath(path, isReversed, true, setPosition, speed);
     m_pursuitFollower.startPath();
