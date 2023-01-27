@@ -28,6 +28,9 @@ public final class Constants {
   public static final int k_canTimeOut = 30;
 
   public static final boolean k_xboxController = false;
+
+  public static final int k_armMotor = 1;
+  public static final int k_armFollower = 1;
   
   public static class OperatorConstants {}
 }
