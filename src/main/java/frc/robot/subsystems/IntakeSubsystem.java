@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,14 +16,14 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
   // Left and right motors for the Intake Subsystem 
-  // private CANSparkMax m_leftIntakeMotor, m_rightIntakeMotor;
+  private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
   // Limit switch for the Intake Subsystem 
   private DigitalInput m_intakeLimitSwitch;
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-  // m_leftMotor = new CANSparkMax();
-  // m_rightMotor = ;
+    m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
+    m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
     m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
   }
   
