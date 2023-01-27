@@ -14,6 +14,11 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  // Set controller to xbox or joystick
+  public static final boolean k_xboxController = false;
+
+  // Drive
   public static final int k_rightDrive = 8;
   public static final int k_rightFollower = 9;
   public static final int k_leftDrive = 11;
@@ -24,14 +29,15 @@ public final class Constants {
   public static final double k_maxSpeed = 19000;
   public static final double k_deadBand = .1;
 
+  // Reach
   public static final int k_reachMotor = 0;
   public static final int k_canTimeOut = 30;
 
-  public static final boolean k_xboxController = false;
-
+  // Arm
   public static final int k_armMotor = 1;
   public static final int k_armFollower = 1;
   
+  // Intake
   public static final int k_leftIntakeMotor = 0;
   public static final int k_rightIntakeMotor = 0;
   public static final int k_intakeLimitSwitch = 0;
