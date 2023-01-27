@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,6 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+    // Declare instance variables
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
     m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
@@ -41,5 +41,10 @@ public class IntakeSubsystem extends SubsystemBase {
   public void setPower(double leftPower, double rightPower) {
     m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
     m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
+  }
+  // Checks if limit switch is on 
+  public boolean getLimitSwitch()
+  {
+    return m_intakeLimitSwitch.get();
   }
 }
