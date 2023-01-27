@@ -51,6 +51,5 @@ public class IntakeSubsystem extends SubsystemBase {
       m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
       m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
     }
-
   }
 }
