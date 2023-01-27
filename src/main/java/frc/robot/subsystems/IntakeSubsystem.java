@@ -4,7 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,16 +15,21 @@ import frc.robot.Constants;
 // Intake Subsystem 
 public class IntakeSubsystem extends SubsystemBase {
 
-  // Left and right motors for the Intake Subsystem 
-  // private CANSparkMax m_leftIntakeMotor, m_rightIntakeMotor;
-  // Limit switch for the Intake Subsystem 
+  // Left and right TalonSRX motors for the IntakeSubsystem 
+  private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
+  // Digital Input Limit switch for the IntakeSubsystem 
   private DigitalInput m_intakeLimitSwitch;
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-  // m_leftMotor = new CANSparkMax();
-  // m_rightMotor = ;
+    // Initialize motors 
+    m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
+    m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
+    // Initialize limit switch 
     m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
+    // Set proper inversions
+    m_leftIntakeMotor.setInverted(false);
+    m_rightIntakeMotor.setInverted(false);
   }
   
   @Override
@@ -31,8 +37,19 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  // Sets power of left and right motors of Intake Subsystem
+  // Sets power of left and right motors of IntakeSubsystem
   public void setPower(double leftPower, double rightPower) {
-
+    // Limit switch is on, set speed to 0 
+    if(m_intakeLimitSwitch.get())
+    {
+      m_leftIntakeMotor.set(ControlMode.PercentOutput, 0);
+      m_rightIntakeMotor.set(ControlMode.PercentOutput, 0);
+    }
+    // Limit swtich is off, set speed to given speeds 
+    else
+    {
+      m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
+      m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
+    }
   }
 }

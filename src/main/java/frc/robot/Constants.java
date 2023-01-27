@@ -14,10 +14,10 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final int k_rightDrive = 2;
-  public static final int k_rightFollower = 12;
-  public static final int k_leftDrive = 5;
-  public static final int k_leftFollower = 0;
+  public static final int k_rightDrive = 8;
+  public static final int k_rightFollower = 9;
+  public static final int k_leftDrive = 11;
+  public static final int k_leftFollower = 10;
 
   public static final double k_feetPerTick = 12.58 / 188529;
   public static final double k_rampTimeSeconds = .1;
