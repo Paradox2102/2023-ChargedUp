@@ -15,7 +15,7 @@ import frc.robot.Constants;
 // Intake Subsystem 
 public class IntakeSubsystem extends SubsystemBase {
 
-  // Left and right motors for the IntakeSubsystem 
+  // Left and right TalonSRX motors for the IntakeSubsystem 
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
   // Limit switch for the IntakeSubsystem 
   private DigitalInput m_intakeLimitSwitch;
