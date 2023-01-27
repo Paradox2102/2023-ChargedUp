@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -38,6 +39,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Sets power of left and right motors of Intake Subsystem
   public void setPower(double leftPower, double rightPower) {
-
+    m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
+    m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
   }
 }
