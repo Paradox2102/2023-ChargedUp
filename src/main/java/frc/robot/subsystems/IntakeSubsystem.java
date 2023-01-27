@@ -17,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Left and right TalonSRX motors for the IntakeSubsystem 
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
-  // Limit switch for the IntakeSubsystem 
+  // Digital Input Limit switch for the IntakeSubsystem 
   private DigitalInput m_intakeLimitSwitch;
   
   /** Creates a new IntakeSubsystem. */
