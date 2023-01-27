@@ -15,9 +15,9 @@ import frc.robot.Constants;
 // Intake Subsystem 
 public class IntakeSubsystem extends SubsystemBase {
 
-  // Left and right motors for the Intake Subsystem 
+  // Left and right motors for the IntakeSubsystem 
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
-  // Limit switch for the Intake Subsystem 
+  // Limit switch for the IntakeSubsystem 
   private DigitalInput m_intakeLimitSwitch;
   
   /** Creates a new IntakeSubsystem. */
@@ -26,7 +26,6 @@ public class IntakeSubsystem extends SubsystemBase {
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
     m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
-
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
     m_rightIntakeMotor.setInverted(false);
@@ -37,14 +36,20 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  // Sets power of left and right motors of Intake Subsystem
+  // Sets power of left and right motors of IntakeSubsystem
   public void setPower(double leftPower, double rightPower) {
-    m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
-    m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
-  }
-  // Checks if limit switch is on 
-  public boolean getLimitSwitch()
-  {
-    return m_intakeLimitSwitch.get();
+    // Limit switch is on, set speed to 0 
+    if(m_intakeLimitSwitch.get())
+    {
+      m_leftIntakeMotor.set(ControlMode.PercentOutput, 0);
+      m_rightIntakeMotor.set(ControlMode.PercentOutput, 0);
+    }
+    // Limit swtich is off, set speed to given speeds 
+    else
+    {
+      m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
+      m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
+    }
+
   }
 }
