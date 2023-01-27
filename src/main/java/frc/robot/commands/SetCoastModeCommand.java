@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class SetCoastModeCommand extends CommandBase {
@@ -19,6 +20,7 @@ public class SetCoastModeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("SetCoastModeCommand", 1, "initialize");
     m_subsystem.setBrakeMode(false);
   }
 

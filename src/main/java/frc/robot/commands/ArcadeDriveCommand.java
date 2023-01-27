@@ -56,8 +56,9 @@ public class ArcadeDriveCommand extends CommandBase {
     drive = m_filter.calculate(drive);
     double k_maxSpeed = Constants.k_maxSpeed;
     // m_subsystem.setPower(drive+turn, drive-turn);
-    m_subsystem.setSpeed((drive+turn) * k_maxSpeed, (drive-turn) * k_maxSpeed);
-    System.out.println(String.format("Drive %f Turn %f", drive, turn));
+    // m_subsystem.setSpeed((drive+turn) * k_maxSpeed, (drive-turn) * k_maxSpeed);
+    m_subsystem.setPower((drive+turn), (drive-turn));
+    // System.out.println(String.format("Drive %f Turn %f", drive, turn));
 
   }
 

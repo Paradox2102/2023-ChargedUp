@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 
     new Trigger(this::isEnabled)
     .negate()  
-    .debounce(3)
+    .debounce(5)
     .onTrue(new SetCoastModeCommand(m_robotContainer.m_driveSubsystem)); 
   }
 
