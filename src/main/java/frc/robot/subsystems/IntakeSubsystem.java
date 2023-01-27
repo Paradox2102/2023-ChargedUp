@@ -22,9 +22,10 @@ public class IntakeSubsystem extends SubsystemBase {
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    // Declare instance variables
+    // Initialize motors 
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
+    // Initialize limit switch 
     m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
