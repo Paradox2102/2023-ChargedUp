@@ -35,10 +35,10 @@ public class DriveSubsystem extends SubsystemBase {
   AprilTagFieldLayout m_tags;
   public PurePursuit m_pursuitFollower;
 
-  private final double k_maxSpeed = 19000; 
-  private final double k_p = 0.1;
-  private final double k_i = 0.002; 
-  private final double k_f = 0.051; 
+  private final double k_maxSpeed = 20000; 
+  private final double k_p = 0.04;
+  private final double k_i = 0.0; 
+  private final double k_f = 0.047; 
   private final double k_iZone = 300; 
   private final int k_timeout = 30; 
   private final double k_rampTimeSeconds = .25;
@@ -153,6 +153,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetGyro(double angle) {
     m_gyro.reset();
   }
+
+  public Sensor getSensors(){
+    return m_sensors;
+  } 
 
   @Override
   public void periodic() {

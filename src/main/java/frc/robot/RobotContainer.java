@@ -9,6 +9,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Autos;
+import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,6 +54,7 @@ public class RobotContainer {
   // Driver 2 Controller
   private final Joystick m_stick2 = new Joystick(1);
   private final JoystickButton m_button1 = new JoystickButton(m_stick2, 1);
+  private final JoystickButton m_button2 = new JoystickButton(m_stick2, 2);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -108,6 +110,7 @@ public class RobotContainer {
       m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, () -> -m_joystick1.getY()));
 
       m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
+      m_joystick1.button(3).whileTrue(new CalibrateDrive(m_driveSubsystem));
     }
 
     // Driver 2
