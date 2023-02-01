@@ -36,8 +36,8 @@ public class DriveSubsystem extends SubsystemBase {
   public PurePursuit m_pursuitFollower;
 
   private final double k_maxSpeed = 20000; 
-  private final double k_p = 0.04;
-  private final double k_i = 0.0; 
+  private final double k_p = 0.06;
+  private final double k_i = 0.0001; 
   private final double k_f = 0.047; 
   private final double k_iZone = 300; 
   private final int k_timeout = 30; 
