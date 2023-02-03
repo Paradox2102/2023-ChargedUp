@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
   CANSparkMax m_wrist = new CANSparkMax(Constants.k_wristMotor, MotorType.kBrushless);
 
   // Combine motors
-  MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor, m_armFollower);
+  private MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor, m_armFollower);
 
   // Encoders
   RelativeEncoder m_armEncoder = m_armMotor.getEncoder();
