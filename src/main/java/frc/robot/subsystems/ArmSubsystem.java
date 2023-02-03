@@ -4,14 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,6 +36,8 @@ public class ArmSubsystem extends SubsystemBase {
   // Encoders
   RelativeEncoder m_armEncoder = m_armMotor.getEncoder();
   RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
+  private final double k_armTicksToDegrees = 1;
+  private final double k_wristTicksToDegrees = 1;
 
   // Limit Switches
   private SparkMaxLimitSwitch m_armForwardLimit;
@@ -51,14 +55,42 @@ public class ArmSubsystem extends SubsystemBase {
   Solenoid m_rightBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
   Solenoid m_leftBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_leftArmBrake);
 
+  private final double k_armStartingAngle = 0;
+  private final double k_wristStartingAngle = 0;
+
+  private final double k_armDeadZoneInDegrees = 2;
+  private final double k_wristDeadZoneInDegrees = 2;
+
+  // Set arm angle member variables
+  private double m_armTargetAngleInDegrees = k_armStartingAngle;
+  private double m_wristTargetAngleInDegrees = k_wristStartingAngle;
+
+  // Arm PID
+  private final double k_armP = 0;
+  private final double k_armI = 0;
+  private final double k_armD = 0;
+  PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
+
+  // Wrist PID
+  private final double k_wristP = 0;
+  private final double k_wristI = 0;
+  private final double k_wristD = 0;
+  PIDController m_wristPID = new PIDController(k_wristP, k_wristI, k_wristD);
+
   public ArmSubsystem() {
 
     // Reset motors
     m_armMotor.restoreFactoryDefaults();
     m_armFollower.restoreFactoryDefaults();
+    m_wrist.restoreFactoryDefaults();
 
     m_armMotor.setInverted(false);
     m_armFollower.setInverted(false);
+
+    // Set Brake Mode
+    m_armMotor.setIdleMode(IdleMode.kBrake);
+    m_armFollower.setIdleMode(IdleMode.kBrake);
+    m_wrist.setIdleMode(IdleMode.kBrake);
 
     // Set arm limit switches
     m_armForwardLimit = m_armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
@@ -71,6 +103,15 @@ public class ArmSubsystem extends SubsystemBase {
     m_wristReverseLimit = m_wrist.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     m_wristForwardLimit.enableLimitSwitch(true);
     m_wristReverseLimit.enableLimitSwitch(true);
+
+    // Convert ticks to degrees
+    m_armEncoder.setPositionConversionFactor(1.0/k_armTicksToDegrees);
+    m_wristEncoder.setPositionConversionFactor(1.0/k_wristTicksToDegrees);
+  }
+
+  public void moveToAngle(double armAngleInDegrees, double wristAngleInDegrees) {
+    m_armTargetAngleInDegrees = armAngleInDegrees;
+    m_wristTargetAngleInDegrees = wristAngleInDegrees;
   }
   
   public void setArmPower(double armPower) {
@@ -96,8 +137,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Run this in the beginning
   public void resetAngles() {
-    setWristAngle(0);
-    setArmAngle(0);
+    setWristAngle(k_armStartingAngle);
+    setArmAngle(k_wristStartingAngle);
   }
 
   public double getWristAngle() {
@@ -126,6 +167,39 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+  public double getArmFeedforward() {
+    return 0;
+  }
+
+  public double getWristFeedforward() {
+    return 0;
+  }
+
+  private void runPID() {
+    if (isArmOnTarget()) {
+      m_arm.set(0);
+      setArmBrake(true);
+    } else {
+      setArmBrake(false);
+      double armPower = m_armPID.calculate(getArmAngle(), m_armTargetAngleInDegrees);
+      m_arm.set(armPower + getArmFeedforward());
+    }
+    if (isWristOnTarget()) {
+      m_wrist.set(0);
+    } else {
+      double wristPower = m_wristPID.calculate(getWristAngle(), m_wristTargetAngleInDegrees);
+      m_wrist.set(wristPower + getWristAngle());
+    }
+  }
+
+  public boolean isArmOnTarget() {
+    return Math.abs(getArmAngle() - m_armTargetAngleInDegrees) <= k_armDeadZoneInDegrees;
+  }
+
+  public boolean isWristOnTarget() {
+    return Math.abs(getWristAngle() - m_wristTargetAngleInDegrees) <= k_wristDeadZoneInDegrees;
+  }
+
   @Override
   public void periodic() {
     // Comment out later
@@ -139,6 +213,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     checkArmLimitSwitch();
     checkWristLimitSwitch();
+
+    runPID();
   
     // This method will be called once per scheduler run
   }

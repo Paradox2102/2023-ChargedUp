@@ -10,7 +10,7 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ArmRotationCommand extends CommandBase {
   ArmSubsystem m_subsystem;
   /** Creates a new ArmRotationCommand. */
-  public ArmRotationCommand(ArmSubsystem armSubsystem) {
+  public ArmRotationCommand(ArmSubsystem armSubsystem, double armAngleInDegrees, double wristAngleInDegrees) {
     m_subsystem = armSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);

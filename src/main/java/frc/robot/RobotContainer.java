@@ -12,6 +12,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.PathFollowingCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 
@@ -46,6 +47,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem m_driveSubsystem;
+  public final ArmSubsystem m_armSubsystem = new ArmSubsystem();
 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
@@ -84,6 +86,10 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+  }
+
+  public void initialize() {
+    m_armSubsystem.resetAngles();
   }
 
   /**
