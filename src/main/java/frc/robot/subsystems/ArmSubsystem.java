@@ -9,6 +9,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,16 +20,26 @@ import frc.robot.Constants;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
+  // Arm Motors
   CANSparkMax m_armMotor = new CANSparkMax(Constants.k_armMotor, MotorType.kBrushless);
   CANSparkMax m_armFollower = new CANSparkMax(Constants.k_armFollower, MotorType.kBrushless);
+
+  // Wrist Motors
+  CANSparkMax m_wrist = new CANSparkMax(Constants.k_wristMotor, MotorType.kBrushless);
 
   // Combine motors
   MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor, m_armFollower);
 
+  // Encoders
   RelativeEncoder m_armEncoder = m_armMotor.getEncoder();
+  RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
 
   private SparkMaxLimitSwitch m_forwardLimit;
   private SparkMaxLimitSwitch m_reverseLimit;
+
+  // Create Pneumatics
+  Solenoid m_rightBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
+  Solenoid m_leftBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_leftArmBrake);
 
   public ArmSubsystem() {
 
@@ -41,10 +53,38 @@ public class ArmSubsystem extends SubsystemBase {
     // Set limit switches
     m_forwardLimit = m_armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     m_reverseLimit = m_armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_forwardLimit.enableLimitSwitch(true);
+    m_reverseLimit.enableLimitSwitch(true);
   }
   
-  public void setPower(double armPower) {
+  public void setArmPower(double armPower) {
     m_arm.set(armPower);
+  }
+
+  public void setWristPower(double wristPower){
+    m_wrist.set(wristPower);
+  }
+
+  public void setWristAngle(double degrees) {
+    m_wristEncoder.setPosition(degrees);
+  }
+
+  public void setArmAngle(double degrees) {
+    m_armEncoder.setPosition(degrees);
+  }
+
+  // Run this in the beginning
+  public void resetAngles() {
+    setWristAngle(0);
+    setArmAngle(0);
+  }
+
+  public double getWristAngle() {
+    return m_wristEncoder.getPosition();
+  }
+
+  public double getArmAngle() {
+    return m_armEncoder.getPosition();
   }
 
   @Override
