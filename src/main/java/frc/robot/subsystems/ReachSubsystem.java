@@ -33,6 +33,7 @@ public class ReachSubsystem extends SubsystemBase {
   public void setPower(double power) {
     m_reachMotor.set(ControlMode.PercentOutput, power);
   }
+  
 
   public void resetEncoder(double value) {
     m_reachMotor.setSelectedSensorPosition(value);

@@ -15,6 +15,7 @@ import frc.robot.commands.PathFollowingCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ReachSubsystem;
 
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
@@ -47,7 +48,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem m_driveSubsystem;
-  public final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(m_reachSubsystem);
 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);

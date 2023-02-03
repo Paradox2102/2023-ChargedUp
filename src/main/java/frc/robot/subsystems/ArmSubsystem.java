@@ -70,14 +70,19 @@ public class ArmSubsystem extends SubsystemBase {
   private final double k_armI = 0;
   private final double k_armD = 0;
   PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
+  private final double k_armF = 0;
 
   // Wrist PID
   private final double k_wristP = 0;
   private final double k_wristI = 0;
   private final double k_wristD = 0;
   PIDController m_wristPID = new PIDController(k_wristP, k_wristI, k_wristD);
+  private final double k_wristF = 0;
 
-  public ArmSubsystem() {
+  ReachSubsystem m_reachSubsystem;
+
+  public ArmSubsystem(ReachSubsystem reachSubsystem) {
+    m_reachSubsystem = reachSubsystem;
 
     // Reset motors
     m_armMotor.restoreFactoryDefaults();
@@ -168,11 +173,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getArmFeedforward() {
-    return 0;
+    double length = m_reachSubsystem.getExtentInInches();
+    return k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees) * length);
   }
 
   public double getWristFeedforward() {
-    return 0;
+    return k_wristF * Math.sin(Math.toRadians(m_wristTargetAngleInDegrees));
   }
 
   private void runPID() {
