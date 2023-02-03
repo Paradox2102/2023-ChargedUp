@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -34,8 +35,17 @@ public class ArmSubsystem extends SubsystemBase {
   RelativeEncoder m_armEncoder = m_armMotor.getEncoder();
   RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
 
-  private SparkMaxLimitSwitch m_forwardLimit;
-  private SparkMaxLimitSwitch m_reverseLimit;
+  // Limit Switches
+  private SparkMaxLimitSwitch m_armForwardLimit;
+  private SparkMaxLimitSwitch m_armReverseLimit;
+  private SparkMaxLimitSwitch m_wristForwardLimit;
+  private SparkMaxLimitSwitch m_wristReverseLimit;
+
+  // Limit Switch Positions
+  private static final double k_armForwardLimitPos = 0;
+  private static final double k_armReverseLimitPos = 0;
+  private static final double k_wristForwardLimitPos = 0;
+  private static final double k_wristReverseLimitPos = 0;
 
   // Create Pneumatics
   Solenoid m_rightBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
@@ -50,11 +60,17 @@ public class ArmSubsystem extends SubsystemBase {
     m_armMotor.setInverted(false);
     m_armFollower.setInverted(false);
 
-    // Set limit switches
-    m_forwardLimit = m_armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-    m_reverseLimit = m_armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-    m_forwardLimit.enableLimitSwitch(true);
-    m_reverseLimit.enableLimitSwitch(true);
+    // Set arm limit switches
+    m_armForwardLimit = m_armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_armReverseLimit = m_armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_armForwardLimit.enableLimitSwitch(true);
+    m_armReverseLimit.enableLimitSwitch(true);
+
+    // Set wrist limit switches
+    m_wristForwardLimit = m_wrist.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_wristReverseLimit = m_wrist.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_wristForwardLimit.enableLimitSwitch(true);
+    m_wristReverseLimit.enableLimitSwitch(true);
   }
   
   public void setArmPower(double armPower) {
@@ -87,8 +103,37 @@ public class ArmSubsystem extends SubsystemBase {
     return m_armEncoder.getPosition();
   }
 
+  // Set arm angle to limit switch
+  private void checkArmLimitSwitch() {
+    if (m_armForwardLimit.isPressed()) {
+      setArmAngle(k_armForwardLimitPos);
+    } else if (m_armReverseLimit.isPressed()) {
+      setArmAngle(k_armReverseLimitPos);
+    }
+  }
+
+  // Set wrist angle to limit switch
+  private void checkWristLimitSwitch() {
+    if (m_wristForwardLimit.isPressed()) {
+      setWristAngle(k_wristForwardLimitPos);
+    } else if (m_wristReverseLimit.isPressed()) {
+      setWristAngle(k_wristReverseLimitPos);
+    }
+  }
+
   @Override
   public void periodic() {
+    // Comment out later
+    SmartDashboard.putNumber("Wrist Angle", getWristAngle());
+    SmartDashboard.putNumber("Arm Angle", getArmAngle());
+    SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
+    SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
+    SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
+    SmartDashboard.putBoolean("Wrist Forward Limit", m_wristForwardLimit.isPressed());
+    SmartDashboard.putBoolean("Wrist aReverse Limit", m_wristReverseLimit.isPressed());
+
+    checkArmLimitSwitch();
+    checkWristLimitSwitch();
   
     // This method will be called once per scheduler run
   }
