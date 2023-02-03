@@ -89,6 +89,11 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder.setPosition(degrees);
   }
 
+  public void setArmBrake(boolean brake) {
+    m_rightBrake.set(brake);
+    m_leftBrake.set(brake);
+  }
+
   // Run this in the beginning
   public void resetAngles() {
     setWristAngle(0);
