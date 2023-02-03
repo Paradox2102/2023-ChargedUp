@@ -130,7 +130,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
     SmartDashboard.putBoolean("Wrist Forward Limit", m_wristForwardLimit.isPressed());
-    SmartDashboard.putBoolean("Wrist aReverse Limit", m_wristReverseLimit.isPressed());
+    SmartDashboard.putBoolean("Wrist Reverse Limit", m_wristReverseLimit.isPressed());
 
     checkArmLimitSwitch();
     checkWristLimitSwitch();
