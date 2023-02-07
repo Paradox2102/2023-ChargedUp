@@ -24,17 +24,17 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
   // Arm Motors
-  CANSparkMax m_armMotor = new CANSparkMax(Constants.k_armMotor, MotorType.kBrushless);
+  CANSparkMax m_arm = new CANSparkMax(Constants.k_armMotor, MotorType.kBrushless);
   CANSparkMax m_armFollower = new CANSparkMax(Constants.k_armFollower, MotorType.kBrushless);
 
   // Wrist Motors
   CANSparkMax m_wrist = new CANSparkMax(Constants.k_wristMotor, MotorType.kBrushless);
 
   // Combine motors
-  private MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor, m_armFollower);
+  // private MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor, m_armFollower);
 
   // Encoders
-  RelativeEncoder m_armEncoder = m_armMotor.getEncoder();
+  RelativeEncoder m_armEncoder = m_arm.getEncoder();
   RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
   private final double k_armTicksToDegrees = 1;
   private final double k_wristTicksToDegrees = 1;
@@ -52,8 +52,8 @@ public class ArmSubsystem extends SubsystemBase {
   private static final double k_wristReverseLimitPos = 0;
 
   // Create Pneumatics
-  Solenoid m_rightBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
-  Solenoid m_leftBrake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_leftArmBrake);
+  Solenoid m_brake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
+
 
   private final double k_armStartingAngle = 0;
   private final double k_wristStartingAngle = 0;
@@ -85,21 +85,22 @@ public class ArmSubsystem extends SubsystemBase {
     m_reachSubsystem = reachSubsystem;
 
     // Reset motors
-    m_armMotor.restoreFactoryDefaults();
+    m_arm.restoreFactoryDefaults();
     m_armFollower.restoreFactoryDefaults();
+    m_armFollower.follow(m_arm);
+
+    // m_armFollower.setInverted(true);
+
     m_wrist.restoreFactoryDefaults();
 
-    m_armMotor.setInverted(false);
-    m_armFollower.setInverted(false);
-
     // Set Brake Mode
-    m_armMotor.setIdleMode(IdleMode.kBrake);
+    m_arm.setIdleMode(IdleMode.kBrake);
     m_armFollower.setIdleMode(IdleMode.kBrake);
     m_wrist.setIdleMode(IdleMode.kBrake);
 
     // Set arm limit switches
-    m_armForwardLimit = m_armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-    m_armReverseLimit = m_armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_armForwardLimit = m_arm.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    m_armReverseLimit = m_arm.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     m_armForwardLimit.enableLimitSwitch(true);
     m_armReverseLimit.enableLimitSwitch(true);
 
@@ -118,7 +119,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armTargetAngleInDegrees = armAngleInDegrees;
     m_wristTargetAngleInDegrees = wristAngleInDegrees;
   }
-  
+
   public void setArmPower(double armPower) {
     m_arm.set(armPower);
   }
@@ -136,8 +137,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmBrake(boolean brake) {
-    m_rightBrake.set(brake);
-    m_leftBrake.set(brake);
+    m_brake.set(brake);
   }
 
   // Run this in the beginning

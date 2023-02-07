@@ -9,10 +9,14 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CalibrateDrive;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ManualArmCommand;
+import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 
 import java.io.IOException;
@@ -43,15 +47,14 @@ public class RobotContainer {
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem(m_reachSubsystem);
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
   private final CommandJoystick m_joystick1;
 
   // Driver 2 Controller
-  private final Joystick m_stick2 = new Joystick(1);
-  private final JoystickButton m_button1 = new JoystickButton(m_stick2, 1);
-  private final JoystickButton m_button2 = new JoystickButton(m_stick2, 2);
+  private final CommandJoystick m_stick2 = new CommandJoystick(1);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -115,6 +118,10 @@ public class RobotContainer {
     }
 
     // Driver 2
+    m_stick2.button(3).whileTrue(new ManualReachCommand(m_reachSubsystem, .2));
+    m_stick2.button(5).whileTrue(new ManualReachCommand(m_reachSubsystem, -.2));
+    m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, false));
+    m_armSubsystem.setDefaultCommand(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
   }
 
 

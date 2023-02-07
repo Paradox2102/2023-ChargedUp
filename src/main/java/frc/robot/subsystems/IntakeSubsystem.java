@@ -25,11 +25,9 @@ public class IntakeSubsystem extends SubsystemBase {
     // Initialize motors 
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
-    // Initialize limit switch 
-    m_intakeLimitSwitch = new DigitalInput(Constants.k_intakeLimitSwitch);
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
-    m_rightIntakeMotor.setInverted(false);
+    m_rightIntakeMotor.setInverted(true);
   }
   
   @Override
@@ -39,17 +37,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Sets power of left and right motors of IntakeSubsystem
   public void setPower(double leftPower, double rightPower) {
-    // Limit switch is on, set speed to 0 
-    if(m_intakeLimitSwitch.get())
-    {
-      m_leftIntakeMotor.set(ControlMode.PercentOutput, 0);
-      m_rightIntakeMotor.set(ControlMode.PercentOutput, 0);
-    }
-    // Limit swtich is off, set speed to given speeds 
-    else
-    {
-      m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
-      m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
-    }
+    m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
+    m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
   }
 }

@@ -32,17 +32,18 @@ public final class Constants {
   // Reach
   public static final int k_reachMotor = 0;
   public static final int k_canTimeOut = 30;
+  public static final int k_topSwitch = 9;
+  public static final int k_bottomSwitch = 0;
 
   // Arm
-  public static final int k_armMotor = 1;
-  public static final int k_armFollower = 1;
+  public static final int k_armMotor = 19; // left
+  public static final int k_armFollower = 4; // right
   // Wrist
-  public static final int k_wristMotor = 0;
+  public static final int k_wristMotor = 1;
   
   // Intake
-  public static final int k_leftIntakeMotor = 0;
-  public static final int k_rightIntakeMotor = 0;
-  public static final int k_intakeLimitSwitch = 0;
+  public static final int k_leftIntakeMotor = 3;
+  public static final int k_rightIntakeMotor = 2;
 
   // Arm Brakes
   public static final int k_rightArmBrake = 0;
