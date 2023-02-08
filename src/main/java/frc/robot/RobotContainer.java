@@ -118,9 +118,10 @@ public class RobotContainer {
     }
 
     // Driver 2
-    m_stick2.button(3).whileTrue(new ManualReachCommand(m_reachSubsystem, .2));
-    m_stick2.button(5).whileTrue(new ManualReachCommand(m_reachSubsystem, -.2));
-    m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, false));
+    m_stick2.button(8).whileTrue(new ManualReachCommand(m_reachSubsystem, .5));
+    m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.5));
+    m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.8));
+    m_stick2.button(1).whileTrue(new IntakeCommand(m_intakeSubsystem, 0.8));
     m_armSubsystem.setDefaultCommand(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
   }
 

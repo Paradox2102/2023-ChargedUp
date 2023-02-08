@@ -9,11 +9,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCommand extends CommandBase {
   IntakeSubsystem m_subsystem;
-  boolean m_claw;
+  double m_power;
   /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem intakeSubsystem, boolean claw) {
+  public IntakeCommand(IntakeSubsystem intakeSubsystem, double power) {
     m_subsystem = intakeSubsystem;
-    m_claw = claw;
+    m_power = power;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -21,9 +21,9 @@ public class IntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (!m_claw) {
-      m_subsystem.setPower(-.75, -.75);
-    }
+    // if (!m_claw) {
+      m_subsystem.setPower(m_power, m_power);
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

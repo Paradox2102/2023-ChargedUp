@@ -52,7 +52,8 @@ public class ArmSubsystem extends SubsystemBase {
   private static final double k_wristReverseLimitPos = 0;
 
   // Create Pneumatics
-  Solenoid m_brake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
+//  Solenoid m_brake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
+  Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_rightArmBrake);
 
 
   private final double k_armStartingAngle = 0;
@@ -220,7 +221,7 @@ public class ArmSubsystem extends SubsystemBase {
     checkArmLimitSwitch();
     checkWristLimitSwitch();
 
-    runPID();
+    // runPID();
   
     // This method will be called once per scheduler run
   }
