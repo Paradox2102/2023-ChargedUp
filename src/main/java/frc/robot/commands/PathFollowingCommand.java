@@ -21,18 +21,19 @@ public class PathFollowingCommand extends CommandBase {
   private static final int k_nPoints = 1000;
   private static final double k_dt = 0.020000;
   private static final double k_maxSpeed = 4.000000;
-  private static final double k_maxAccel = 11.000000;
-  private static final double k_maxDecl = 11.000000;
+  private static final double k_maxAccel = 6.000000;
+  private static final double k_maxDecl = 6.000000;
   private static final double k_maxJerk = 100.000000;
-  private static final double k_wheelbase = 1.812500;
+  private static final double k_wheelbase = 2.042;
   /*
   0, 10, 0
   3.3, 10, 0
   */
   final static Waypoint[] waypoints = { 
       new Waypoint(0, 0, Math.toRadians(90)), 
-      new Waypoint(10, 10, Math.toRadians(90)),
-      new Waypoint(0, 20, Math.toRadians(90)) };
+      new Waypoint(0, 10, Math.toRadians(90))};
+      //new Waypoint(10, 10, Math.toRadians(90)),
+      //new Waypoint(0, 20, Math.toRadians(90)) };
 
       
   /** Creates a new PathFollowingCommand. */

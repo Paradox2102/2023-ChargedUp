@@ -36,9 +36,10 @@ public class DriveSubsystem extends SubsystemBase {
   public PurePursuit m_pursuitFollower;
 
   private final double k_maxSpeed = 20000; 
-  private final double k_p = 0.06;
+  private final double k_p = 0.1;
   private final double k_i = 0.0001; 
-  private final double k_f = 0.047; 
+  private final double k_f = 0.05
+  ; 
   private final double k_iZone = 300; 
   private final int k_timeout = 30; 
   private final double k_rampTimeSeconds = .25;
@@ -65,6 +66,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("True Y", 0);
     SmartDashboard.putNumber("True Yaw", 0);
 
+    m_rightDrive.setSelectedSensorPosition(0);
+    m_leftDrive.setSelectedSensorPosition(0);
 
     m_leftFollower.follow(m_leftDrive);
     m_rightFollower.follow(m_rightDrive);
@@ -160,7 +163,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("Left Pos", m_leftDrive.getSelectedSensorPosition() * Constants.k_feetPerTick);
+    SmartDashboard.putNumber("Right Pos", m_rightDrive.getSelectedSensorPosition() * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Navigator X", m_navigator.getPos().x);
     SmartDashboard.putNumber("Navigator Y", m_navigator.getPos().y);
     SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());

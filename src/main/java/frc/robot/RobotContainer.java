@@ -111,7 +111,7 @@ public class RobotContainer {
       m_xbox1.b().toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_xbox1.getRightY()));
     } else {
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), () -> m_joystick1.getThrottle() < 0));
-      m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, () -> -m_joystick1.getY()));
+      m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, null));// () -> -m_joystick1.getY()));
 
       m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
       m_joystick1.button(3).whileTrue(new CalibrateDrive(m_driveSubsystem));
