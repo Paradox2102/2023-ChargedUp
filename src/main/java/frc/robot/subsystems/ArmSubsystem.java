@@ -36,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   // Encoders
   RelativeEncoder m_armEncoder = m_arm.getEncoder();
   RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
-  private final double k_armTicksToDegrees = 1;
+  private final double k_armTicksToDegrees = 6;
   private final double k_wristTicksToDegrees = 1;
 
   // Limit Switches
