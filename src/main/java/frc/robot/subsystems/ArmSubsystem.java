@@ -53,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Create Pneumatics
 //  Solenoid m_brake = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.k_rightArmBrake);
-  Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_rightArmBrake);
+  Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_armBrake);
 
 
   private final double k_armStartingAngle = 0;
@@ -88,7 +88,7 @@ public class ArmSubsystem extends SubsystemBase {
     // Reset motors
     m_arm.restoreFactoryDefaults();
     m_armFollower.restoreFactoryDefaults();
-    m_armFollower.follow(m_arm);
+    m_armFollower.follow(m_arm, true);
 
     // m_armFollower.setInverted(true);
 

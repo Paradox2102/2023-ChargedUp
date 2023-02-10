@@ -13,6 +13,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
+import frc.robot.commands.SetBrakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -115,6 +116,7 @@ public class RobotContainer {
 
       m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
       m_joystick1.button(3).whileTrue(new CalibrateDrive(m_driveSubsystem));
+      m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
     }
 
     // Driver 2

@@ -46,8 +46,8 @@ public final class Constants {
   public static final int k_rightIntakeMotor = 2;
 
   // Arm Brakes
-  public static final int k_rightArmBrake = 0;
-  public static final int k_leftArmBrake = 0;
+  public static final int k_armBrake = 1;
+  //public static final int k_leftArmBrake = 0;
   
   public static class OperatorConstants {}
 }
