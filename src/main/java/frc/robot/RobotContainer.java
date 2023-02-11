@@ -13,6 +13,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
+import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -24,6 +25,7 @@ import java.io.IOException;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -83,6 +85,8 @@ public class RobotContainer {
       m_xbox1 = null;
     }
 
+    System.out.println("Setting Arm Zero Command"); 
+    SmartDashboard.putData("SetArmZero", new SetArmZeroCommand(m_armSubsystem));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -112,11 +116,12 @@ public class RobotContainer {
       m_xbox1.b().toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_xbox1.getRightY()));
     } else {
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), () -> m_joystick1.getThrottle() < 0));
-      m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, null));// () -> -m_joystick1.getY()));
+      // m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, null));// () -> -m_joystick1.getY()));
 
-      m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
-      m_joystick1.button(3).whileTrue(new CalibrateDrive(m_driveSubsystem));
+      // m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
+      // m_joystick1.button(3).whileTrue(new CalibrateDrive(m_driveSubsystem));
       m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
+      // m_joystick1.button(12).onTrue(new SetArmZeroCommand(m_armSubsystem)); 
     }
 
     // Driver 2
@@ -124,7 +129,7 @@ public class RobotContainer {
     m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.5));
     m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.8));
     m_stick2.button(1).whileTrue(new IntakeCommand(m_intakeSubsystem, 1));
-    m_armSubsystem.setDefaultCommand(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
+    // m_armSubsystem.setDefaultCommand(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
   }
 
 
