@@ -13,6 +13,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
+import frc.robot.commands.SetArmExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -49,8 +50,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
-  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(m_reachSubsystem);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  //Intake Subsystem only needed to get absolute mag encoder for arm 
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem); 
 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
@@ -125,10 +127,11 @@ public class RobotContainer {
     }
 
     // Driver 2
-    m_stick2.button(8).whileTrue(new ManualReachCommand(m_reachSubsystem, .5));
-    m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.5));
-    m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.8));
+    m_stick2.button(9).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
+    m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
+    m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.5));
     m_stick2.button(1).whileTrue(new IntakeCommand(m_intakeSubsystem, 1));
+    m_stick2.button(11).onTrue(new SetArmExtent(m_reachSubsystem, 10)); 
     // m_armSubsystem.setDefaultCommand(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
   }
 

@@ -83,12 +83,15 @@ public class ArmSubsystem extends SubsystemBase {
   //Set zero position
   private double m_armZero = 0; 
   SmartDashboard m_smartDashboard; 
+  private boolean m_isEnabled; 
 
 
   ReachSubsystem m_reachSubsystem;
+  IntakeSubsystem m_intakeSubsystem;
 
-  public ArmSubsystem(ReachSubsystem reachSubsystem) {
+  public ArmSubsystem(ReachSubsystem reachSubsystem, IntakeSubsystem intakeSubsystem) {
     m_reachSubsystem = reachSubsystem;
+    m_intakeSubsystem = intakeSubsystem; 
 
     m_armZero = SmartDashboard.getNumber("Arm Zero Angle", getRawArmAngle()); 
     SmartDashboard.putNumber("Arm Zero Angle", m_armZero); 
@@ -176,7 +179,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getArmAngleDegrees() {
-    return m_armEncoder.getPosition() - m_armZero;
+    // return m_armEncoder.getPosition() - m_armZero;
+    return m_intakeSubsystem.getMagEncoderPosition() * 0.0883 - 288.96; 
   }
 
   // Set arm angle to limit switch
@@ -199,7 +203,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmFeedforward() {
     // double length = m_reachSubsystem.getExtentInInches();
-    double length = 22; //inches
+    double length = ReachSubsystem.k_minArmLength; //inches
     return -k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
   }
 
@@ -234,23 +238,31 @@ public class ArmSubsystem extends SubsystemBase {
     return Math.abs(getWristAngle() - m_wristTargetAngleInDegrees) <= k_wristDeadZoneInDegrees;
   }
 
+  public void enable(boolean enable) {
+    m_isEnabled = enable; 
+  }
+
   @Override
   public void periodic() {
     // Comment out later
     SmartDashboard.putNumber("Wrist Angle", getWristAngle());
-    SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
+    // SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
     SmartDashboard.putNumber("Arm Angle", getArmAngleDegrees());
+    SmartDashboard.putNumber("Mag Encoder Position", m_intakeSubsystem.getMagEncoderPosition());
     SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
     SmartDashboard.putBoolean("Wrist Forward Limit", m_wristForwardLimit.isPressed());
     SmartDashboard.putBoolean("Wrist Reverse Limit", m_wristReverseLimit.isPressed());
+    
 
     checkArmLimitSwitch();
     checkWristLimitSwitch();
 
-    runPID();
-  
+    if (m_isEnabled) {
+      runPID();
+    }
+    
     // This method will be called once per scheduler run
   }
 }

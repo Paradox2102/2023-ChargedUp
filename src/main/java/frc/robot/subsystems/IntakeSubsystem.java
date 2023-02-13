@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,6 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // Initialize motors 
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
+    m_leftIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute); 
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
     m_rightIntakeMotor.setInverted(true);
@@ -40,4 +42,9 @@ public class IntakeSubsystem extends SubsystemBase {
     m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
     m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
   }
+
+  public double getMagEncoderPosition() {
+    return m_leftIntakeMotor.getSelectedSensorPosition(); 
+  }
+
 }

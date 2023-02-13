@@ -11,13 +11,20 @@ public class SetArmExtent extends CommandBase {
   private ReachSubsystem m_subsystem;
   private double m_extentInInches;
 
-  private static final double k_p = 0.1;
+  private static final double k_p = 0.01;
   private static final double k_deadZone = 1;
 
   /** Creates a new SetArmExtent. */
   public SetArmExtent(ReachSubsystem subsystem, double extentInInches) {
     m_subsystem = subsystem;
     m_extentInInches = extentInInches;
+    if (m_extentInInches < 0) {
+      m_extentInInches = 0;
+    }
+    else if (m_extentInInches > ReachSubsystem.k_maxArmLength) {
+      m_extentInInches = ReachSubsystem.k_maxArmLength; 
+    }
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -31,12 +38,13 @@ public class SetArmExtent extends CommandBase {
   @Override
   public void execute() {
     double currentPosition = m_subsystem.getExtentInInches();
-    double distance = currentPosition - m_extentInInches;
+    double distance = m_extentInInches - currentPosition;
 
     if (Math.abs(m_extentInInches) < k_deadZone) {
       m_subsystem.setPower(0);
     } else {
       m_subsystem.setPower(distance * k_p);
+      // m_subsystem.setPower(0.3 * Math.signum(distance)); 
     }
   }
 
