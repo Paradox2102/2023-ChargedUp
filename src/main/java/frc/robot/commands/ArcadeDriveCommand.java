@@ -9,7 +9,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -54,7 +53,7 @@ public class ArcadeDriveCommand extends CommandBase {
     }
     drive = drive * drive * drive;
     drive = m_filter.calculate(drive);
-    double k_maxSpeed = Constants.k_maxSpeed;
+    // double k_maxSpeed = Constants.k_maxSpeed;
     // m_subsystem.setPower(drive+turn, drive-turn);
     // m_subsystem.setSpeed((drive+turn) * k_maxSpeed, (drive-turn) * k_maxSpeed);
     m_subsystem.setPower((drive+turn), (drive-turn));

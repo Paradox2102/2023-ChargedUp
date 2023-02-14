@@ -5,12 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +23,8 @@ public class ReachSubsystem extends SubsystemBase {
 
   public static double k_minArmLength = 22; 
   public static double k_maxArmLength = 26.375; 
+
+  private double m_power;
 
 
   /** Creates a new ReachSubsystem. */
@@ -51,11 +50,7 @@ public class ReachSubsystem extends SubsystemBase {
   }
 
   public void setPower(double power) {
-    if ((!m_topSwitch.get() && power > 0) || (!m_bottomSwitch.get() && power < 0)) {
-      m_reachMotor.set(ControlMode.PercentOutput, 0);
-    } else {
-      m_reachMotor.set(ControlMode.PercentOutput, power);
-    }
+    m_power = power;
   }
   
 
@@ -76,5 +71,19 @@ public class ReachSubsystem extends SubsystemBase {
     if (!m_bottomSwitch.get()) {
       m_armZero = m_reachMotor.getSelectedSensorPosition(); 
     }
+
+    // run reach motor -----
+    double power = m_power;
+    if (power > 0) {
+      if (!m_topSwitch.get()) {
+        power = 0;
+      }
+    } else if (power < 0) {
+      if (!m_bottomSwitch.get()) {
+        power = 0;
+      }
+    }
+    m_reachMotor.set(ControlMode.PercentOutput, power);
   }
+  // ------------------------
 }

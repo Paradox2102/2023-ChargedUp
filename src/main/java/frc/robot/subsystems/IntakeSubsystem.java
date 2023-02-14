@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -19,7 +18,6 @@ public class IntakeSubsystem extends SubsystemBase {
   // Left and right TalonSRX motors for the IntakeSubsystem 
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
   // Digital Input Limit switch for the IntakeSubsystem 
-  private DigitalInput m_intakeLimitSwitch;
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {

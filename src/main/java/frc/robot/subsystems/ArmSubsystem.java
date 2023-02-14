@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
@@ -14,9 +13,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.pathfinder.MathUtil;
 import frc.robot.Constants;
 
 
@@ -60,6 +59,8 @@ public class ArmSubsystem extends SubsystemBase {
   private final double k_wristStartingAngle = 0;
 
   private final double k_armDeadZoneInDegrees = 5;
+  private final double k_maxArmPower = 0.3;
+
   private final double k_wristDeadZoneInDegrees = 2;
 
   // Set arm angle member variables
@@ -67,11 +68,11 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_wristTargetAngleInDegrees = k_wristStartingAngle;
 
   // Arm PID
-  private final double k_armP = 0;
+  private final double k_armP = 0.02;
   private final double k_armI = 0;
-  private final double k_armD = 0;
+  private final double k_armD = 0.002;
   PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
-  private final double k_armF = 0.003;
+  private final double k_armF = .002; //0.002;
 
   // Wrist PID
   private final double k_wristP = 0;
@@ -83,7 +84,7 @@ public class ArmSubsystem extends SubsystemBase {
   //Set zero position
   private double m_armZero = 0; 
   SmartDashboard m_smartDashboard; 
-  private boolean m_isEnabled; 
+  private boolean m_isEnabled = false; 
 
 
   ReachSubsystem m_reachSubsystem;
@@ -140,6 +141,14 @@ public class ArmSubsystem extends SubsystemBase {
   public void moveToAngle(double armAngleInDegrees, double wristAngleInDegrees) {
     m_armTargetAngleInDegrees = armAngleInDegrees;
     m_wristTargetAngleInDegrees = wristAngleInDegrees;
+    enableArm(true);
+  }
+
+  public void enableArm(boolean enable){
+    m_isEnabled = enable;
+    if (!enable){
+      setArmPower(0);
+    }
   }
 
   public void setArmPower(double armPower) {
@@ -169,18 +178,22 @@ public class ArmSubsystem extends SubsystemBase {
     setArmAngle(k_wristStartingAngle);
   }
 
-  public double getWristAngle() {
+  public double getRawWristAngle() {
     return m_wristEncoder.getPosition();
+  }
+
+  public double getWristAngleInDegrees() {
+    return m_wristEncoder.getPosition() * k_wristTicksToDegrees;
   }
 
   //Not converted by zero point 
   public double getRawArmAngle() {
-    return m_armEncoder.getPosition();
+    return m_intakeSubsystem.getMagEncoderPosition();
   }
 
   public double getArmAngleDegrees() {
     // return m_armEncoder.getPosition() - m_armZero;
-    return m_intakeSubsystem.getMagEncoderPosition() * 0.0883 - 288.96; 
+    return -MathUtil.normalizeDegrees(m_intakeSubsystem.getMagEncoderPosition() * 0.0883 - 288.96); 
   }
 
   // Set arm angle to limit switch
@@ -203,7 +216,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmFeedforward() {
     // double length = m_reachSubsystem.getExtentInInches();
-    double length = ReachSubsystem.k_minArmLength; //inches
+    double length = ReachSubsystem.k_minArmLength + m_reachSubsystem.getExtentInInches(); //inches
     return -k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
   }
 
@@ -217,8 +230,9 @@ public class ArmSubsystem extends SubsystemBase {
     //   setArmBrake(true);
     // } else {
       // setArmBrake(false);
-      double armPower = getArmFeedforward(); //m_armPID.calculate(getRawArmAngle(), m_armTargetAngleInDegrees);
-      m_arm.set(armPower);
+      double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
+      armPower = Math.abs(armPower) > k_maxArmPower ? k_maxArmPower * Math.signum(armPower) : armPower;
+      // m_arm.set(armPower);
       SmartDashboard.putNumber("Arm Power", armPower);
       // System.out.println(String.format("Arm Power = %f", armPower)); 
     // }
@@ -235,7 +249,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isWristOnTarget() {
-    return Math.abs(getWristAngle() - m_wristTargetAngleInDegrees) <= k_wristDeadZoneInDegrees;
+    return Math.abs(getWristAngleInDegrees() - m_wristTargetAngleInDegrees) <= k_wristDeadZoneInDegrees;
   }
 
   public void enable(boolean enable) {
@@ -245,8 +259,8 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Comment out later
-    SmartDashboard.putNumber("Wrist Angle", getWristAngle());
-    // SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
+    SmartDashboard.putNumber("Raw Wrist Angle", getRawWristAngle());
+    SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
     SmartDashboard.putNumber("Arm Angle", getArmAngleDegrees());
     SmartDashboard.putNumber("Mag Encoder Position", m_intakeSubsystem.getMagEncoderPosition());
     SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());

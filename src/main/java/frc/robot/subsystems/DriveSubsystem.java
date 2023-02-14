@@ -35,14 +35,14 @@ public class DriveSubsystem extends SubsystemBase {
   AprilTagFieldLayout m_tags;
   public PurePursuit m_pursuitFollower;
 
-  private final double k_maxSpeed = 20000; 
+  // private final double k_maxSpeed = 20000; 
   private final double k_p = 0.1;
   private final double k_i = 0.0001; 
   private final double k_f = 0.05
   ; 
   private final double k_iZone = 300; 
   private final int k_timeout = 30; 
-  private final double k_rampTimeSeconds = .25;
+  // private final double k_rampTimeSeconds = .25;
 
   Object m_setlock = new Object();
 

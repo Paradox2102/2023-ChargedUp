@@ -6,16 +6,12 @@ import frc.lib.CSVWriter;
 // import java.util.function.DoubleSupplier;
 
 import frc.lib.CSVWriter.Field;
-import frc.robot.LocationTracker;
 import frc.robot.Navigator.NavigatorPos;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.DoubleSupplier;
 
-import javax.tools.DocumentationTool.Location;
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.pathfinder.Pathfinder.Path;
 import frc.pathfinder.Pathfinder.Segment;
@@ -203,16 +199,16 @@ public class PurePursuit {
 		}
 	}
 
-	private void logData(Object... values)
-	{
-		synchronized (m_lockWriter)
-		{
-			if (m_writer != null)
-			{
-				m_writer.write(values);
-			}
-		}
-	}
+	// private void logData(Object... values)
+	// {
+	// 	synchronized (m_lockWriter)
+	// 	{
+	// 		if (m_writer != null)
+	// 		{
+	// 			m_writer.write(values);
+	// 		}
+	// 	}
+	// }
 
 	/*
 	 * Path following computation thread

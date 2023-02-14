@@ -7,31 +7,28 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.Autos;
-import frc.robot.commands.CalibrateDrive;
+import frc.robot.commands.DisableArmCommand;
+import frc.robot.commands.SetArmPositionCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualReachCommand;
+import frc.robot.commands.ManualWristCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 
 import java.io.IOException;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -47,7 +44,6 @@ public class RobotContainer {
   public final ApriltagsCamera m_camera = new ApriltagsCamera();
 
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -132,7 +128,11 @@ public class RobotContainer {
     m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.5));
     m_stick2.button(1).whileTrue(new IntakeCommand(m_intakeSubsystem, 1));
     m_stick2.button(11).onTrue(new SetArmExtent(m_reachSubsystem, 10)); 
-    // m_armSubsystem.setDefaultCommand(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
+    m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -90, 0));
+    m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
+    m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
+    m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1));
+    m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1));
   }
 
 
@@ -143,6 +143,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null;
   }
 }

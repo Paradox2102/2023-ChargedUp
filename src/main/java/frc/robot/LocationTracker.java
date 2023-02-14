@@ -1,6 +1,5 @@
 package frc.robot;
 
-import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;

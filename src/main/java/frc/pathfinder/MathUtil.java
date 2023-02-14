@@ -35,6 +35,7 @@ public class MathUtil
 	
 	public static double normalizeDegrees(double angle)
 	{
+		angle = angle%360;
 		if (angle > 180)
 		{
 			angle -= 360;

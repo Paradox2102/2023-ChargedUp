@@ -28,8 +28,9 @@ public class ManualArmCommand extends CommandBase {
   @Override
   public void execute() {
     double power = m_power.getAsDouble();
-    power = power * power * power * .5;
-    m_subsystem.setArmPower(power);
+    // power = power * power * power * .5;
+    // m_subsystem.setArmPower(power);
+    m_subsystem.moveToAngle(power * 90, 0);
   }
 
   // Called once the command ends or is interrupted.

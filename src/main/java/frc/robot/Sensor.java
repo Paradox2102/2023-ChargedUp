@@ -2,7 +2,6 @@ package frc.robot;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class Sensor implements SensorData{
