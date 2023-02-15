@@ -11,6 +11,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,6 +74,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final double k_armI = 0;
   private final double k_armD = 0.002;
   PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
+  //ProfiledPIDController m_armPID = new ProfiledPIDController(k_armP, k_armI, k_armD, new TrapezoidProfile.Constraints(450, 200));
   private final double k_armF = .002; //0.002;
 
   // Wrist PID
@@ -232,9 +235,9 @@ public class ArmSubsystem extends SubsystemBase {
       // setArmBrake(false);
       double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
       armPower = Math.abs(armPower) > k_maxArmPower ? k_maxArmPower * Math.signum(armPower) : armPower;
-      // m_arm.set(armPower);
+      m_arm.set(armPower);
       SmartDashboard.putNumber("Arm Power", armPower);
-      // System.out.println(String.format("Arm Power = %f", armPower)); 
+      //System.out.println(String.format("Arm Power = %f", armPower)); 
     // }
     // if (isWristOnTarget()) {
     //   m_wrist.set(0);

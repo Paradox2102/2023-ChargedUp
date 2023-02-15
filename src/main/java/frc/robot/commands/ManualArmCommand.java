@@ -7,35 +7,41 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ManualArmCommand extends CommandBase {
   ArmSubsystem m_subsystem;
-  DoubleSupplier m_power;
+  DoubleSupplier m_angleInDegrees;
   /** Creates a new ManualArmCommand. */
-  public ManualArmCommand(ArmSubsystem armSubsystem, DoubleSupplier power) {
+  public ManualArmCommand(ArmSubsystem armSubsystem, DoubleSupplier angleInDegrees) {
     m_subsystem = armSubsystem;
-    m_power = power;
+    m_angleInDegrees = angleInDegrees;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Logger.log("ManualArmCommand", 2, "initialize");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double power = m_power.getAsDouble();
+    double angle = m_angleInDegrees.getAsDouble();
+    //Logger.log("ManualArmCommand", 2, "initialize");
     // power = power * power * power * .5;
     // m_subsystem.setArmPower(power);
-    m_subsystem.moveToAngle(power * 90, 0);
+    m_subsystem.moveToAngle(angle * 90, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    Logger.log("ManualArmCommand", 2, "end");
+  }
 
   // Returns true when the command should end.
   @Override
