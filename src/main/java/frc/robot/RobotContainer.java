@@ -128,11 +128,13 @@ public class RobotContainer {
     m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.5));
     m_stick2.button(1).whileTrue(new IntakeCommand(m_intakeSubsystem, 1));
     m_stick2.button(11).onTrue(new SetArmExtent(m_reachSubsystem, 10)); 
-    m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -90, 0));
+    m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, 120, 25));
     m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
     m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
-    m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1));
-    m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1));
+    m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
+    m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));
+    // m_stick2.button(8).toggleOnTrue(new ManualWristCommand(m_armSubsystem, 0, () -> m_stick2.getX())); 
+    
   }
 
 

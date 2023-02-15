@@ -11,8 +11,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   RelativeEncoder m_armEncoder = m_arm.getEncoder();
   RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
   private final double k_armTicksToDegrees = 6;
-  private final double k_wristTicksToDegrees = 1;
+  private final double k_wristTicksToDegrees = 0.325;
 
   // Limit Switches
   private SparkMaxLimitSwitch m_armForwardLimit;
@@ -47,8 +45,6 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkMaxLimitSwitch m_wristReverseLimit;
 
   // Limit Switch Positions
-  private static final double k_armForwardLimitPos = 0;
-  private static final double k_armReverseLimitPos = 0;
   private static final double k_wristForwardLimitPos = 0;
   private static final double k_wristReverseLimitPos = 0;
 
@@ -57,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
   Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_armBrake);
 
 
-  private final double k_armStartingAngle = 45;
+  private final double k_armStartingAngle = 0;
   private final double k_wristStartingAngle = 0;
 
   private final double k_armDeadZoneInDegrees = 5;
@@ -71,18 +67,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Arm PID
   private final double k_armP = 0.02;
-  private final double k_armI = 0;
-  private final double k_armD = 0.002;
+  private final double k_armI = 0; // 0.003
+  private final double k_armD = 0.006;
   PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
   //ProfiledPIDController m_armPID = new ProfiledPIDController(k_armP, k_armI, k_armD, new TrapezoidProfile.Constraints(450, 200));
-  private final double k_armF = .002; //0.002;
+  private final double k_armF = .002;
 
   // Wrist PID
-  private final double k_wristP = 0;
+  private final double k_wristP = 0.04;
   private final double k_wristI = 0;
   private final double k_wristD = 0;
   PIDController m_wristPID = new PIDController(k_wristP, k_wristI, k_wristD);
-  private final double k_wristF = 0;
+  private final double k_wristF = 0.01;
 
   //Set zero position
   private double m_armZero = 0; 
@@ -96,6 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem(ReachSubsystem reachSubsystem, IntakeSubsystem intakeSubsystem) {
     m_reachSubsystem = reachSubsystem;
     m_intakeSubsystem = intakeSubsystem; 
+    resetAngles();
 
     m_armZero = SmartDashboard.getNumber("Arm Zero Angle", getRawArmAngle()); 
     SmartDashboard.putNumber("Arm Zero Angle", m_armZero); 
@@ -166,9 +163,9 @@ public class ArmSubsystem extends SubsystemBase {
     m_wristEncoder.setPosition(degrees);
   }
 
-  public void setArmAngle(double degrees) {
-    m_armEncoder.setPosition(degrees);
-  }
+  // public void setArmAngle(double degrees) {
+  //   m_armEncoder.setPosition(degrees);
+  // }
 
   public void setArmBrake(boolean brake) {
     m_brake.set(!brake);
@@ -178,7 +175,7 @@ public class ArmSubsystem extends SubsystemBase {
   // Run this in the beginning
   public void resetAngles() {
     setWristAngle(k_armStartingAngle);
-    setArmAngle(k_wristStartingAngle);
+    // setArmAngle(k_wristStartingAngle);
   }
 
   public double getRawWristAngle() {
@@ -186,7 +183,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getWristAngleInDegrees() {
-    return m_wristEncoder.getPosition() * k_wristTicksToDegrees;
+    return m_wristEncoder.getPosition();
   }
 
   //Not converted by zero point 
@@ -201,11 +198,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Set arm angle to limit switch
   private void checkArmLimitSwitch() {
-    if (m_armForwardLimit.isPressed()) {
-      setArmAngle(k_armForwardLimitPos);
-    } else if (m_armReverseLimit.isPressed()) {
-      setArmAngle(k_armReverseLimitPos);
-    }
+    // if (m_armForwardLimit.isPressed()) {
+    //   setArmAngle(k_armForwardLimitPos);
+    // } else if (m_armReverseLimit.isPressed()) {
+    //   setArmAngle(k_armReverseLimitPos);
+    // }
   }
 
   // Set wrist angle to limit switch
@@ -224,19 +221,23 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getWristFeedforward() {
-    return k_wristF * Math.sin(Math.toRadians(m_wristTargetAngleInDegrees));
+    return k_wristF * Math.sin(Math.toRadians(m_wristTargetAngleInDegrees + getArmAngleDegrees()));
   }
 
   private void runPID() {
-    // if (isArmOnTarget()) {
-    //   m_arm.set(0);
-    //   setArmBrake(true);
-    // } else {
+    if (isArmOnTarget()) {
+      m_arm.set(0);
+      // setArmBrake(true);
+    } else {
       // setArmBrake(false);
       double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
       armPower = Math.abs(armPower) > k_maxArmPower ? k_maxArmPower * Math.signum(armPower) : armPower;
       m_arm.set(armPower);
       SmartDashboard.putNumber("Arm Power", armPower);
+
+      double wristPower = m_wristPID.calculate(getRawWristAngle(), m_wristTargetAngleInDegrees); 
+      // m_wrist.set(wristPower); 
+      SmartDashboard.putNumber("Wrist Power", wristPower); 
       //System.out.println(String.format("Arm Power = %f", armPower)); 
     // }
     // if (isWristOnTarget()) {
@@ -244,7 +245,7 @@ public class ArmSubsystem extends SubsystemBase {
     // } else {
     //   double wristPower = m_wristPID.calculate(getWristAngle(), m_wristTargetAngleInDegrees);
     //   m_wrist.set(wristPower + getWristAngle());
-    // }
+    }
   }
 
   public boolean isArmOnTarget() {
@@ -263,6 +264,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // Comment out later
     SmartDashboard.putNumber("Raw Wrist Angle", getRawWristAngle());
+    SmartDashboard.putNumber("Wrist Angle in Degrees", getWristAngleInDegrees());
     SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
     SmartDashboard.putNumber("Arm Angle", getArmAngleDegrees());
     SmartDashboard.putNumber("Mag Encoder Position", m_intakeSubsystem.getMagEncoderPosition());
