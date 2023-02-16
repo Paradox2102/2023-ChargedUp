@@ -66,12 +66,12 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_wristTargetAngleInDegrees = k_wristStartingAngle;
 
   // Arm PID
-  private final double k_armP = 0.02;
+  private final double k_armP = 0.05;
   private final double k_armI = 0; // 0.003
   private final double k_armD = 0.006;
   PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
   //ProfiledPIDController m_armPID = new ProfiledPIDController(k_armP, k_armI, k_armD, new TrapezoidProfile.Constraints(450, 200));
-  private final double k_armF = .002;
+  private final double k_armF = .004;
 
   // Wrist PID
   private final double k_wristP = 0.04;
@@ -227,9 +227,9 @@ public class ArmSubsystem extends SubsystemBase {
   private void runPID() {
     if (isArmOnTarget()) {
       m_arm.set(0);
-      // setArmBrake(true);
+      setArmBrake(true);
     } else {
-      // setArmBrake(false);
+      setArmBrake(false);
       double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
       armPower = Math.abs(armPower) > k_maxArmPower ? k_maxArmPower * Math.signum(armPower) : armPower;
       m_arm.set(armPower);

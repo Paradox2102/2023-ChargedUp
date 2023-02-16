@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -17,6 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Left and right TalonSRX motors for the IntakeSubsystem 
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
+  private Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_claw);
   // Digital Input Limit switch for the IntakeSubsystem 
   
   /** Creates a new IntakeSubsystem. */
@@ -39,6 +42,10 @@ public class IntakeSubsystem extends SubsystemBase {
   public void setPower(double leftPower, double rightPower) {
     m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
     m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
+  }
+
+  public void setClaw(boolean closed) {
+    m_brake.set(closed);
   }
 
   public double getMagEncoderPosition() {

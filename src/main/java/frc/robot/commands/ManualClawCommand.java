@@ -7,23 +7,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeCommand extends CommandBase {
+public class ManualClawCommand extends CommandBase {
   IntakeSubsystem m_subsystem;
-  double m_power;
-  /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem intakeSubsystem, double power) {
+  /** Creates a new ManualClawCommand. */
+  public ManualClawCommand(IntakeSubsystem intakeSubsystem) {
     m_subsystem = intakeSubsystem;
-    m_power = power;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // if (!m_claw) {
-      m_subsystem.setPower(m_power, -m_power);
-    // }
+    m_subsystem.setClaw(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +28,7 @@ public class IntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.setPower(0, 0);
+    m_subsystem.setClaw(false);
   }
 
   // Returns true when the command should end.

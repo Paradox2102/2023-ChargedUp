@@ -7,7 +7,8 @@ package frc.robot;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+ * globally (i.e
+ * . public static). Do not put anything functional in this class.
  *
  * <p>It is advised to 
  * statically import this class (or one of its inner classes) wherever the
@@ -38,16 +39,15 @@ public final class Constants {
   // Arm
   public static final int k_armMotor = 19; // left
   public static final int k_armFollower = 4; // right
+  public static final int k_armBrake = 1;
+
   // Wrist
   public static final int k_wristMotor = 1;
   
   // Intake
   public static final int k_leftIntakeMotor = 3;
   public static final int k_rightIntakeMotor = 2;
-
-  // Arm Brakes
-  public static final int k_armBrake = 1;
-  //public static final int k_leftArmBrake = 0;
+  public static final int k_claw = 0;
   
   public static class OperatorConstants {}
 }
