@@ -15,7 +15,7 @@ import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.ManualWristCommand;
 import frc.robot.commands.PathFollowingCommand;
-import frc.robot.commands.SetArmExtent;
+import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -126,10 +126,13 @@ public class RobotContainer {
     // Driver 2
     m_stick2.button(9).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
     m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
-    m_stick2.button(2).whileTrue(new IntakeCommand(m_intakeSubsystem, -0.5));
-    m_stick2.button(1).whileTrue(new IntakeCommand(m_intakeSubsystem, .5));
-    m_stick2.button(11).onTrue(new SetArmExtent(m_reachSubsystem, 10)); 
-    m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, 90, 75));
+    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25));
+    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25));
+
+    // Set arm to rear pick up
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
+    // m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -120, -163));
+
     m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
     m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
     m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));

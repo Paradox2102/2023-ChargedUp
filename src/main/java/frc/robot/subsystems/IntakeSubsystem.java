@@ -6,10 +6,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -20,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // Left and right TalonSRX motors for the IntakeSubsystem 
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
   private Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_claw);
+  private PowerDistribution m_powerDistribution = new PowerDistribution();
   // Digital Input Limit switch for the IntakeSubsystem 
   
   /** Creates a new IntakeSubsystem. */
@@ -31,11 +35,19 @@ public class IntakeSubsystem extends SubsystemBase {
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
     m_rightIntakeMotor.setInverted(true);
+    m_leftIntakeMotor.setNeutralMode(NeutralMode.Brake);
+    m_rightIntakeMotor.setNeutralMode(NeutralMode.Brake);
+    // m_leftIntakeMotor.configContinuousCurrentLimit(1);
+    // m_rightIntakeMotor.configContinuousCurrentLimit(1);
+    // m_leftIntakeMotor.enableCurrentLimit(true);
+    // m_rightIntakeMotor.enableCurrentLimit(true);
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left Intake Current", m_powerDistribution.getCurrent(Constants.k_leftIntakeMotor));
+    SmartDashboard.putNumber("Right Intake Current", m_powerDistribution.getCurrent(Constants.k_rightIntakeMotor));
   }
 
   // Sets power of left and right motors of IntakeSubsystem

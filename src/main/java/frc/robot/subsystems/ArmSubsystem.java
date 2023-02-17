@@ -2,6 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
+ * -120 back
+ */
+
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
@@ -58,7 +62,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final double k_wristStartingAngle = 0;
 
   private final double k_armDeadZoneInDegrees = 5;
-  private final double k_maxArmPower = 0.3;
+  private final double k_maxArmPower = 0.5;
 
   private final double k_wristDeadZoneInDegrees = 2;
 
@@ -264,7 +268,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     double wristPower = m_wristPID.calculate(getRawWristAngle(), m_wristTargetAngleInDegrees);
-    // m_wrist.set(wristPower);
+    m_wrist.set(wristPower);
     SmartDashboard.putNumber("Wrist Power", wristPower);
     // System.out.println(String.format("Arm Power = %f", armPower));
     // }
