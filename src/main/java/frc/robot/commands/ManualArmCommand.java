@@ -34,13 +34,14 @@ public class ManualArmCommand extends CommandBase {
     //Logger.log("ManualArmCommand", 2, "initialize");
     // power = power * power * power * .5;
     // m_subsystem.setArmPower(power);
-    m_subsystem.moveToAngle(angle * 90, 0);
+    m_subsystem.moveToAngle(angle * 120, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Logger.log("ManualArmCommand", 2, "end");
+    m_subsystem.enableArm(false);
   }
 
   // Returns true when the command should end.

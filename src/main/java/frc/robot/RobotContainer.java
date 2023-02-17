@@ -135,6 +135,7 @@ public class RobotContainer {
     m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
     m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));
     m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
+    m_stick2.button(6).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
     // m_stick2.button(8).toggleOnTrue(new ManualWristCommand(m_armSubsystem, 0, () -> m_stick2.getX())); 
     
   }
