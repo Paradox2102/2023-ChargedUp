@@ -36,10 +36,10 @@ public class DriveSubsystem extends SubsystemBase {
   public PurePursuit m_pursuitFollower;
 
   // private final double k_maxSpeed = 20000; 
-  private final double k_p = 0.1;
+  private final double k_p = 0.08;
   private final double k_i = 0.0001; 
-  private final double k_f = 0.05
-  ; 
+  private final double k_f = 0.045;
+
   private final double k_iZone = 300; 
   private final int k_timeout = 30; 
   // private final double k_rampTimeSeconds = .25;
@@ -168,6 +168,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Navigator X", m_navigator.getPos().x);
     SmartDashboard.putNumber("Navigator Y", m_navigator.getPos().y);
     SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Vel", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
+    SmartDashboard.putNumber("Right Vel", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
 
     // This method will be called once per scheduler run
     ApriltagsCameraRegions regions = m_camera.getRegions();

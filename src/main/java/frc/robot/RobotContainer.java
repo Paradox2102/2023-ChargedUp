@@ -7,6 +7,7 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DisableArmCommand;
 import frc.robot.commands.SetArmPositionCommand;
 import frc.robot.commands.IntakeCommand;
@@ -118,7 +119,7 @@ public class RobotContainer {
       // m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, null));// () -> -m_joystick1.getY()));
 
       // m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
-      // m_joystick1.button(3).whileTrue(new CalibrateDrive(m_driveSubsystem));
+    m_joystick1.button(9).whileTrue(new CalibrateDrive(m_driveSubsystem));
       m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
       // m_joystick1.button(12).onTrue(new SetArmZeroCommand(m_armSubsystem)); 
     }

@@ -26,8 +26,9 @@ public class CalibrateDrive extends CommandBase {
   public void initialize(
 
   ) {
-    // m_subsystem.setPower(0.5, 0.5);
-    m_subsystem.setSpeed(4000, 4000);
+    //m_subsystem.setPower(0.5, 0.5);
+    //m_subsystem.setSpeed(4000, 4000);
+    m_subsystem.setSpeedFPS(5, 5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
