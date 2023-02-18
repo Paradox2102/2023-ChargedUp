@@ -9,6 +9,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DisableArmCommand;
+import frc.robot.commands.Drive10Ft;
 import frc.robot.commands.SetArmPositionCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualArmCommand;
@@ -160,11 +161,12 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
+  
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new Drive10Ft(m_driveSubsystem);
   }
 }

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.PositionTracker.PositionContainer;
 
@@ -44,5 +46,9 @@ public class Navigator {
             pos = new NavigatorPos(m_tracker.getAngle(), con.x, con.y, m_tracker.getLeftEncoderPos(), m_tracker.getRightEncoderPos(), (float) m_tracker.getLeftEncoderVel(), (float)m_tracker.getRightEncoderVel());
         }
         return pos;
+    }
+    public Pose2d getPose2d() {
+        NavigatorPos pos = getPos();
+        return new Pose2d(pos.x * 0.0254 * 12, pos.x * 0.0254 * 12, Rotation2d.fromDegrees(pos.yaw));
     }
 }

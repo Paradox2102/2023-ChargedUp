@@ -88,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightDrive.config_kI(0, k_i, k_timeout);
     m_rightDrive.config_IntegralZone(0, k_iZone, k_timeout);
 
-    m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity(), m_gyro);
+    m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity() , m_gyro);
     m_posTracker = new PositionTracker(0, 0, false, m_sensors);
     m_navigator = new Navigator(m_posTracker);
     m_navigator.reset(90, 0, 0);
@@ -170,6 +170,10 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Vel", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Right Vel", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
+    SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
+
+    m_field.setRobotPose(m_navigator.getPose2d());
+
 
     // This method will be called once per scheduler run
     ApriltagsCameraRegions regions = m_camera.getRegions();
@@ -182,7 +186,6 @@ public class DriveSubsystem extends SubsystemBase {
         m_field.setRobotPose(location);
         SmartDashboard.putNumberArray("T vector", region.m_tvec);
         SmartDashboard.putNumberArray("R vector", region.m_rvec);
-        SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
       }      
       SmartDashboard.putNumber("Tag ID", region.m_tag);
       SmartDashboard.putBoolean("Has Regions", true);
