@@ -149,9 +149,9 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.setPersistent("Arm Zero Angle");
   }
 
-  public void moveToAngle(double armAngleInDegrees, double wristAngleInDegrees) {
+  public void moveToAngle(double armAngleInDegrees) {
     m_armTargetAngleInDegrees = armAngleInDegrees;
-    m_wristTargetAngleInDegrees = wristAngleInDegrees;
+    // m_wristTargetAngleInDegrees = wristAngleInDegrees;
     enableArm(true);
   }
 
@@ -268,7 +268,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     double wristPower = m_wristPID.calculate(getRawWristAngle(), m_wristTargetAngleInDegrees);
-    m_wrist.set(wristPower);
+    // m_wrist.set(wristPower);
     SmartDashboard.putNumber("Wrist Power", wristPower);
     // System.out.println(String.format("Arm Power = %f", armPower));
     // }

@@ -12,12 +12,12 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ManualWristCommand extends CommandBase {
   ArmSubsystem m_subsystem;
   private double m_power;
-  private DoubleSupplier m_angleInDegrees;
+  // private DoubleSupplier m_angleInDegrees;
   /** Creates a new ManualWristCommand. */
   public ManualWristCommand(ArmSubsystem armSubsystem, double power, DoubleSupplier angleInDegrees) {
     m_subsystem = armSubsystem;
     m_power = power;
-    m_angleInDegrees = angleInDegrees; 
+    // m_angleInDegrees = angleInDegrees; 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }

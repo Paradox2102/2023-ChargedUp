@@ -126,19 +126,32 @@ public class RobotContainer {
     // Driver 2
     m_stick2.button(9).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
     m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
-    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25));
-    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25));
+    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
+    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
 
-    // Set arm to rear pick up
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
+    // Set arm to opposite battery pick up
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 3, -110, () -> m_joystick1.getThrottle() > 0));
+    // Set Arm to mid cone node/high cube node
+    // m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 15, -60, () -> m_joystick1.getThrottle() > 0));
+    // Set arm to mid cube node
+    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -75, () -> m_joystick1.getThrottle() > 0));
+    // Set Arm to last cone node opposite battery side
+    // m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 26, -55, () -> m_joystick1.getThrottle() > 0)); //-60 
+    // Set Arm to human player station opposit battery side
+    m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 14, -60, () -> m_joystick1.getThrottle() > 0));
+    // Straight up, retract arm
+    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, 0, () -> m_joystick1.getThrottle() > 0));
+
+    // m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
     // m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -120, -163));
 
-    m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
-    m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
+    m_stick2.button(4).onTrue(new DisableArmCommand(
+      m_armSubsystem));
+   //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
     m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
     m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));
     m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
-    m_stick2.button(6).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
+    // m_stick2.button(6).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
     // m_stick2.button(8).toggleOnTrue(new ManualWristCommand(m_armSubsystem, 0, () -> m_stick2.getX())); 
     
   }
