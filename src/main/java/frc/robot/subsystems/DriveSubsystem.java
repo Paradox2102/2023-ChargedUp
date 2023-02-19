@@ -155,6 +155,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_rightDrive.getSelectedSensorPosition() * Constants.k_feetPerTick;
   }
 
+  public double getRoll() {
+    return m_gyro.getRoll();
+  }
+
   public void setBrakeMode(boolean brake){
     NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
     m_leftDrive.setNeutralMode(mode);
@@ -180,7 +184,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Vel (feet)", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Right Vel (feet)", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
-    SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyro Yaw", m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
     SmartDashboard.putNumber("Navigator Angle", m_navigator.getPos().yaw);
 
     m_field.setRobotPose(m_navigator.getPose2d());

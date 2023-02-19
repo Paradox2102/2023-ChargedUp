@@ -10,7 +10,7 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DisableArmCommand;
 import frc.robot.commands.Drive10Ft;
-import frc.robot.commands.DriveStationAuto;
+import frc.robot.commands.ChargeStationAuto;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
@@ -122,7 +122,7 @@ public class RobotContainer {
       m_joystick1.button(9).whileTrue(new CalibrateDrive(m_driveSubsystem));
       m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
       // m_joystick1.button(12).onTrue(new SetArmZeroCommand(m_armSubsystem)); 
-      m_joystick1.button(12).toggleOnTrue(new DriveStationAuto(m_driveSubsystem, m_armSubsystem));
+      m_joystick1.button(12).toggleOnTrue(new ChargeStationAuto(m_driveSubsystem, m_armSubsystem));
     }
 
     // Driver 2

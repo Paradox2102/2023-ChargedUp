@@ -11,13 +11,15 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveStationAuto extends CommandBase {
+public class ChargeStationAuto extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem m_armSubsystem;
   private boolean m_tippedStation = false;
-  private boolean m_balancedStation = false;
+  private boolean m_onStation = false;
+  private double m_previousRobotRoll = 0;
+  private double m_currentRobotRoll = 0;
   /** Creates a new DriveStationAuto. */
-  public DriveStationAuto(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+  public ChargeStationAuto(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
     m_driveSubsystem = driveSubsystem;
     m_armSubsystem = armSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,17 +39,24 @@ public class DriveStationAuto extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(m_driveSubsystem.getLeftPos()) > 7.5 || Math.abs(m_driveSubsystem.getRightPos()) > 7.5) {
+     m_currentRobotRoll = m_driveSubsystem.getRoll();
+     m_onStation = m_currentRobotRoll >= 10;
+    // if (m_currentRobotRoll > m_previousRobotRoll && m_onStation) {
+    if (m_driveSubsystem.getLeftPos() >= 8.5 || m_driveSubsystem.getRightPos() >= 8.5) {
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(-1, -1);
+      System.out.println("reversing");
     }
-    if (m_tippedStation && (m_driveSubsystem.getLeftPos() == 7 || m_driveSubsystem.getRightPos() == 7)) {
-      m_driveSubsystem.setSpeedFPS(.5, .5);
-      m_balancedStation = true;
+    if (m_tippedStation && m_currentRobotRoll < m_previousRobotRoll) {
+      m_driveSubsystem.setSpeedFPS(1, 1);
+      System.out.println("going forward");
+
     }
-    if (m_balancedStation) {
+    if (Math.abs(m_previousRobotRoll - m_currentRobotRoll) <= .5 && m_tippedStation) {
       m_driveSubsystem.stop();
+      System.out.println("stopped");
     }
+    m_previousRobotRoll = m_currentRobotRoll;
   }
 
   // Called once the command ends or is interrupted.
