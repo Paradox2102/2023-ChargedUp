@@ -12,13 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.ApriltagsCamera;
-import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegion;
-import frc.ApriltagsCamera.ApriltagsCamera.ApriltagsCameraRegions;
 import frc.pathfinder.Pathfinder.Path;
 import frc.robot.Constants;
 import frc.robot.LocationTracker;
@@ -89,7 +86,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightDrive.config_IntegralZone(0, k_iZone, k_timeout);
 
     m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity() , m_gyro);
-    m_posTracker = new PositionTracker(0, 0, false, m_sensors);
+    m_posTracker = new PositionTracker(0, 0, m_sensors);
     m_navigator = new Navigator(m_posTracker);
     m_navigator.reset(90, 0, 0);
     m_pursuitFollower = new PurePursuit(m_navigator, (l, r) -> setSpeedFPS(l, r), 20);
@@ -184,26 +181,10 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Left Vel (feet)", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Right Vel (feet)", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
+    SmartDashboard.putNumber("Navigator Angle", m_navigator.getPos().yaw);
 
     m_field.setRobotPose(m_navigator.getPose2d());
 
-
-    // This method will be called once per scheduler run
-    ApriltagsCameraRegions regions = m_camera.getRegions();
-    if (regions != null && regions.getRegionCount() >= 1) {
-      SmartDashboard.putNumber("Region Count", regions.getRegionCount());
-      ApriltagsCameraRegion region = regions.getRegion(0);
-      double[] tag = m_tracker.getTag(region.m_tag, m_tags);
-      if (tag != null) {
-        Pose2d location = m_tracker.getLocation(region.m_tvec[0], region.m_tvec[2], m_gyro.getAngle(), tag);
-        m_field.setRobotPose(location);
-        SmartDashboard.putNumberArray("T vector", region.m_tvec);
-        SmartDashboard.putNumberArray("R vector", region.m_rvec);
-      }      
-      SmartDashboard.putNumber("Tag ID", region.m_tag);
-      SmartDashboard.putBoolean("Has Regions", true);
-    } else {
-      SmartDashboard.putBoolean("Has Regions", false);
-    }
+    m_posTracker.update();
   }
 }
