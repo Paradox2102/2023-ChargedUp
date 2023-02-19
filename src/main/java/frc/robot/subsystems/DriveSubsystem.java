@@ -127,6 +127,11 @@ public class DriveSubsystem extends SubsystemBase {
       }
   }
 
+  public void resetEncoders() {
+    m_leftDrive.setSelectedSensorPosition(0);
+    m_rightDrive.setSelectedSensorPosition(0);
+  }
+
   // Start autonomous path during Teleop
   public void startPath(Path path, boolean isReversed, boolean setPosition, DoubleSupplier speed) {
     m_pursuitFollower.loadPath(path, isReversed, true, setPosition, speed);
@@ -143,6 +148,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void stop() {
     setPower(0, 0);
+  }
+
+  public double getLeftPos() {
+    return m_leftDrive.getSelectedSensorPosition() * Constants.k_feetPerTick;
+  }
+
+  public double getRightPos() {
+    return m_rightDrive.getSelectedSensorPosition() * Constants.k_feetPerTick;
   }
 
   public void setBrakeMode(boolean brake){
@@ -168,8 +181,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Navigator X", m_navigator.getPos().x);
     SmartDashboard.putNumber("Navigator Y", m_navigator.getPos().y);
     SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Left Vel", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
-    SmartDashboard.putNumber("Right Vel", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
+    SmartDashboard.putNumber("Left Vel (feet)", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
+    SmartDashboard.putNumber("Right Vel (feet)", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
 
     m_field.setRobotPose(m_navigator.getPose2d());
