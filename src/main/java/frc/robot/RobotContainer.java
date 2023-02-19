@@ -147,8 +147,7 @@ public class RobotContainer {
     // m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
     // m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -120, -163));
 
-    m_stick2.button(4).onTrue(new DisableArmCommand(
-      m_armSubsystem));
+    m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
    //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
     m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
     m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));
