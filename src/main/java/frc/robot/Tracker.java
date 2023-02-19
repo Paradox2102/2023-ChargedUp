@@ -6,5 +6,4 @@ public interface Tracker {
 	PositionContainer getPos();
 	void setXY(double x, double y);
 	void setAngle(double angle);
-	void resetPreviousPosition();
 }

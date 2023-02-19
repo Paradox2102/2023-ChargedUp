@@ -48,6 +48,9 @@ public final class Constants {
   public static final int k_leftIntakeMotor = 3;
   public static final int k_rightIntakeMotor = 2;
   public static final int k_claw = 0;
+
+  public static final double k_wheelBase = 2.04;
+  public static final double k_startAngleDegrees = -90;
   
   public static class OperatorConstants {}
 }
