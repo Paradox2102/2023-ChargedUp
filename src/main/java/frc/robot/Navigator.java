@@ -35,8 +35,7 @@ public class Navigator {
 
     public void reset(double angle, double x, double y) {
         Logger.log("Navigator", 1, String.format("Reset:a=%f,x=%f,y=%f", angle, x, y));
-        m_tracker.setAngle(angle);
-        m_tracker.setXY(x, y);
+        m_tracker.setXYAngle(x, y, angle);
     }
 
     public NavigatorPos getPos() {

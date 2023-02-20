@@ -7,7 +7,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -15,7 +14,6 @@ public class ChargeStationAuto extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem m_armSubsystem;
   private boolean m_tippedStation = false;
-  private boolean m_onStation = false;
   private double m_previousRobotRoll = 0;
   private double m_currentRobotRoll = 0;
   /** Creates a new DriveStationAuto. */
@@ -40,7 +38,6 @@ public class ChargeStationAuto extends CommandBase {
   @Override
   public void execute() {
      m_currentRobotRoll = m_driveSubsystem.getRoll();
-     m_onStation = m_currentRobotRoll >= 10;
     // if (m_currentRobotRoll > m_previousRobotRoll && m_onStation) {
     if (m_driveSubsystem.getLeftPos() >= 8.5 || m_driveSubsystem.getRightPos() >= 8.5) {
       m_tippedStation = true;

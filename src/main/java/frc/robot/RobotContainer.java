@@ -123,6 +123,7 @@ public class RobotContainer {
       m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
       // m_joystick1.button(12).onTrue(new SetArmZeroCommand(m_armSubsystem)); 
       m_joystick1.button(12).toggleOnTrue(new ChargeStationAuto(m_driveSubsystem, m_armSubsystem));
+      m_joystick1.button(11).onTrue(new Drive10Ft(m_driveSubsystem));
     }
 
     // Driver 2

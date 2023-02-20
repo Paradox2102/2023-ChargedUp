@@ -9,6 +9,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.pathfinder.Pathfinder;
 import frc.pathfinder.Pathfinder.Path;
 import frc.pathfinder.Pathfinder.Waypoint;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class CreatePathCommand extends CommandBase {
@@ -19,8 +20,8 @@ public class CreatePathCommand extends CommandBase {
   private PurePursuitData m_data; 
   private Path m_path; 
   private static final int k_nPoints = 1000; 
-  private static final double k_dt =0.02; 
-  private static final double k_wheelbase = 1.8125; 
+  private static final double k_dt = 0.02; 
+  private static final double k_wheelbase = Constants.k_wheelBase; 
 
   /** Creates a new CreatePathCommand. */
   private void init(DriveSubsystem driveSubsystem, Waypoint[] waypoints, boolean setPosition, boolean reversed, String name, PurePursuitData data, double lookAheadTime){

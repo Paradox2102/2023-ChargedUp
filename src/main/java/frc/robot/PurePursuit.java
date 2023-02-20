@@ -49,7 +49,7 @@ public class PurePursuit {
 	private double k_lookAheadTime = 0.75;		// Time along the path of the next target point	
 	private double k_minLookAheadDist = 0.6;	// Minimum allowed look ahead distance (overrides look ahead time if necessary)
 	private double k_maxSearchTime = 1;		// Max time along the path to search for the closest point to the current position
-	private double k_minSpeed = 0.25;			// Minimum allowed speed
+	private double k_minSpeed = 1;			// Minimum allowed speed
 	private double k_curvatureAdjust = 1.1;		// Adjusts the curvature to make the path following more or less aggressive
 												//   A value of 1 is normal, a value greater than 1 makes the 
 												//   path following more aggressive, less than 1 makes it less aggressive
@@ -94,7 +94,7 @@ public class PurePursuit {
 			new Field("Ideal x", 'f'), new Field("Ideal y", 'f'), new Field("Next Pos x", 'f'),
 			new Field("Next Pos y", 'f'), new Field("L", 'f'), new Field("dX", 'f'), new Field("Theta", 'f'),
 			new Field("Curvature", 'f'), new Field("velDif", 'f'),
-			new Field("Closest idx", 'd'), new Field("left pos", 'd'), new Field("right pos", 'd') }; 
+			new Field("Closest idx", 'd'), new Field("left pos", 'f'), new Field("right pos", 'f') }; 
 			// new Field("Update Count", 'd'), new Field("Errors", 'd') };
 
 	private CSVWriter m_writer;		// Used for logging
@@ -199,16 +199,16 @@ public class PurePursuit {
 		}
 	}
 
-	// private void logData(Object... values)
-	// {
-	// 	synchronized (m_lockWriter)
-	// 	{
-	// 		if (m_writer != null)
-	// 		{
-	// 			m_writer.write(values);
-	// 		}
-	// 	}
-	// }
+	private void logData(Object... values)
+	{
+		synchronized (m_lockWriter)
+		{
+			if (m_writer != null)
+			{
+				m_writer.write(values);
+			}
+		}
+	}
 
 	/*
 	 * Path following computation thread
@@ -428,9 +428,9 @@ public class PurePursuit {
 		double leftSpeed = !m_isReversed ? velocity - speedDiff : velocity + speedDiff;
 		double rightSpeed = !m_isReversed ? velocity + speedDiff : velocity - speedDiff;
 
-		// logData(pos.yaw, velocity, (leftSpeed), (rightSpeed), pos.leftSpeed, pos.rightSpeed, pos.x,
-		// 		pos.y, closestPos.x, closestPos.y, nextPos.x, nextPos.y, distance, dX, theta, curvature, speedDiff,
-		// 		closestPoint, pos.leftPos, pos.rightPos);	//, pos.updateCount, pos.errorCount);
+		logData(pos.yaw, velocity, (leftSpeed), (rightSpeed), pos.leftVel, pos.rightVel, pos.x,
+				pos.y, closestPos.x, closestPos.y, nextPos.x, nextPos.y, distance, dX, theta, curvature, speedDiff,
+				closestPoint, pos.leftPos, pos.rightPos);	//, pos.updateCount, pos.errorCount);
 
 		// System.out.println(String.format("right = %f, left = %f", rightSpeed, leftSpeed));
 		return new SpeedContainer(leftSpeed, rightSpeed);

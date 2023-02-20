@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import frc.ApriltagsCamera.Logger;
 
 // import frc.lib.CSVWriter;
 // import frc.lib.CSVWriter.Field;
@@ -24,8 +25,15 @@ public class PositionTracker implements Tracker {
 		return new PositionContainer(pose.getX(), pose.getY());
 	}
 
-	public void setXY(double x, double y) {
-		
+	public void setXYAngle(double x, double y, double angleInDegrees) {
+		Logger.log("PositionTracker", 1, String.format("x=%f, y=%f, angle=%f", x, y, angleInDegrees));
+		m_sensors.getGyro().setYaw(-angleInDegrees);
+		m_poseEstimator.resetPosition(
+			ParadoxField.Rotation2dFromParadoxAngle(angleInDegrees), 
+			ParadoxField.distanceFromParadox(m_sensors.getLeftEncoderPos()), 
+			ParadoxField.distanceFromParadox(m_sensors.getRightEncoderPos()), 
+			ParadoxField.Pos2dFromParadox(x, y, angleInDegrees)
+		);
 	}
 
 	public void setAngle(double angle) {
