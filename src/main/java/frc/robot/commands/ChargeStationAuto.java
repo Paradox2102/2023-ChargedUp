@@ -38,7 +38,6 @@ public class ChargeStationAuto extends CommandBase {
   @Override
   public void execute() {
      m_currentRobotRoll = m_driveSubsystem.getRoll();
-    // if (m_currentRobotRoll > m_previousRobotRoll && m_onStation) {
     if (m_driveSubsystem.getLeftPos() >= 8.5 || m_driveSubsystem.getRightPos() >= 8.5) {
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(-1, -1);
