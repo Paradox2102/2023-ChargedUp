@@ -31,7 +31,6 @@ public class ChargeStationAuto extends CommandBase {
     m_armSubsystem.moveToAngle(-110);
     m_driveSubsystem.resetEncoders();
     m_driveSubsystem.setSpeedFPS(1, 1);
-    // m_driveSubsystem.setSpeed(1.0/Constants.k_feetPerTick, 1.0/Constants.k_feetPerTick);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
