@@ -41,16 +41,13 @@ public class ChargeStationAuto extends CommandBase {
     if (m_driveSubsystem.getLeftPos() >= 8.5 || m_driveSubsystem.getRightPos() >= 8.5) {
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(-1, -1);
-      System.out.println("reversing");
     }
     if (m_tippedStation && m_currentRobotRoll < m_previousRobotRoll) {
       m_driveSubsystem.setSpeedFPS(1, 1);
-      System.out.println("going forward");
 
     }
     if (Math.abs(m_previousRobotRoll - m_currentRobotRoll) <= .5 && m_tippedStation) {
       m_driveSubsystem.stop();
-      System.out.println("stopped");
     }
     m_previousRobotRoll = m_currentRobotRoll;
   }
