@@ -7,10 +7,11 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.Auto_4LBS;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DisableArmCommand;
 import frc.robot.commands.Drive10Ft;
-import frc.robot.commands.ChargeStationAuto;
+import frc.robot.commands.Auto_4LS;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
@@ -27,6 +28,8 @@ import frc.robot.subsystems.ReachSubsystem;
 import java.io.IOException;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -87,6 +90,8 @@ public class RobotContainer {
 
     System.out.println("Setting Arm Zero Command"); 
     SmartDashboard.putData("SetArmZero", new SetArmZeroCommand(m_armSubsystem));
+    ShuffleboardTab driverTab = Shuffleboard.getTab("Tab 4");
+    driverTab.addCamera("Camera Viewer", "Front Camera", "http://10.21.2.2:1181/?action=stream").withPosition(1, 1);
     // Configure the trigger bindings
     configureBindings();
   }
@@ -122,33 +127,34 @@ public class RobotContainer {
       m_joystick1.button(9).whileTrue(new CalibrateDrive(m_driveSubsystem));
       m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
       // m_joystick1.button(12).onTrue(new SetArmZeroCommand(m_armSubsystem)); 
-      m_joystick1.button(12).toggleOnTrue(new ChargeStationAuto(m_driveSubsystem, m_armSubsystem));
+      m_joystick1.button(12).toggleOnTrue(new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
       m_joystick1.button(11).onTrue(new Drive10Ft(m_driveSubsystem));
+      m_joystick1.button(10).toggleOnTrue(new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
     }
 
     // Driver 2
-    m_stick2.button(9).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
-    m_stick2.button(7).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
+    m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
+    m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
     m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
     m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
 
     // Set arm to opposite battery pick up
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 3, -110, () -> m_stick2.getThrottle() > 0));
+    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 3, -110, () -> m_stick2.getThrottle() > 0));
     // Set Arm to mid cone node/high cube node
-    // m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 15, -60, () -> m_joystick1.getThrottle() > 0));
+    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 15, -60, () -> m_joystick1.getThrottle() > 0));
     // Set arm to mid cube node
-    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -75, () -> m_stick2.getThrottle() > 0));
+    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -75, () -> m_stick2.getThrottle() > 0));
     // Set Arm to last cone node opposite battery side
     // m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 26, -55, () -> m_joystick1.getThrottle() > 0)); //-60 
-    // Set Arm to human player station opposit battery side
-    m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, -60, () -> m_stick2.getThrottle() > 0)); // 14
+    // Set Arm to human player station opposite battery side
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, -60, () -> m_stick2.getThrottle() > 0)); // 14
     // Straight up, retract arm
     m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, 0, () -> m_stick2.getThrottle() > 0));
 
     // m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
     // m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -120, -163));
 
-    m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
+    // m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
    //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
     m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
     m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));

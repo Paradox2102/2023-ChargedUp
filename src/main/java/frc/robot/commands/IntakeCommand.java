@@ -22,7 +22,7 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void initialize() {
     // if (!m_claw) {
-      m_subsystem.setPower(m_power, -m_power);
+      m_subsystem.setPower(m_power);
     // }
   }
 
@@ -33,7 +33,7 @@ public class IntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.setPower(0, 0);
+    m_subsystem.setPower(0);
   }
 
   // Returns true when the command should end.

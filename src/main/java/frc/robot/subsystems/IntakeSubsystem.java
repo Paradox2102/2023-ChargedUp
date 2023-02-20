@@ -51,13 +51,17 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   // Sets power of left and right motors of IntakeSubsystem
-  public void setPower(double leftPower, double rightPower) {
-    m_leftIntakeMotor.set(ControlMode.PercentOutput, leftPower);
-    m_rightIntakeMotor.set(ControlMode.PercentOutput, rightPower);
+  public void setPower(double power) {
+    m_leftIntakeMotor.set(ControlMode.PercentOutput, power);
+    m_rightIntakeMotor.set(ControlMode.PercentOutput, -power);
   }
 
   public void setClaw(boolean closed) {
     m_brake.set(closed);
+  }
+
+  public void stop() {
+    setPower(0);
   }
 
   public double getMagEncoderPosition() {
