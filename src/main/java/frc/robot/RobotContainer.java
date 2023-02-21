@@ -47,7 +47,7 @@ public class RobotContainer {
 
   // Variables that will be passed into commands and subsystems
   public AprilTagFieldLayout m_tags;
-  public final ApriltagsCamera m_camera = new ApriltagsCamera();
+  public final ApriltagsCamera m_camera = new ApriltagsCamera(12, 0, 0);
 
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem;

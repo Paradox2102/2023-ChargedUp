@@ -15,13 +15,13 @@ public class PositionTracker implements Tracker {
 	public PositionTracker(double x, double y, SensorData sensor) {
 		m_sensors = sensor;
 		m_poseEstimator = new DifferentialDrivePoseEstimator(new DifferentialDriveKinematics(Constants.k_wheelBase),
-		ParadoxField.Rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 
-		0, 0, ParadoxField.Pos2dFromParadox(0, 0, Constants.k_startAngleDegrees));
+		ParadoxField.rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 
+		0, 0, ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees));
 	}
 	
 	
 	public PositionContainer getPos() {
-		Pose2d pose = ParadoxField.pos2dFromFRC(m_poseEstimator.getEstimatedPosition());
+		Pose2d pose = ParadoxField.pose2dFromFRC(m_poseEstimator.getEstimatedPosition());
 		return new PositionContainer(pose.getX(), pose.getY());
 	}
 
@@ -29,10 +29,10 @@ public class PositionTracker implements Tracker {
 		Logger.log("PositionTracker", 1, String.format("x=%f, y=%f, angle=%f", x, y, angleInDegrees));
 		m_sensors.getGyro().setYaw(-angleInDegrees);
 		m_poseEstimator.resetPosition(
-			ParadoxField.Rotation2dFromParadoxAngle(angleInDegrees), 
+			ParadoxField.rotation2dFromParadoxAngle(angleInDegrees), 
 			ParadoxField.distanceFromParadox(m_sensors.getLeftEncoderPos()), 
 			ParadoxField.distanceFromParadox(m_sensors.getRightEncoderPos()), 
-			ParadoxField.Pos2dFromParadox(x, y, angleInDegrees)
+			ParadoxField.pose2dFromParadox(x, y, angleInDegrees)
 		);
 	}
 
@@ -69,7 +69,7 @@ public class PositionTracker implements Tracker {
 		}
 	}
 	public void update(){
-		m_poseEstimator.update(ParadoxField.Rotation2dFromParadoxAngle(getAngle()), 
+		m_poseEstimator.update(ParadoxField.rotation2dFromParadoxAngle(getAngle()), 
 		ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 		ParadoxField.distanceFromParadox(getRightEncoderPos()));
 	} 

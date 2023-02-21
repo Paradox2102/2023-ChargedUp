@@ -1,5 +1,5 @@
 /*
- *	  Copyright (C) 2016  John H. Gaby
+ *	  Copyright (C) 2022  John H. Gaby
  *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ public class Network
 	private NetworkReceiver	m_networkReceiver;
 	private int				m_retryTime;
 	private PrintStream 	m_printStream = null;
+	private Object			m_lock = new Object();
 	
 	private ServerSocket m_serverSocket = null;
 	private Socket m_clientSocket = null;
@@ -127,12 +128,14 @@ public class Network
 	 */
 	public void sendMessage(String message)
 	{
-		synchronized(m_networkReceiver)
+		if (m_networkReceiver != null)
 		{
-			if (m_printStream != null)
+			synchronized(m_lock)
 			{
-				Logger.log("Network", -1, "SendMessage: " + message);
-				m_printStream.println(message);
+				if (m_printStream != null)
+				{
+					m_printStream.println(message);
+				}
 			}
 		}
 	}
@@ -165,7 +168,9 @@ public class Network
 	{
 		System.out.println("CloseConnection");
 		
-		synchronized(this)
+		m_networkReceiver.disconnected();
+		
+		synchronized(m_lock)
 		{
 			if (m_printStream != null)
 			{
@@ -209,8 +214,6 @@ public class Network
 				m_serverSocket = null;
 			}
 		}
-		
-		m_networkReceiver.disconnected();
 	}
 	
 	private class Receiver implements Runnable
@@ -230,7 +233,7 @@ public class Network
 					OutputStream outputStream = clientSocket.getOutputStream();
 					PrintStream printStream = new PrintStream(outputStream);
 
-					synchronized(m_networkReceiver)
+					synchronized(m_lock)
 					{
 						m_clientSocket = clientSocket;
 						m_inputStream = inputStream;
@@ -308,10 +311,10 @@ public class Network
 				
 				try
 				{
-					synchronized(m_networkReceiver)
+					m_serverSocket = new ServerSocket(m_port);
+					m_clientSocket = m_serverSocket.accept();
+					synchronized(m_lock)
 					{
-					    m_serverSocket = new ServerSocket(m_port);
-					    m_clientSocket = m_serverSocket.accept();
 						m_inputStream = m_clientSocket.getInputStream();
 						m_outputStream = m_clientSocket.getOutputStream();
 						m_printStream = new PrintStream(m_outputStream);
@@ -322,11 +325,7 @@ public class Network
 					
 					Logger.log("Network", 2, "Host connected");
 					
-					synchronized(m_networkReceiver)
-					{
-
-						Logger.log("Network", 2, "m_printStream = " + m_printStream);
-					}
+					m_networkReceiver.connected();
 					
 					do
 					{
@@ -349,6 +348,12 @@ public class Network
 					Logger.log("Network", 3, "Host network error: " + ex);
 					
 					closeConnection();
+
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+
+					}
 				}
 			}
 		}

@@ -23,31 +23,37 @@ public class ParadoxField {
     }
 
     // Returns the FRC angle from the Paradox angle
-    public static Rotation2d Rotation2dFromParadox(Rotation2d angle) {
+    public static Rotation2d rotation2dFromParadox(Rotation2d angle) {
         return Rotation2d.fromDegrees(normalizeAngle(angle.getDegrees() - 90));
     }
 
     // Returns the FRC angle from the Paradox angle in degrees
-    public static Rotation2d Rotation2dFromParadoxAngle(double angleInDegrees)
+    public static Rotation2d rotation2dFromParadoxAngle(double angleInDegrees)
     {
         return Rotation2d.fromDegrees(normalizeAngle(angleInDegrees - 90));
     }
 
     // Returns the Paradox angle from FRC angle
-    public static Rotation2d Rotation2dFromFRC(Rotation2d angle) {
+    public static Rotation2d rotation2dFromFRC(Rotation2d angle) {
         return Rotation2d.fromDegrees(normalizeAngle(angle.getDegrees() + 90));
     }
 
-    // Returns the FRC Pose2d (in meters) from the paradox x, y (in feet), and angle (in degrees)
-    public static Pose2d Pos2dFromParadox(double x, double y, double angleInDegrees)
+    // Returns the FRC Pose2d (in meters) from the paradox Pose2d (in feet)
+    public static Pose2d pose2dFromParadox(Pose2d pos)
     {
-        return new Pose2d(y / k_feetPerMeter, -x / k_feetPerMeter, Rotation2dFromParadoxAngle(angleInDegrees));
+        return pose2dFromParadox(pos.getX(), pos.getY(), pos.getRotation().getDegrees());
+    }
+
+    // Returns the FRC Pose2d (in meters) from the paradox x, y (in feet), and angle (in degrees)
+    public static Pose2d pose2dFromParadox(double x, double y, double angleInDegrees)
+    {
+        return new Pose2d(y / k_feetPerMeter, -x / k_feetPerMeter, rotation2dFromParadoxAngle(angleInDegrees));
     }
 
     // Returns the Paradox Pose2d (in feet) from the FRC Pose2d (in meters)
-    public static Pose2d pos2dFromFRC(Pose2d pos)
+    public static Pose2d pose2dFromFRC(Pose2d pos)
     {
-        return new Pose2d(-pos.getY() * k_feetPerMeter, pos.getX() * k_feetPerMeter, Rotation2dFromFRC(pos.getRotation()));
+        return new Pose2d(-pos.getY() * k_feetPerMeter, pos.getX() * k_feetPerMeter, rotation2dFromFRC(pos.getRotation()));
     }
 
     // Returns the Paradox distance (in feet) from the FRC distance (in meters)
