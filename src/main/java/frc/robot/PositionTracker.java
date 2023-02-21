@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 
 // import frc.lib.CSVWriter;
@@ -69,8 +70,8 @@ public class PositionTracker implements Tracker {
 		}
 	}
 	public void update(){
-		m_poseEstimator.update(ParadoxField.rotation2dFromParadoxAngle(getAngle()), 
-		ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
-		ParadoxField.distanceFromParadox(getRightEncoderPos()));
+		m_poseEstimator.updateWithTime(ApriltagsCamera.getTime(), ParadoxField.rotation2dFromParadoxAngle(getAngle()), 
+										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
+										ParadoxField.distanceFromParadox(getRightEncoderPos()));
 	} 
 }
