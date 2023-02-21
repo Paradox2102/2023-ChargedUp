@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import frc.ApriltagsCamera.ApriltagLocation;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 
@@ -24,6 +25,10 @@ public class PositionTracker implements Tracker {
 	public PositionContainer getPos() {
 		Pose2d pose = ParadoxField.pose2dFromFRC(m_poseEstimator.getEstimatedPosition());
 		return new PositionContainer(pose.getX(), pose.getY());
+	}
+
+	public Pose2d getPose2d() {
+		return ParadoxField.pose2dFromFRC(m_poseEstimator.getEstimatedPosition());
 	}
 
 	public void setXYAngle(double x, double y, double angleInDegrees) {
@@ -69,9 +74,15 @@ public class PositionTracker implements Tracker {
 			this.y = y;
 		}
 	}
-	public void update(){
+
+	ApriltagLocation tags[] = { new ApriltagLocation(1, 0, 0, -90) }; 
+	
+	public void update(ApriltagsCamera frontCamera){
+
 		m_poseEstimator.updateWithTime(ApriltagsCamera.getTime(), ParadoxField.rotation2dFromParadoxAngle(getAngle()), 
 										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
+
+		frontCamera.processRegions(m_poseEstimator, tags);
 	} 
 }

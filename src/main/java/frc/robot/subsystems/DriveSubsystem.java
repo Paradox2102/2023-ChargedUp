@@ -12,16 +12,15 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.ApriltagsCamera.ApriltagLocation;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.pathfinder.Pathfinder.Path;
 import frc.robot.Constants;
 import frc.robot.LocationTracker;
 import frc.robot.Navigator;
+import frc.robot.ParadoxField;
 import frc.robot.PositionTracker;
 import frc.robot.PurePursuit;
 import frc.robot.Sensor;
@@ -32,7 +31,6 @@ public class DriveSubsystem extends SubsystemBase {
   WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
   LocationTracker m_tracker = new LocationTracker();
   private final Field2d m_field = new Field2d();
-  private DifferentialDrivePoseEstimator m_poseEstimator; 
   AprilTagFieldLayout m_tags;
   public PurePursuit m_pursuitFollower;
 
@@ -93,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity() , m_gyro);
     m_posTracker = new PositionTracker(0, 0, m_sensors);
     m_navigator = new Navigator(m_posTracker);
-    m_navigator.reset(90, 0, 0);
+    m_navigator.reset(0, 0, 0);
     m_pursuitFollower = new PurePursuit(m_navigator, (l, r) -> setSpeedFPS(l, r), 20);
     m_pursuitFollower.enableLogging("/home/lvuser/logs");
   
@@ -107,6 +105,10 @@ public class DriveSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Right Speed", rightSpeed);
 		  SmartDashboard.putNumber("Left Speed", leftSpeed);
     }
+  }
+
+  public PositionTracker getTracker() {
+    return m_posTracker;
   }
 
   public void setSpeedFPS(double leftSpeed, double rightSpeed)
@@ -142,6 +144,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void endPath() {
     m_pursuitFollower.stopFollow();
+  }
+
+  public double findTargetAngle(double x0, double y0) {
+    double y = m_posTracker.getPose2d().getY() - y0;
+    double x = x0 - m_posTracker.getPose2d().getX();
+    double m_targetAngle = -Math.atan2(y, x);
+    SmartDashboard.putNumber("Target Angle", Math.toDegrees(m_targetAngle));
+    return m_targetAngle;
   }
 
   public boolean isPathFinished() {
@@ -180,8 +190,6 @@ public class DriveSubsystem extends SubsystemBase {
     return m_sensors;
   } 
 
-  ApriltagLocation tags[] = { new ApriltagLocation(1, 0, 0, -90) }; 
-
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Left Pos", m_leftDrive.getSelectedSensorPosition() * Constants.k_feetPerTick);
@@ -193,13 +201,12 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Vel (feet)", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Gyro Yaw", m_gyro.getAngle());
     SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
-    SmartDashboard.putNumber("Navigator Angle", m_navigator.getPos().yaw);
+    SmartDashboard.putNumber("Navigator Angle", ParadoxField.normalizeAngle(m_posTracker.getPose2d().getRotation().getDegrees()));
 
     m_field.setRobotPose(m_navigator.getPose2d());
 
-    m_posTracker.update();
-
-    m_frontCamera.processRegions(m_poseEstimator, tags); 
+    m_posTracker.update(m_frontCamera);
+ 
     // m_backCamera.processRegions(m_poseEstimator, tags); 
   }
 }
