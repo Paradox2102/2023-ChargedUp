@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -24,6 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private TalonSRX m_leftIntakeMotor, m_rightIntakeMotor;
   private Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_claw);
   private PowerDistribution m_powerDistribution = new PowerDistribution();
+  private CANSparkMax m_openCloseMotor; //Motor for opening new intake 
   // Digital Input Limit switch for the IntakeSubsystem 
   
   /** Creates a new IntakeSubsystem. */
@@ -32,6 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
     m_leftIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute); 
+    m_openCloseMotor = new CANSparkMax(Constants.k_openCloseMotor, MotorType.kBrushless); //New intake motor 
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
     m_rightIntakeMotor.setInverted(true);
@@ -58,6 +62,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setClaw(boolean closed) {
     m_brake.set(closed);
+  }
+
+  public void setOpenClosePower(double power) {
+    m_openCloseMotor.set(power);
   }
 
   public void stop() {

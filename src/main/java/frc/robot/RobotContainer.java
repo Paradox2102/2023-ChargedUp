@@ -16,6 +16,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.ManualWristCommand;
+import frc.robot.commands.OpenCloseIntakeCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
@@ -158,6 +159,8 @@ public class RobotContainer {
    //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
     m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
     m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));
+    // m_stick2.button(8).whileTrue(new OpenCloseIntakeCommand(m_intakeSubsystem, .1)); //May need to reverse
+    // m_stick2.button(10).whileTrue(new OpenCloseIntakeCommand(m_intakeSubsystem, -.1)); //may need ot reverese
     m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
     // m_stick2.button(6).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
     // m_stick2.button(8).toggleOnTrue(new ManualWristCommand(m_armSubsystem, 0, () -> m_stick2.getX())); 
