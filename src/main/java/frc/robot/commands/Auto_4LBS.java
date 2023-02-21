@@ -71,7 +71,7 @@ public class Auto_4LBS extends CommandBase {
     if (Math.abs(m_currentRobotPos) - Math.abs(m_startingRobotPos) >= 3.5 && m_grabbingGamePiece) {
       m_startingRobotPos = m_currentRobotPos;
       m_driveSubsystem.setSpeedFPS(-3, -3);
-      m_armSubsystem.moveToAngle(95);
+      m_armSubsystem.moveToAngle(110);
       m_startEngage = true;
       m_grabbingGamePiece = false;
     }
