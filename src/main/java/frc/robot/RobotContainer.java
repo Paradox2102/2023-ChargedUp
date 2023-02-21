@@ -9,14 +9,12 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Auto_4LBS;
 import frc.robot.commands.CalibrateDrive;
-import frc.robot.commands.DisableArmCommand;
 import frc.robot.commands.Drive10Ft;
 import frc.robot.commands.Auto_4LS;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.ManualWristCommand;
-import frc.robot.commands.OpenCloseIntakeCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
@@ -47,7 +45,8 @@ public class RobotContainer {
 
   // Variables that will be passed into commands and subsystems
   public AprilTagFieldLayout m_tags;
-  public final ApriltagsCamera m_camera = new ApriltagsCamera(12, 0, 0);
+  public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(-6, 0, 0);
+  public final ApriltagsCamera m_backCamera = null; 
 
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem;
@@ -76,9 +75,10 @@ public class RobotContainer {
     } catch (IOException e) {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }
-    m_camera.connect("10.21.2.10", 5800);
+    m_frontCamera.connect("10.21.2.10", 5800);
+    // m_backCamera.connect(); 
 
-    m_driveSubsystem = new DriveSubsystem(m_camera, m_tags);
+    m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
 
     // Choose which Joystick Driver 1 wants
     if (Constants.k_xboxController) {

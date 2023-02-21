@@ -12,9 +12,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.ApriltagsCamera.ApriltagLocation;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.pathfinder.Pathfinder.Path;
 import frc.robot.Constants;
@@ -25,10 +27,12 @@ import frc.robot.PurePursuit;
 import frc.robot.Sensor;
 
 public class DriveSubsystem extends SubsystemBase {
-  ApriltagsCamera m_camera;
+  ApriltagsCamera m_frontCamera;
+  ApriltagsCamera m_backCamera; 
   WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(0);
   LocationTracker m_tracker = new LocationTracker();
   private final Field2d m_field = new Field2d();
+  private DifferentialDrivePoseEstimator m_poseEstimator; 
   AprilTagFieldLayout m_tags;
   public PurePursuit m_pursuitFollower;
 
@@ -54,9 +58,10 @@ public class DriveSubsystem extends SubsystemBase {
   private PositionTracker m_posTracker;
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem(ApriltagsCamera camera, AprilTagFieldLayout tags) {
+  public DriveSubsystem(ApriltagsCamera frontCamera, ApriltagsCamera backCamera, AprilTagFieldLayout tags) {
     SmartDashboard.putData("Field", m_field);
-    m_camera = camera;
+    m_frontCamera = frontCamera;
+    m_backCamera = backCamera; 
     m_tags = tags;
     m_gyro.reset();
     SmartDashboard.putNumber("True X", 0);
@@ -175,6 +180,8 @@ public class DriveSubsystem extends SubsystemBase {
     return m_sensors;
   } 
 
+  ApriltagLocation tags[] = { new ApriltagLocation(1, 0, 0, -90) }; 
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Left Pos", m_leftDrive.getSelectedSensorPosition() * Constants.k_feetPerTick);
@@ -191,5 +198,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_field.setRobotPose(m_navigator.getPose2d());
 
     m_posTracker.update();
+
+    m_frontCamera.processRegions(m_poseEstimator, tags); 
+    // m_backCamera.processRegions(m_poseEstimator, tags); 
   }
 }

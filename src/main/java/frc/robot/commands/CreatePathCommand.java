@@ -17,7 +17,7 @@ public class CreatePathCommand extends CommandBase {
   private boolean m_setPosition; 
   private boolean m_reversed; 
   private String m_name; 
-  private PurePursuitData m_data; 
+  // private PurePursuitData m_data; 
   private Path m_path; 
   private static final int k_nPoints = 1000; 
   private static final double k_dt = 0.02; 
@@ -30,7 +30,7 @@ public class CreatePathCommand extends CommandBase {
     m_setPosition = setPosition; 
     m_reversed = reversed; 
     m_name = name; 
-    m_data = data;
+    // m_data = data;
 
     m_path = Pathfinder.computePath(waypoints, k_nPoints, k_dt, data.k_maxSpeed, data.k_maxAccel, data.k_maxDecl, data.k_maxJerk, k_wheelbase);
     m_path.setLookAheadTime(lookAheadTime);
