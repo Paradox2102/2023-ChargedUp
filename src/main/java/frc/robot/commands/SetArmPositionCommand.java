@@ -29,5 +29,6 @@ public class SetArmPositionCommand extends InstantCommand {
   @Override
   public void initialize() {
     m_armSubsystem.moveToAngle(m_armAngle); 
+    Logger.log("SetArmPositionCommand", 1, "initialize");
   }
 }
