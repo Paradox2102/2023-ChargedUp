@@ -20,7 +20,7 @@ public class SetArmZeroCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("SetArmZeroCommand"); 
+    Logger.log("SetArmZeroCommand", 1, "initialize"); 
     m_armSubsystem.storeArmZeroReference();
   }
 
