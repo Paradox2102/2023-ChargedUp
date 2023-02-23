@@ -20,7 +20,7 @@ public class SetBrakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("SetBrakeCommand; on");
+    Logger.log("SetBrakeCommand", 1, "initialize");
     m_armSubsystem.setArmBrake(true);
 
   }
@@ -32,7 +32,7 @@ public class SetBrakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("SetBrakeCommand; off");
+    Logger.log("SetBrakeCommand", 1, "end");
     m_armSubsystem.setArmBrake(false);
   }
 
