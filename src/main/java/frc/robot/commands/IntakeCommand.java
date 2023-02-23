@@ -21,6 +21,7 @@ public class IntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("IntakeCommand", 1, "initialize");
     // if (!m_claw) {
       m_subsystem.setPower(m_power);
     // }
@@ -33,6 +34,7 @@ public class IntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("IntakeCommand", 1, "end");
     m_subsystem.setPower(0);
   }
 

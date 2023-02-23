@@ -23,9 +23,8 @@ public class CalibrateDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize(
-
-  ) {
+  public void initialize() {
+    Logger.log("CalibrateDrive", 1, "initialize");
     //m_subsystem.setPower(0.5, 0.5);
     //m_subsystem.setSpeed(4000, 4000);
     m_subsystem.setSpeedFPS(5, 5);
@@ -41,6 +40,7 @@ public class CalibrateDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("CalibrateDrive", 1, "end");
     m_subsystem.setPower(0,0);
   }
 

@@ -21,6 +21,7 @@ public class OpenCloseIntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("OpenCloseIntakeCommand", 1, "initialize");
     m_intakeSubsystem.setOpenClosePower(m_power); 
   }
 
@@ -31,6 +32,7 @@ public class OpenCloseIntakeCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("OpenCloseIntakeCommand", 1, "end");
     m_intakeSubsystem.setOpenClosePower(m_power); 
   }
 
