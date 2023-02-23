@@ -42,6 +42,7 @@ public class SetArmPositionExtent extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("SetArmPositionExtent", 1, "initialize");
     m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees + 5); 
   }
 
@@ -62,6 +63,7 @@ public class SetArmPositionExtent extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("SetArmPositionExtent", 1, "end");
     m_armSubsystem.enable(false);
   }
 
