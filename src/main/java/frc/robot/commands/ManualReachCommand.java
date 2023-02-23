@@ -21,6 +21,7 @@ public class ManualReachCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("ManualReachCommand", 1, "initialize");
     m_subsystem.setPower(m_power);
   }
 
@@ -31,6 +32,7 @@ public class ManualReachCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("ManualReachCommand", 1, "end");
     m_subsystem.setPower(0);
   }
 
