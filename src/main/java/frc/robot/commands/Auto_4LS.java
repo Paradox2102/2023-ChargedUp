@@ -32,6 +32,7 @@ public class Auto_4LS extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("Auto_4LS", 1, "initialize");
     m_armSubsystem.moveToAngle(-100);
     m_intakeSubsystem.setClaw(true);
     m_driveSubsystem.resetEncoders();
@@ -59,6 +60,7 @@ public class Auto_4LS extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("Auto_4LS", 1, "end");
     m_driveSubsystem.stop();
     m_intakeSubsystem.setClaw(false);
   }
