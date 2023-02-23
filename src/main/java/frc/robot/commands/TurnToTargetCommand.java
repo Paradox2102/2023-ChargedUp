@@ -32,6 +32,7 @@ public class TurnToTargetCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("TurnToTargetCommand", 1, "initialize");
     // double beta = Math.atan2(m_tracker.getPose2d().getY() - m_target[1], m_tracker.getPose2d().getX() - m_target[0]);
     //double robotAngle = m_tracker.getPose2d().getRotation().getRadians();
   }
@@ -50,6 +51,7 @@ public class TurnToTargetCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("TurnToTargetCommand", 1, "end");
     m_subsystem.stop();
   }
 
