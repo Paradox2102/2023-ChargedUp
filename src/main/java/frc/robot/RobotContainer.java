@@ -27,8 +27,10 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 
 import java.io.IOException;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -64,6 +66,8 @@ public class RobotContainer {
   // Driver 2 Controller
   private final CommandJoystick m_stick2 = new CommandJoystick(1);
 
+  private final BooleanSupplier m_switchSides;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -81,6 +85,7 @@ public class RobotContainer {
     // m_backCamera.connect(); 
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
+    m_switchSides = () -> m_stick2.getThrottle() < 0;
 
     // Choose which Joystick Driver 1 wants
     if (Constants.k_xboxController) {
@@ -144,17 +149,17 @@ public class RobotContainer {
     m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
 
     // Set arm to opposite battery pick up
-    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 3, -110, () -> m_stick2.getThrottle() > 0));
+    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 3, -110, m_switchSides));
     // Set Arm to mid cone node/high cube node
-    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 15, -60, () -> m_joystick1.getThrottle() > 0));
+    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 15, -60, m_switchSides));
     // Set arm to mid cube node
-    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -75, () -> m_stick2.getThrottle() > 0));
+    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -75, m_switchSides));
     // Set Arm to last cone node opposite battery side
     // m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 26, -55, () -> m_joystick1.getThrottle() > 0)); //-60 
     // Set Arm to human player station opposite battery side
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, -60, () -> m_stick2.getThrottle() > 0)); // 14
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -60, m_switchSides)); // 14
     // Straight up, retract arm
-    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, 0, () -> m_stick2.getThrottle() > 0));
+    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 0, 0, m_switchSides));
 
     // m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
     // m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -120, -163));
