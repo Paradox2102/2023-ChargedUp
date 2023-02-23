@@ -18,6 +18,7 @@ public class ManualClawCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("ManualClawCommand", 1, "initialize");
     m_subsystem.setClaw(true);
   }
 
@@ -28,6 +29,7 @@ public class ManualClawCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Logger.log("ManualClawCommand", 1, "end");
     m_subsystem.setClaw(false);
   }
 
