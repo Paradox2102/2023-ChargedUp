@@ -72,7 +72,11 @@ public final class Constants {
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;
   public static final double k_armF = 0.004;
-  
+  public static final double k_armTicksToDegrees = 6;
+  public static final double k_armStartingAngle = 0;
+  public static final double k_maxArmPower = 0.5;
+  public static final double k_armDeadZoneInDegrees = 5;
+  public static final double k_brakeEngageTime = 0.1;
 
   public static class OperatorConstants {}
 

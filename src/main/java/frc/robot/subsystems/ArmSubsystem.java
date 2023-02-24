@@ -40,7 +40,6 @@ public class ArmSubsystem extends SubsystemBase {
   // Encoders
   RelativeEncoder m_armEncoder = m_arm.getEncoder();
   RelativeEncoder m_wristEncoder = m_wrist.getEncoder();
-  private final double k_armTicksToDegrees = 6;
   private final double k_wristTicksToDegrees = 0.325;
 
   // Limit Switches
@@ -58,16 +57,12 @@ public class ArmSubsystem extends SubsystemBase {
   // Constants.k_rightArmBrake);
   Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_armBrake);
 
-  private final double k_armStartingAngle = 0;
   private final double k_wristStartingAngle = 0;
-
-  private final double k_armDeadZoneInDegrees = 5;
-  private final double k_maxArmPower = 0.5;
 
   private final double k_wristDeadZoneInDegrees = 2;
 
   // Set arm angle member variables
-  private double m_armTargetAngleInDegrees = k_armStartingAngle;
+  private double m_armTargetAngleInDegrees = Constants.k_armStartingAngle;
   private double m_wristTargetAngleInDegrees = k_wristStartingAngle;
 
   // Arm PID
@@ -92,7 +87,6 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_isEnabled = false;
 
   // Time for brakes to engage
-  private final double k_brakeEngageTime = 0.1;
   private Timer m_brakeTimer = new Timer();
   private boolean m_wasOnTarget = false;
 
@@ -134,7 +128,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_wristReverseLimit.enableLimitSwitch(true);
 
     // Convert ticks to degrees
-    m_armEncoder.setPositionConversionFactor(k_armTicksToDegrees);
+    m_armEncoder.setPositionConversionFactor(Constants.k_armTicksToDegrees);
     m_wristEncoder.setPositionConversionFactor(1.0 / k_wristTicksToDegrees);
   }
 
@@ -185,7 +179,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Run this in the beginning
   public void resetAngles() {
-    setWristAngle(k_armStartingAngle);
+    setWristAngle(Constants.k_armStartingAngle);
     // setArmAngle(k_wristStartingAngle);
   }
 
@@ -237,7 +231,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void applyArmPower() {
     double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
-    armPower = Math.abs(armPower) > k_maxArmPower ? k_maxArmPower * Math.signum(armPower) : armPower;
+    armPower = Math.abs(armPower) > Constants.k_maxArmPower ? Constants.k_maxArmPower * Math.signum(armPower) : armPower;
     m_arm.set(armPower);
     SmartDashboard.putNumber("Arm Power", armPower);
   }
@@ -245,7 +239,7 @@ public class ArmSubsystem extends SubsystemBase {
   private void runPID() {
     if (m_wasOnTarget) {
       if (isArmOnTarget()) {
-        if (m_brakeTimer.get() > k_brakeEngageTime) {
+        if (m_brakeTimer.get() > Constants.k_brakeEngageTime) {
           m_arm.set(0);
           SmartDashboard.putNumber("Arm Power", 0);
         } else {
@@ -281,7 +275,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isArmOnTarget() {
-    return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= k_armDeadZoneInDegrees;
+    return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees;
   }
 
   public boolean isWristOnTarget() {
