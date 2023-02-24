@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 
@@ -32,8 +33,8 @@ public class SetArmPositionExtent extends CommandBase {
     if (m_extentInInches < 0) {
       m_extentInInches = 0;
     }
-    else if (m_extentInInches > ReachSubsystem.k_maxArmLength) {
-      m_extentInInches = ReachSubsystem.k_maxArmLength; 
+    else if (m_extentInInches > Constants.k_maxArmLength) {
+      m_extentInInches = Constants.k_maxArmLength; 
     }
 
     // Use addRequirements() here to declare subsystem dependencies.

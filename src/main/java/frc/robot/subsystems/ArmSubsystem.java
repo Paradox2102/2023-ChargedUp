@@ -221,7 +221,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmFeedforward() {
     // double length = m_reachSubsystem.getExtentInInches();
-    double length = ReachSubsystem.k_minArmLength + m_reachSubsystem.getExtentInInches(); // inches
+    double length = Constants.k_minArmLength + m_reachSubsystem.getExtentInInches(); // inches
     return -Constants.k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
   }
 

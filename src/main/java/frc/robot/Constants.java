@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.io.File;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -53,7 +55,7 @@ public final class Constants {
   public static final double k_wheelBase = 2.04;
   public static final double k_startAngleDegrees = -90;
   
-  //Arm positions for practice robot
+  //Arm positions
   public static final double k_groundPickupExtent = 3;
   public static final double k_groundPickupAngle = -110;
   public static final double k_midConeNodeExtent = 15;
@@ -77,6 +79,25 @@ public final class Constants {
   public static final double k_maxArmPower = 0.5;
   public static final double k_armDeadZoneInDegrees = 5;
   public static final double k_brakeEngageTime = 0.1;
+
+  //Drive constants
+  public static final double k_driveP = 0.08;
+  public static final double k_driveI = 0.0001; 
+  public static final double k_driveF = 0.045;
+  public static final double k_DriveIZone = 300; 
+  public static final int k_timeout = 30; 
+
+  //Reach constants
+  public static final double k_minArmLength = 22; 
+  public static final double k_maxArmLength = 26.375; 
+  public static final double k_reachTicksPerInch = 133514 / 26.375;
+
+  public Constants() {
+    File f = new File("/home/lvuser/practice"); 
+    if (!f.exists()) {
+      //this is where code for competition robot goes
+    }
+  }
 
   public static class OperatorConstants {}
 

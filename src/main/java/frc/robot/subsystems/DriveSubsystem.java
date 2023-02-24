@@ -35,12 +35,6 @@ public class DriveSubsystem extends SubsystemBase {
   public PurePursuit m_pursuitFollower;
 
   // private final double k_maxSpeed = 20000; 
-  private final double k_p = 0.08;
-  private final double k_i = 0.0001; 
-  private final double k_f = 0.045;
-
-  private final double k_iZone = 300; 
-  private final int k_timeout = 30; 
   // private final double k_rampTimeSeconds = .25;
 
   Object m_setlock = new Object();
@@ -79,14 +73,14 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftFollower.setInverted(true);
 
     // Set PID values
-    m_leftDrive.config_kF(0, k_f, k_timeout); 
-    m_leftDrive.config_kP(0, k_p, k_timeout);
-    m_leftDrive.config_kI(0, k_i, k_timeout);
-    m_leftDrive.config_IntegralZone(0, k_iZone, k_timeout);
-    m_rightDrive.config_kF(0, k_f, k_timeout); 
-    m_rightDrive.config_kP(0, k_p, k_timeout);
-    m_rightDrive.config_kI(0, k_i, k_timeout);
-    m_rightDrive.config_IntegralZone(0, k_iZone, k_timeout);
+    m_leftDrive.config_kF(0, Constants.k_driveF, Constants.k_timeout); 
+    m_leftDrive.config_kP(0, Constants.k_driveP, Constants.k_timeout);
+    m_leftDrive.config_kI(0, Constants.k_driveI, Constants.k_timeout);
+    m_leftDrive.config_IntegralZone(0, Constants.k_DriveIZone, Constants.k_timeout);
+    m_rightDrive.config_kF(0, Constants.k_driveF, Constants.k_timeout); 
+    m_rightDrive.config_kP(0, Constants.k_driveP, Constants.k_timeout);
+    m_rightDrive.config_kI(0, Constants.k_driveI, Constants.k_timeout);
+    m_rightDrive.config_IntegralZone(0, Constants.k_DriveIZone, Constants.k_timeout);
 
     m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity() , m_gyro);
     m_posTracker = new PositionTracker(0, 0, m_sensors);

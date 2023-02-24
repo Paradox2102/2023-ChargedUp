@@ -14,15 +14,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ReachSubsystem extends SubsystemBase {
-  TalonFX m_reachMotor = new TalonFX(Constants.k_reachMotor);
-  private static final double k_ticsPerInch = 133514 / 26.375;
+  TalonFX m_reachMotor = new TalonFX(Constants.k_reachMotor); 
   DigitalInput m_topSwitch = new DigitalInput(Constants.k_topSwitch);
   DigitalInput m_bottomSwitch = new DigitalInput(Constants.k_bottomSwitch);
 
   private double m_armZero; 
-
-  public static double k_minArmLength = 22; 
-  public static double k_maxArmLength = 26.375; 
 
   private double m_power;
 
@@ -41,7 +37,7 @@ public class ReachSubsystem extends SubsystemBase {
 
   public double getExtentInInches() {
     double rawPosition = m_reachMotor.getSelectedSensorPosition() - m_armZero;
-    return rawPosition / k_ticsPerInch;
+    return rawPosition / Constants.k_reachTicksPerInch;
   }
 
   public void setBrakeMode(boolean brake){

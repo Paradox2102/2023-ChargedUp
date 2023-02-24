@@ -52,6 +52,8 @@ public class RobotContainer {
   public final ApriltagsCamera m_backCamera = null; 
 
   // The robot's subsystems and commands are defined here...
+  @SuppressWarnings("unused")
+  private final Constants m_constants = new Constants();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
