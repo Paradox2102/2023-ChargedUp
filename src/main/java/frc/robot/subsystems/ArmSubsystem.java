@@ -71,13 +71,13 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_wristTargetAngleInDegrees = k_wristStartingAngle;
 
   // Arm PID
-  private final double k_armP = 0.01; //started at .05
-  private final double k_armI = 0; // 0.003
-  private final double k_armD = 0.002; //started at .006
-  PIDController m_armPID = new PIDController(k_armP, k_armI, k_armD);
+  //private final double k_armP = 0.01; //started at .05
+  //private final double k_armI = 0; // 0.003
+  //private final double k_armD = 0.002; //started at .006
+  PIDController m_armPID = new PIDController(Constants.k_armP, Constants.k_armI, Constants.k_armD);
   // ProfiledPIDController m_armPID = new ProfiledPIDController(k_armP, k_armI,
   // k_armD, new TrapezoidProfile.Constraints(450, 200));
-  private final double k_armF = .004;
+  //private final double k_armF = .004;
 
   // Wrist PID
   private final double k_wristP = 0.04;
@@ -203,8 +203,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getArmAngleDegrees() {
-    // return m_armEncoder.getPosition() - m_armZero;
-    return -MathUtil.normalizeDegrees(m_intakeSubsystem.getMagEncoderPosition() * 0.0883 - 288.96);
+    // return m_armEncoder.getPosition() - m_armZero; slope (degrees per tick)- intercept(0 point in degrees)
+    return -MathUtil.normalizeDegrees(m_intakeSubsystem.getMagEncoderPosition() * Constants.k_armDegreesPerTick - Constants.k_armZeroPoint);
   }
 
   // Set arm angle to limit switch
@@ -228,7 +228,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double getArmFeedforward() {
     // double length = m_reachSubsystem.getExtentInInches();
     double length = ReachSubsystem.k_minArmLength + m_reachSubsystem.getExtentInInches(); // inches
-    return -k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
+    return -Constants.k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
   }
 
   public double getWristFeedforward() {

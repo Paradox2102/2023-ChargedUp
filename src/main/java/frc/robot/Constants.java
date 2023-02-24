@@ -53,5 +53,27 @@ public final class Constants {
   public static final double k_wheelBase = 2.04;
   public static final double k_startAngleDegrees = -90;
   
+  //Arm positions for practice robot
+  public static final double k_groundPickupExtent = 3;
+  public static final double k_groundPickupAngle = -110;
+  public static final double k_midConeNodeExtent = 15;
+  public static final double k_midConeNodeAngle = -60;
+  public static final double k_midCubeNodeExtent = 6;
+  public static final double k_midCubeNodeAngle = -75;
+  public static final double k_humanPlayerStationExtent = 6;
+  public static final double k_humanPlayerStationAngle = -60;
+  public static final double k_straightUpExtent = 0;
+  public static final double k_straightUpAngle = 0;
+
+  //Arm constants
+  public static final double k_armDegreesPerTick = 0.0883;
+  public static final double k_armZeroPoint = 288.96;
+  public static final double k_armP = 0.01;
+  public static final double k_armI = 0;
+  public static final double k_armD = 0.002;
+  public static final double k_armF = 0.004;
+  
+
   public static class OperatorConstants {}
+
 }
