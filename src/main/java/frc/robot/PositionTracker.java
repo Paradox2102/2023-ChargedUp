@@ -87,6 +87,6 @@ public class PositionTracker implements Tracker {
 										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
 
-		frontCamera.processRegions(m_poseEstimator, tags);
+		frontCamera.processRegions(m_poseEstimator);
 	} 
 }

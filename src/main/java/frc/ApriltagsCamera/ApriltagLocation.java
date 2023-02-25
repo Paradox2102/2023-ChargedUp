@@ -5,6 +5,7 @@ public class ApriltagLocation {
 	public double m_xInches;
 	public double m_yInches;
 	public double m_targetAngleDegrees;
+	public int m_invalidCount = 0;
 
 	public ApriltagLocation(int tag, double x, double y, double angle) {
 		m_tag = tag;

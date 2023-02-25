@@ -3,7 +3,6 @@ package frc.ApriltagsCamera;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.ApriltagsCamera.Network.NetworkReceiver;
 
 public class PositionServer implements NetworkReceiver {
@@ -15,14 +14,14 @@ public class PositionServer implements NetworkReceiver {
     private boolean m_newPos = true;
     private Object m_lock = new Object();
     private Object m_recvLock = new Object();
-    private Gyro m_gyro;
+    // private Gyro m_gyro;
 
     double m_testX = 10*12;
     double m_testY = 0;
     double m_angle = 90;
 
-    public void start(Gyro gyro) {
-        m_gyro = gyro;
+    public void start() {
+        // m_gyro = gyro;
         m_network.listen(this, 5802);
 
         m_watchdogTimer.scheduleAtFixedRate(new TimerTask() {
@@ -44,12 +43,14 @@ public class PositionServer implements NetworkReceiver {
 
                     double xPos;
                     double yPos;
+                    double angle;
                     boolean newPos;
 
                     synchronized (m_lock)
                     {
                         xPos = m_xPos;
                         yPos = m_yPos;
+                        angle = m_angle;
                         newPos = m_newPos;
 
                         m_newPos = false;
@@ -57,7 +58,7 @@ public class PositionServer implements NetworkReceiver {
 
                     if (newPos)
                     {
-					    m_network.sendMessage(String.format("+%.2f %.2f %.2f\n", m_gyro.getAngle(), xPos, yPos));
+					    m_network.sendMessage(String.format("+%.2f %.2f %.2f\n", angle, xPos, yPos));
                     }
                     else
                     {
@@ -73,17 +74,20 @@ public class PositionServer implements NetworkReceiver {
 		}, 200, 200);   // Send current position 5 times a second
     }
 
-    public void setPosition(double x, double y) {
+    public void setPosition(double x, double y, double angle) {
         synchronized (m_lock) {
-            m_xPos = x;
-            m_yPos = y;
+            m_xPos = x * 12;
+            m_yPos = y * 12;
+            m_angle = angle;
             m_newPos = true;
         }
     }
 
+    boolean m_redAlliance;
+
     public void setAllianceColor(boolean red)
     {
-        m_network.sendMessage(String.format("c%c", red ? 'r' : 'b'));
+        m_redAlliance = red;
     }
 
     public class BezierData {
@@ -157,6 +161,43 @@ public class PositionServer implements NetworkReceiver {
         }
     }
 
+    public class Target
+    {
+        public int m_no;
+        public int m_level;
+        public double m_x;
+        public double m_y;
+        public double m_h;
+
+        Target(int no, int level, double x, double y, double h)
+        {
+            m_no = no;
+            m_level = level;
+            m_x = x;
+            m_y = y;
+            m_h = h;
+        }
+    }
+
+    private Target m_target = null;
+
+    private void processTarget(String target){
+        double[] arg = ApriltagsCamera.parseDouble(target, 5);
+
+        synchronized (m_lock)
+        {
+            m_target = new Target((int) arg[0], (int) arg[1], arg[2], arg[3], arg[4]);
+        }
+    }
+
+    public Target getTarget()
+    {
+        synchronized (m_lock)
+        {
+            return m_target;
+        }
+    }
+
     @Override
     public void processData(String data) {
         Logger.log("PositionServer", -1, String.format("Data: %s", data));
@@ -172,6 +213,10 @@ public class PositionServer implements NetworkReceiver {
 
             case 'E': // End
                 processEnd(data.substring(1).trim());
+                break;
+
+            case 'T':   // Target Info
+                processTarget(data.substring(1).trim());
                 break;
 
             case 'k':   // keep alive
@@ -201,6 +246,8 @@ public class PositionServer implements NetworkReceiver {
         Logger.log("PositionServer", 1, "connected");
 
         m_connected = true;
+
+        m_network.sendMessage(String.format("c%c", m_redAlliance? 'r' : 'b'));
     }
 
     @Override

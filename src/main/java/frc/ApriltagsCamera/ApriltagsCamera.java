@@ -106,15 +106,15 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 				/*
 		 * Finds the location of the tag with the specified ID
 		 */
-		ApriltagLocation findTag(ApriltagLocation[] tags, int tagId) {
-			for (int i = 0; i < tags.length; i++) {
-				if (tags[i].m_tag == tagId) {
-					return (tags[i]);
-				}
-			}
+		// ApriltagLocation findTag(ApriltagLocation[] tags, int tagId) {
+		// 	for (int i = 0; i < tags.length; i++) {
+		// 		if (tags[i].m_tag == tagId) {
+		// 			return (tags[i]);
+		// 		}
+		// 	}
 
-			return (null);
-		}
+		// 	return (null);
+		// }
 
 		// class Point
 		// {
@@ -147,10 +147,10 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 		 */
 		private void updatePosition(
 				DifferentialDrivePoseEstimator poseEstimator,
-				ApriltagLocation[] tags,
-				long captureTime) {
+				long captureTime,
+				Pose2d currentPose) {
 
-			ApriltagLocation tag = findTag(tags, m_tag);
+			ApriltagLocation tag = ApriltagLocations.findTag(m_tag);
 
 			if (tag != null) {
 				double cx = m_tvec[0];
@@ -166,17 +166,75 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 				double xPos = (tag.m_xInches + dx) / 12.0;
 				double yPos = (tag.m_yInches - dy) / 12.0;
 
+				// if ((xPos > -9) || (xPos < -10))
+				// {
+				// 	double xMin = m_corners[0][0];
+				// 	double xMax = m_corners[0][0];
+				// 	double yMin = m_corners[0][1];
+				// 	double yMax = m_corners[0][1];
+				// 	double width;
+				// 	double height;
+
+				// 	for (int i = 1 ; i < 4 ; i++)
+				// 	{
+				// 		if (m_corners[i][0] < xMin)
+				// 		{
+				// 			xMin = m_corners[i][0];
+				// 		}
+				// 		else if (m_corners[i][0] > xMax)
+				// 		{
+				// 			xMax = m_corners[i][0];
+				// 		}
+
+				// 		if (m_corners[i][1] < yMin)
+				// 		{
+				// 			yMin = m_corners[i][1];
+				// 		}
+				// 		else if (m_corners[i][1] > yMax)
+				// 		{
+				// 			yMax = m_corners[i][1];
+				// 		}
+				// 	}
+
+				// 	width = xMax - xMin;
+				// 	height = yMax - yMin;
+
+				// 	// Logger.log("ApriltagsCamera", 1, String.format("Aspect: %f/%f=%f", width, height, width / height));
+				// }
+
 				// Logger.log("ApriltagsCamera", 1, String.format("x=%f,y=%f,a=%f", xPos, yPos, m_angleInDegrees));
 
 				Pose2d pos = translatePos2d(xPos, yPos, Math.toRadians(m_angleInDegrees));
-				pos = ParadoxField.pose2dFromParadox(pos);
 
-				// Logger.log("ApriltagsCamera", 1, String.format("raw: b=%f,dx=%f,dy=%f,x=%f,y=%f,a=%f", Math.toDegrees(b), dx, dy, xPos, yPos, m_angleInDegrees));
-				// Logger.log("ApriltagsCamera", 1, String.format("add: x=%f,y=%f,a=%f,t=%f", pos.getX(), pos.getY(), pos.getRotation().getDegrees(), convertTime(captureTime)));
+				// Logger.log("ApriltagsCamera", 1, String.format("x=%f,y=%f,a=%f", pos.getX(), pos.getY(), m_angleInDegrees));
 
-				poseEstimator.addVisionMeasurement(pos,	convertTime(captureTime));
-				pos = ParadoxField.pose2dFromFRC(poseEstimator.getEstimatedPosition());
-				// Logger.log("ApriltagsCamera", 1, String.format("est: x=%f,y=%f,a=%f,t=%f", pos.getX(), pos.getY(), pos.getRotation().getDegrees(), convertTime(captureTime)));
+				double ex = pos.getX() - currentPose.getX();
+				double ey = pos.getY() - currentPose.getY(); 
+				boolean invalid;
+
+				if ((Math.abs(ex) > 1) || (Math.abs(ey) > 1))
+				{
+					invalid = tag.m_invalidCount < 20;
+					Logger.log("ApriltagsCamera", 1, String.format("Spurious tag: %f,%f invalid=%b", ex, ey, invalid));
+					tag.m_invalidCount++;
+				}
+				else
+				{
+					invalid = false;
+					tag.m_invalidCount = 0;
+				}
+
+				if (!invalid)
+				{
+					pos = ParadoxField.pose2dFromParadox(pos);
+
+					// Logger.log("ApriltagsCamera", 1, String.format("raw: b=%f,dx=%f,dy=%f,x=%f,y=%f,a=%f", Math.toDegrees(b), dx, dy, xPos, yPos, m_angleInDegrees));
+					// Logger.log("ApriltagsCamera", 1, String.format("add: x=%f,y=%f,a=%f,t=%f", pos.getX(), pos.getY(), pos.getRotation().getDegrees(), convertTime(captureTime)));
+
+					poseEstimator.addVisionMeasurement(pos,	convertTime(captureTime));
+					pos = ParadoxField.pose2dFromFRC(poseEstimator.getEstimatedPosition());
+					// Logger.log("ApriltagsCamera", 1, String.format("est: x=%f,y=%f,a=%f,t=%f", pos.getX(), pos.getY(), pos.getRotation().getDegrees(), convertTime(captureTime)));
+				}
 			}
 		}
 	}
@@ -643,15 +701,17 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 	int m_lastFrame = -1;
 	boolean m_logTags = true;
 
-	public void processRegions(DifferentialDrivePoseEstimator poseEstimator, ApriltagLocation[] tags) {
+	public void processRegions(DifferentialDrivePoseEstimator poseEstimator) {
 		ApriltagsCameraRegions regions = getRegions();
 
 		if ((regions != null) && (regions.m_frameNo != m_lastFrame)) {
 			m_lastFrame = regions.m_frameNo;
 
+			Pose2d currentPose = ParadoxField.pose2dFromFRC(poseEstimator.getEstimatedPosition());
+
 			for (ApriltagsCameraRegion region : regions.m_regions)
 			{
-				region.updatePosition(poseEstimator, tags, regions.m_captureTime);
+				region.updatePosition(poseEstimator, regions.m_captureTime, currentPose);
 			}
 
 			if (m_logTags) {
