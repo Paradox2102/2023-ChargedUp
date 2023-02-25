@@ -45,8 +45,8 @@ public final class Constants {
   public static final int k_armFollower = 4; // right
   public static final int k_armBrake = 1;
 
-  // Wrist
-  public static final int k_wristMotor = 1;
+  // Claw
+  public static final int k_clawMotor = 1;
   
   // Intake
   public static final int k_leftIntakeMotor = 3;
@@ -70,8 +70,8 @@ public final class Constants {
   public static final double k_straightUpAngle = 0;
 
   //Arm constants
-  public static final double k_armDegreesPerTick = 0.0883;
-  public static final double k_armZeroPoint = 288.96;
+  public static double k_armDegreesPerTick = 0.0883;
+  public static double k_armZeroPoint = 288.96;
   public static final double k_armP = 0.01;
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;
@@ -101,6 +101,8 @@ public final class Constants {
     if (!f.exists()) { //Competition
       //this is where code for competition robot goes
       k_isCompetition = true;
+      k_armDegreesPerTick = 0.0918;
+      k_armZeroPoint = 0.2142;
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice
       SmartDashboard.putString("Robot name", "Downfall");

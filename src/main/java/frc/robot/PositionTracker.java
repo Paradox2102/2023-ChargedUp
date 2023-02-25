@@ -33,7 +33,11 @@ public class PositionTracker implements Tracker {
 
 	public void setXYAngle(double x, double y, double angleInDegrees) {
 		Logger.log("PositionTracker", 1, String.format("x=%f, y=%f, angle=%f", x, y, angleInDegrees));
-		m_sensors.getGyro().setYaw(-angleInDegrees);
+		if (Constants.k_isCompetition) {
+			m_sensors.getGyro().setYaw(angleInDegrees);
+		} else {
+			m_sensors.getGyro().setYaw(-angleInDegrees);
+		}
 		m_poseEstimator.resetPosition(
 			ParadoxField.rotation2dFromParadoxAngle(angleInDegrees), 
 			ParadoxField.distanceFromParadox(m_sensors.getLeftEncoderPos()), 

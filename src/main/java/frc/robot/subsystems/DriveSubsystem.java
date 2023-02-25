@@ -164,8 +164,12 @@ public class DriveSubsystem extends SubsystemBase {
     return m_rightDrive.getSelectedSensorPosition() * Constants.k_feetPerTick;
   }
 
-  public double getRoll() {
-    return m_gyro.getRoll();
+  public double getPitch() {
+    if (Constants.k_isCompetition) {
+      return m_gyro.getPitch();
+    } else {
+      return m_gyro.getRoll();
+    }
   }
 
   public void setBrakeMode(boolean brake){

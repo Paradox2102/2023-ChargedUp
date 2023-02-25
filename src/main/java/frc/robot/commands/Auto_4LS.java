@@ -17,8 +17,8 @@ public class Auto_4LS extends CommandBase {
   ArmSubsystem m_armSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   private boolean m_tippedStation = false;
-  private double m_previousRobotRoll = 0;
-  private double m_currentRobotRoll = 0;
+  private double m_previousRobotPitch = 0;
+  private double m_currentRobotPitch = 0;
   /** Creates a new DriveStationAuto. */
   public Auto_4LS(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     m_driveSubsystem = driveSubsystem;
@@ -43,19 +43,19 @@ public class Auto_4LS extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     m_currentRobotRoll = m_driveSubsystem.getRoll();
+     m_currentRobotPitch = m_driveSubsystem.getPitch();
     if (m_driveSubsystem.getLeftPos() >= 7.5 || m_driveSubsystem.getRightPos() >= 7.5) {
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(.5, .5);
     }
-    if (m_tippedStation && m_currentRobotRoll < m_previousRobotRoll) {
+    if (m_tippedStation && m_currentRobotPitch < m_previousRobotPitch) {
       m_driveSubsystem.setSpeedFPS(1, 1);
 
     }
-    if (Math.abs(m_previousRobotRoll - m_currentRobotRoll) <= .5 && m_tippedStation) {
+    if (Math.abs(m_previousRobotPitch - m_currentRobotPitch) <= .5 && m_tippedStation) {
       m_driveSubsystem.stop();
     }
-    m_previousRobotRoll = m_currentRobotRoll;
+    m_previousRobotPitch = m_currentRobotPitch;
   }
 
   // Called once the command ends or is interrupted.

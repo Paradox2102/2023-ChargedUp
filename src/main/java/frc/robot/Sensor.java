@@ -43,6 +43,10 @@ public class Sensor implements SensorData{
 	public double getAngle() {
 		double[] data = new double[3];
 		m_gyro.getYawPitchRoll(data);
-		return - data[0];
+		if (Constants.k_isCompetition) {
+			return data[0];
+		} else {
+			return - data[0];
+		}
 	}
 }

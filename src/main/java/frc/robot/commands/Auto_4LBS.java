@@ -52,7 +52,7 @@ public class Auto_4LBS extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_currentRobotRoll = m_driveSubsystem.getRoll();
+    m_currentRobotRoll = m_driveSubsystem.getPitch();
     m_currentRobotPos = m_driveSubsystem.getLeftPos();
     // Grab cube
     // Crossed charge station?

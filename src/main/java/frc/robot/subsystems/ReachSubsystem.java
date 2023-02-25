@@ -79,7 +79,7 @@ public class ReachSubsystem extends SubsystemBase {
         power = 0;
       }
     }
-    m_reachMotor.set(ControlMode.PercentOutput, power);
+    // m_reachMotor.set(ControlMode.PercentOutput, power);
   }
   // ------------------------
 }

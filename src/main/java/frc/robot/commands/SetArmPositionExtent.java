@@ -45,7 +45,7 @@ public class SetArmPositionExtent extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("SetArmPositionExtent", 1, "initialize");
-    m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees + 5); 
+    m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
