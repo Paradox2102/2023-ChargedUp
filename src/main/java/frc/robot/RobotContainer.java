@@ -167,11 +167,11 @@ public class RobotContainer {
 
     // m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
    //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
-    m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .1, null));
-    m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.1, null));
+    m_stick2.button(8).whileTrue(new ManualWristCommand(m_armSubsystem, .3, null));
+    m_stick2.button(10).whileTrue(new ManualWristCommand(m_armSubsystem, -.3, null));
     // m_stick2.button(8).whileTrue(new OpenCloseIntakeCommand(m_intakeSubsystem, .1)); //May need to reverse
     // m_stick2.button(10).whileTrue(new OpenCloseIntakeCommand(m_intakeSubsystem, -.1)); //may need ot reverese
-    m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
+    // m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
     // m_stick2.button(6).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
     // m_stick2.button(8).toggleOnTrue(new ManualWristCommand(m_armSubsystem, 0, () -> m_stick2.getX())); 
     

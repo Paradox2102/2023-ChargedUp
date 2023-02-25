@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ManualWristCommand extends CommandBase {
@@ -25,6 +26,7 @@ public class ManualWristCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Logger.log("ManualWristCommand", 1, String.format("Initialize: power=%f", m_power));
     m_subsystem.setWristPower(m_power);
   }
 

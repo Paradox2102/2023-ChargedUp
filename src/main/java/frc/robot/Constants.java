@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.io.File;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -92,10 +94,16 @@ public final class Constants {
   public static final double k_maxArmLength = 26.375; 
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
+  public static boolean k_isCompetition = false;
+
   public Constants() {
     File f = new File("/home/lvuser/practice"); 
-    if (!f.exists()) {
+    if (!f.exists()) { //Competition
       //this is where code for competition robot goes
+      k_isCompetition = true;
+      SmartDashboard.putString("Robot name", "Updraft");
+    } else { //Practice
+      SmartDashboard.putString("Robot name", "Downfall");
     }
   }
 

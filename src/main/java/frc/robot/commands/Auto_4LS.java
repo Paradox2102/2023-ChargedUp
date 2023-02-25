@@ -35,7 +35,7 @@ public class Auto_4LS extends CommandBase {
   public void initialize() {
     Logger.log("Auto_4LS", 1, "initialize");
     m_armSubsystem.moveToAngle(-100);
-    m_intakeSubsystem.setClaw(true);
+    // m_intakeSubsystem.setClaw(true);
     m_driveSubsystem.resetEncoders();
     m_driveSubsystem.setSpeedFPS(3, 3);
   }
@@ -63,7 +63,7 @@ public class Auto_4LS extends CommandBase {
   public void end(boolean interrupted) {
     Logger.log("Auto_4LS", 1, "end");
     m_driveSubsystem.stop();
-    m_intakeSubsystem.setClaw(false);
+    // m_intakeSubsystem.setClaw(false);
   }
 
   // Returns true when the command should end.
