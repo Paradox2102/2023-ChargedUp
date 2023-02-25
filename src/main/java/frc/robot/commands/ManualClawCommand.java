@@ -20,7 +20,7 @@ public class ManualClawCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("ManualClawCommand", 1, "initialize");
-    // m_subsystem.setClaw(true);
+    m_subsystem.setClaw(IntakeSubsystem.ClawPosition.CONE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +31,7 @@ public class ManualClawCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.log("ManualClawCommand", 1, "end");
-    // m_subsystem.setClaw(false);
+    m_subsystem.setClaw(IntakeSubsystem.ClawPosition.OPEN);
   }
 
   // Returns true when the command should end.

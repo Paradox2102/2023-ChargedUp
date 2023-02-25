@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private Solenoid m_brake = new Solenoid(PneumaticsModuleType.REVPH, Constants.k_claw);
   private PowerDistribution m_powerDistribution = new PowerDistribution();
   private CANSparkMax m_openCloseMotor; //Motor for opening new intake 
-  enum ClawPosition {OPEN, CUBE, CONE}
+  public enum ClawPosition {OPEN, CUBE, CONE}
   // Digital Input Limit switch for the IntakeSubsystem 
   
   /** Creates a new IntakeSubsystem. */
@@ -62,13 +62,17 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setClaw(ClawPosition position) {
-    // if(Constants.k_isCompetition){
-    //   switch (position) {
-    //     case OPEN: 
-    //     break;
-    //   }
-    // }
-    // m_brake.set();
+    if(Constants.k_isCompetition){
+      switch (position) {
+        case OPEN: 
+        case CUBE:
+          m_brake.set(false);
+          break;
+        case CONE:
+          m_brake.set(true);
+          break;
+      }
+    }
   }
 
   public void setOpenClosePower(double power) {

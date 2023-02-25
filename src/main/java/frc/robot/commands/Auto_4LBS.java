@@ -44,7 +44,7 @@ public class Auto_4LBS extends CommandBase {
   public void initialize() {
     Logger.log("Auto_4LBS", 1, "initialize");
     m_armSubsystem.moveToAngle(-95);
-    // m_intakeSubsystem.setClaw(true);
+    m_intakeSubsystem.setClaw(IntakeSubsystem.ClawPosition.CONE);
     m_driveSubsystem.resetEncoders();
     m_driveSubsystem.setSpeedFPS(5, 5);
   }
@@ -63,7 +63,7 @@ public class Auto_4LBS extends CommandBase {
     if (m_crossedStation && Math.abs(m_currentRobotRoll) <= 2) {
       m_driveSubsystem.setSpeedFPS(4, 4);
       m_armSubsystem.moveToAngle(115);
-      // m_intakeSubsystem.setClaw(false);
+      m_intakeSubsystem.setClaw(IntakeSubsystem.ClawPosition.OPEN);
       m_intakeSubsystem.setPower(-.25);
       m_startingRobotPos = m_currentRobotPos;
       m_grabbingGamePiece = true;
