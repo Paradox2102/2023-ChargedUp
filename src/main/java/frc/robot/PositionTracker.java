@@ -3,9 +3,12 @@ package frc.robot;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.ApriltagsCamera.ApriltagLocation;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
+import frc.ApriltagsCamera.PositionServer;
 
 // import frc.lib.CSVWriter;
 // import frc.lib.CSVWriter.Field;
@@ -13,12 +16,14 @@ import frc.ApriltagsCamera.Logger;
 public class PositionTracker implements Tracker {
 	private SensorData m_sensors;
 	private DifferentialDrivePoseEstimator m_poseEstimator;
+	private PositionServer m_posServer;
 
 	public PositionTracker(double x, double y, SensorData sensor) {
 		m_sensors = sensor;
 		m_poseEstimator = new DifferentialDrivePoseEstimator(new DifferentialDriveKinematics(Constants.k_wheelBase),
 		ParadoxField.rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 
 		0, 0, ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees));
+		m_posServer = new PositionServer();
 	}
 	
 	
@@ -88,5 +93,21 @@ public class PositionTracker implements Tracker {
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
 
 		frontCamera.processRegions(m_poseEstimator);
+
+		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
+
+		Pose2d pos = m_poseEstimator.getEstimatedPosition();
+		pos = ParadoxField.pose2dFromFRC(pos);
+		SmartDashboard.putNumber("xPos", pos.getX());
+		SmartDashboard.putNumber("yPos", pos.getY());
+		SmartDashboard.putNumber("angle", pos.getRotation().getDegrees());
+		m_posServer.setPosition(pos.getX(), pos.getY(), pos.getRotation().getDegrees());
+
+		PositionServer.Target target = m_posServer.getTarget();
+		if (target != null) {
+		  SmartDashboard.putNumber("TargetX", target.m_x);
+		  SmartDashboard.putNumber("TargetY", target.m_y);
+		  SmartDashboard.putNumber("TargetH", target.m_h);
+		}
 	} 
 }
