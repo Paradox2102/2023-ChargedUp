@@ -16,7 +16,7 @@ import frc.ApriltagsCamera.PositionServer;
 public class PositionTracker implements Tracker {
 	private SensorData m_sensors;
 	private DifferentialDrivePoseEstimator m_poseEstimator;
-	private PositionServer m_posServer;
+	public PositionServer m_posServer;
 
 	public PositionTracker(double x, double y, SensorData sensor) {
 		m_sensors = sensor;

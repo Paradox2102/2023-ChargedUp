@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -12,10 +14,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.ApriltagsCamera;
+import frc.ApriltagsCamera.PositionServer;
 import frc.pathfinder.Pathfinder.Path;
 import frc.robot.Constants;
 import frc.robot.LocationTracker;
@@ -24,6 +28,7 @@ import frc.robot.ParadoxField;
 import frc.robot.PositionTracker;
 import frc.robot.PurePursuit;
 import frc.robot.Sensor;
+import frc.robot.PositionTracker.PositionContainer;
 
 public class DriveSubsystem extends SubsystemBase {
   ApriltagsCamera m_frontCamera;
@@ -140,12 +145,24 @@ public class DriveSubsystem extends SubsystemBase {
     m_pursuitFollower.stopFollow();
   }
 
-  public double findTargetAngle(double x0, double y0) {
-    double y = m_posTracker.getPose2d().getY() - y0;
-    double x = x0 - m_posTracker.getPose2d().getX();
+  public double computeTargetAngleDegrees(double x0, double y0) {
+    Pose2d pose = m_posTracker.getPose2d(); 
+    double y = pose.getY() - y0;
+    double x = x0 - pose.getX();
     double m_targetAngle = -Math.atan2(y, x);
     SmartDashboard.putNumber("Target Angle", Math.toDegrees(m_targetAngle));
-    return m_targetAngle;
+    SmartDashboard.putNumber("Robot X: ", pose.getX());
+    SmartDashboard.putNumber("Robot Y: ", pose.getY()); 
+    return Math.toDegrees(m_targetAngle);
+  }
+
+  public OptionalDouble findTargetAngleDegrees() {
+    PositionServer.Target target = m_posTracker.m_posServer.getTarget(); 
+
+    if (target==null) {
+      return OptionalDouble.empty(); 
+    }
+    return OptionalDouble.of(computeTargetAngleDegrees(target.m_x, target.m_y)); 
   }
 
   public boolean isPathFinished() {

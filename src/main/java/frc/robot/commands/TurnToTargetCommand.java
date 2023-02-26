@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.OptionalDouble;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.ParadoxField;
@@ -13,18 +15,19 @@ import frc.robot.subsystems.DriveSubsystem;
 public class TurnToTargetCommand extends CommandBase {
   DriveSubsystem m_subsystem;
   PositionTracker m_tracker;
-  double[] m_target;
+  // double[] m_target;
   private final double k_p = .005;
   private final double k_minSpeed = .1;
   double m_targetAngle;
   double m_distance;
   private final double k_deadZone = 3;
+  private boolean m_invalid = true; 
   /** Creates a new TurnToTargetCommand. */
-  public TurnToTargetCommand(DriveSubsystem driveSubsystem, double targetAngle, double[] target) {
+  public TurnToTargetCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
-    m_target = target;
+    // m_target = target;
     m_tracker = m_subsystem.getTracker();
-    m_targetAngle = targetAngle;
+    // m_targetAngle = targetAngle;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -32,7 +35,9 @@ public class TurnToTargetCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Logger.log("TurnToTargetCommand", 1, "initialize");
+    // m_targetAngle = m_subsystem.findTargetAngleDegrees(); 
+    Logger.log("TurnToTargetCommand", 1, String.format("initialize: angle = %f", m_targetAngle));
+    m_invalid = false; 
     // double beta = Math.atan2(m_tracker.getPose2d().getY() - m_target[1], m_tracker.getPose2d().getX() - m_target[0]);
     //double robotAngle = m_tracker.getPose2d().getRotation().getRadians();
   }
@@ -40,12 +45,19 @@ public class TurnToTargetCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentRobotAngle = m_tracker.getPose2d().getRotation().getDegrees();
-    m_distance =  currentRobotAngle - m_targetAngle;
-    m_distance = ParadoxField.normalizeAngle(m_distance);
-    double power = m_distance * k_p;
-    power = Math.abs(power) > k_minSpeed ? power : k_minSpeed * Math.signum(power);
-    m_subsystem.setPower(power, -power);
+    OptionalDouble angle = m_subsystem.findTargetAngleDegrees(); 
+    if (angle.isPresent()) {
+      m_targetAngle = angle.getAsDouble(); 
+      double currentRobotAngle = m_tracker.getPose2d().getRotation().getDegrees();
+      m_distance =  currentRobotAngle - m_targetAngle;
+      m_distance = ParadoxField.normalizeAngle(m_distance);
+      double power = m_distance * k_p;
+      power = Math.abs(power) > k_minSpeed ? power : k_minSpeed * Math.signum(power);
+      m_subsystem.setPower(power, -power);
+    }
+    else {
+      m_invalid = true; 
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -58,6 +70,6 @@ public class TurnToTargetCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_distance) < k_deadZone;
+    return Math.abs(m_distance) < k_deadZone || m_invalid;
   }
 }
