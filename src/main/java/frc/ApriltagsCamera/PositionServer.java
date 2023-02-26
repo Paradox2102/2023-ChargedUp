@@ -200,7 +200,7 @@ public class PositionServer implements NetworkReceiver {
 
     @Override
     public void processData(String data) {
-        Logger.log("PositionServer", -1, String.format("Data: %s", data));
+        Logger.log("PositionServer", 1, String.format("Data: %s", data));
 
         switch (data.charAt(0)) {
             case 'P': // path

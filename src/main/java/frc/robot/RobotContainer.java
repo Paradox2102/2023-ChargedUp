@@ -48,7 +48,7 @@ public class RobotContainer {
 
   // Variables that will be passed into commands and subsystems
   public AprilTagFieldLayout m_tags;
-  public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(-6, 0, 0);
+  public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(6, 0, 0);
   public final ApriltagsCamera m_backCamera = null; 
 
   // The robot's subsystems and commands are defined here...
@@ -84,7 +84,7 @@ public class RobotContainer {
     } catch (IOException e) {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }
-    m_frontCamera.connect("10.21.2.10", 5800);
+    m_frontCamera.connect("10.21.2.11", 5800);
     // m_backCamera.connect(); 
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);

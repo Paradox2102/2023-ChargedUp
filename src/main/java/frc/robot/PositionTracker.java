@@ -24,6 +24,7 @@ public class PositionTracker implements Tracker {
 		ParadoxField.rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 
 		0, 0, ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees));
 		m_posServer = new PositionServer();
+		m_posServer.start();
 	}
 	
 	
@@ -104,7 +105,9 @@ public class PositionTracker implements Tracker {
 		m_posServer.setPosition(pos.getX(), pos.getY(), pos.getRotation().getDegrees());
 
 		PositionServer.Target target = m_posServer.getTarget();
+
 		if (target != null) {
+		//   Logger.log("PositionTracker", 1, String.format("x=%f,y=%f,h=%f", target.m_x, target.m_y, target.m_h));
 		  SmartDashboard.putNumber("TargetX", target.m_x);
 		  SmartDashboard.putNumber("TargetY", target.m_y);
 		  SmartDashboard.putNumber("TargetH", target.m_h);
