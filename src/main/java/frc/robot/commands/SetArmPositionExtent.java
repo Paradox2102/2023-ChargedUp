@@ -23,6 +23,8 @@ public class SetArmPositionExtent extends CommandBase {
   private static final double k_p = 0.1;
   private static final double k_deadZone = 1;
 
+  private boolean m_constructor1;
+
   /** Creates a new SetArmExtent. */
   public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSystem, double extentInInches, double armAngleInDegrees, BooleanSupplier throttle) {
     m_reachSubsystem = reachSubsystem;
@@ -37,15 +39,28 @@ public class SetArmPositionExtent extends CommandBase {
       m_extentInInches = Constants.k_maxArmLength; 
     }
 
+    m_constructor1 = true;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_reachSubsystem, m_armSubsystem);
+  }
+
+  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem) {
+    m_armSubsystem = armSubsystem;
+    m_reachSubsystem = reachSubsystem;
+    m_constructor1 = false;
+    addRequirements(m_armSubsystem, m_reachSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Logger.log("SetArmPositionExtent", 1, "initialize");
-    m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees); 
+    if (!m_constructor1) {
+      m_armAngleInDegrees = m_armSubsystem.computeTargetAngleInDegrees();
+      m_extentInInches = m_armSubsystem.computeTargetDistance();
+    }
+    m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,7 +73,6 @@ public class SetArmPositionExtent extends CommandBase {
       m_reachSubsystem.setPower(0);
     } else {
       m_reachSubsystem.setPower(distance * k_p);
-      // m_reachSubsystem.setPower(0.3 * Math.signum(distance)); 
     }
   }
 

@@ -15,13 +15,16 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.ApriltagsCamera.PositionServer;
 import frc.pathfinder.MathUtil;
 import frc.robot.Constants;
+import frc.robot.PositionTracker;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
@@ -72,10 +75,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   ReachSubsystem m_reachSubsystem;
   IntakeSubsystem m_intakeSubsystem;
+  PositionServer m_positionServer;
+  PositionTracker m_positionTracker;
 
-  public ArmSubsystem(ReachSubsystem reachSubsystem, IntakeSubsystem intakeSubsystem) {
+  public ArmSubsystem(ReachSubsystem reachSubsystem, IntakeSubsystem intakeSubsystem, PositionTracker positionTracker) {
     m_reachSubsystem = reachSubsystem;
     m_intakeSubsystem = intakeSubsystem;
+    m_positionTracker = positionTracker;
+    m_positionServer = m_positionTracker.m_posServer;
 
     m_armZero = SmartDashboard.getNumber("Arm Zero Angle", getRawArmAngle());
     SmartDashboard.putNumber("Arm Zero Angle", m_armZero);
@@ -115,6 +122,29 @@ public class ArmSubsystem extends SubsystemBase {
   public void moveToAngle(double armAngleInDegrees) {
     m_armTargetAngleInDegrees = armAngleInDegrees;
     enableArm(true);
+  }
+
+  public double computeTargetAngleInDegrees() {
+    double targetHeight = m_positionServer.getTarget().m_h;
+    double distance = m_positionServer.getTarget().m_y;
+    double pivotHeight = Constants.k_pivotHeight;
+    double heightToTarget = targetHeight - pivotHeight;
+    double targetAngleInDegrees = Math.atan(heightToTarget / distance);
+    return targetAngleInDegrees;
+  }
+
+  public double computeTargetDistance() {
+    Pose2d pose = m_positionTracker.getPose2d();
+    double targetY = m_positionServer.getTarget().m_y;
+    double targetX = m_positionServer.getTarget().m_x;
+    double robotY = pose.getY();
+    double robotX = pose.getX();
+    double targetHeight = m_positionServer.getTarget().m_h;
+    double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
+    double pivotHeight = Constants.k_pivotHeight;
+    double heightToTarget = targetHeight - pivotHeight;
+    double targetDistance = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget));
+    return targetDistance;
   }
 
   public void enableArm(boolean enable) {

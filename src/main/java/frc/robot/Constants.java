@@ -81,6 +81,7 @@ public final class Constants {
   public static final double k_maxArmPower = 0.5;
   public static final double k_armDeadZoneInDegrees = 5;
   public static final double k_brakeEngageTime = 0.1;
+  public static final double k_pivotHeight = 22.25;
 
   //Drive constants
   public static final double k_driveP = 0.08;

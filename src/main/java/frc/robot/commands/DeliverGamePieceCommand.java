@@ -8,18 +8,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ReachSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DeliverGamePieceCommand extends SequentialCommandGroup {
   /** Creates a new DeliverGamePieceCommand. */
-  public DeliverGamePieceCommand(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+  public DeliverGamePieceCommand(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new TurnToTargetCommand(driveSubsystem),
-      new SetArmPositionCommand(armSubsystem, 0)
+      new SetArmPositionExtent(reachSubsystem, armSubsystem)
     );
   }
 

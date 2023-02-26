@@ -59,8 +59,7 @@ public class RobotContainer {
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   //Intake Subsystem only needed to get absolute mag encoder for arm 
-  private final ArmSubsystem m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem); 
-
+  private final ArmSubsystem m_armSubsystem;
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
   private final CommandJoystick m_joystick1;
@@ -89,6 +88,7 @@ public class RobotContainer {
     // m_backCamera.connect(); 
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
+    m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem.getTracker()); 
     m_switchSides = () -> m_stick2.getThrottle() < 0;
 
     // Choose which Joystick Driver 1 wants
