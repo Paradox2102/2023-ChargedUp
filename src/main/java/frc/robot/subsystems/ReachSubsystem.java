@@ -32,7 +32,7 @@ public class ReachSubsystem extends SubsystemBase {
     //     Constants.k_canTimeOut);
     // m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
     //     Constants.k_canTimeOut);
-    setBrakeMode(true);
+    setBrakeMode(false);
   }
 
   public double getExtentInInches() {
