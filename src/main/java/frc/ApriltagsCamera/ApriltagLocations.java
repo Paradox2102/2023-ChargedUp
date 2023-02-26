@@ -9,8 +9,8 @@ public class ApriltagLocations {
     public static ApriltagLocation m_tags[] = { new ApriltagLocation(1, -9.63 * 12, 3.37 * 12, -90), 
                                                 new ApriltagLocation(2, -4.13 * 12, 3.37 * 12, -90),
                                                 new ApriltagLocation(3,  1.37 * 12, 3.37 * 12, -90),
-                                                new ApriltagLocation(4,  9.00 * 12, 53.08 * 12, 90),
-                                                new ApriltagLocation(5,  9.00 * 12, 1.19 * 12, -90),
+                                                new ApriltagLocation(4,  9.00 * 12, 1.19 * 12, -90),
+                                                new ApriltagLocation(5,  9.00 * 12, 53.08 * 12, 90),
                                                 new ApriltagLocation(6,  1.37 * 12, 50.90 * 12, 90),
                                                 new ApriltagLocation(7, -4.13 * 12, 50.90 * 12, 90),
                                                 new ApriltagLocation(8, -9.63 * 12, 50.90 * 12, 90)
