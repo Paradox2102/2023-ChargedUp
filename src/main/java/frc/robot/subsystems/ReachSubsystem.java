@@ -79,7 +79,9 @@ public class ReachSubsystem extends SubsystemBase {
         power = 0;
       }
     }
-    // m_reachMotor.set(ControlMode.PercentOutput, power);
+    if (!Constants.k_isCompetition) {
+      m_reachMotor.set(ControlMode.PercentOutput, power);
+    }
   }
   // ------------------------
 }

@@ -9,7 +9,6 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Auto_4LBS;
 import frc.robot.commands.CalibrateDrive;
-import frc.robot.commands.ManualClawMotorCommand;
 import frc.robot.commands.DeleteMeCommand;
 import frc.robot.commands.Drive10Ft;
 import frc.robot.commands.Auto_4LS;
@@ -20,6 +19,7 @@ import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
+import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.TurnToTargetCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -165,10 +165,15 @@ public class RobotContainer {
 
     // m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
    //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
-    m_stick2.button(8).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, .2)); //May need to reverse
-    m_stick2.button(10).toggleOnTrue(new ManualClawMotorCommand(m_intakeSubsystem, -.2)); //may need ot reverese
-    m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
-    // m_stick2.button(6).toggleOnTrue(new SetBrakeCommand(m_armSubsystem))
+    // m_stick2.button(8).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, .2)); //May need to reverse
+    // m_stick2.button(10).toggleOnTrue(new ManualClawMotorCommand(m_intakeSubsystem, -.2)); //may need ot reverese
+    m_stick2.button(10).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE));
+    if (Constants.k_isCompetition) {
+      m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
+    } else {
+      m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
+    }
+    m_stick2.button(8).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
     
   }
 

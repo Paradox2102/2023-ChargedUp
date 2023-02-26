@@ -30,6 +30,8 @@ public class ArmSubsystem extends SubsystemBase {
   CANSparkMax m_arm = new CANSparkMax(Constants.k_armMotor, MotorType.kBrushless);
   CANSparkMax m_armFollower = new CANSparkMax(Constants.k_armFollower, MotorType.kBrushless);
 
+  private final double k_maxPower = 1;
+
   // Combine motors
   // private MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor,
   // m_armFollower);
@@ -162,6 +164,7 @@ public class ArmSubsystem extends SubsystemBase {
   private void applyArmPower() {
     double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
     armPower = Math.abs(armPower) > Constants.k_maxArmPower ? Constants.k_maxArmPower * Math.signum(armPower) : armPower;
+    armPower *= k_maxPower;
     if (Constants.k_isCompetition) {
       m_arm.set(armPower);
     } else {
@@ -191,6 +194,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_brakeTimer.reset();
         applyArmPower();
       } else {
+        setArmBrake(false);
         applyArmPower();
       }
     }

@@ -41,11 +41,11 @@ public class IntakeSubsystem extends SubsystemBase {
   private double m_clawTargetAngleInDegrees = k_clawStartingAngle;
 
   // Claw PID
-  private final double k_clawP = 0.04;
+  private final double k_clawP = 0.02;
   private final double k_clawI = 0;
   private final double k_clawD = 0;
   PIDController m_clawPID = new PIDController(k_clawP, k_clawI, k_clawD);
-  private final double k_clawF = 0.01;
+  private final double k_clawF = 0.001;
   
   // Digital Input Limit switch for the IntakeSubsystem 
   
@@ -143,7 +143,9 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Claw Angle in Degrees", getClawAngleInDegrees());
 
     double clawPower = m_clawPID.calculate(getClawAngleInDegrees(), m_clawTargetAngleInDegrees);
-    // m_claw.set(clawPower);
+    if (Constants.k_isCompetition) {
+      m_clawMotor.set(clawPower);
+    }
     SmartDashboard.putNumber("Claw Power", clawPower);
     // System.out.println(String.format("Arm Power = %f", armPower));
     // }
