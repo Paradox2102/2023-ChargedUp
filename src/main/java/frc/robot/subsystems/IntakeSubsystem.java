@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax m_clawMotor = new CANSparkMax(Constants.k_clawMotor, MotorType.kBrushless);
 
   RelativeEncoder m_clawEncoder = m_clawMotor.getEncoder();
-  private final double k_clawTicksToDegrees = 32.143;
+  private final double k_clawTicksToDegrees = 173.08;
 
   private final double k_clawStartingAngle = 0;
   private final double k_clawDeadZoneInDegrees = 2;
