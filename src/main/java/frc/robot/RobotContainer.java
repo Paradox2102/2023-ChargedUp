@@ -16,6 +16,7 @@ import frc.robot.commands.Auto_4LS;
 import frc.robot.commands.BrakeOffCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
+import frc.robot.commands.ManualClawMotorCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
@@ -144,6 +145,9 @@ public class RobotContainer {
       m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
       m_joystick1.button(2).whileTrue(new DeleteMeCommand(m_driveSubsystem));
       m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem)); 
+
+      m_joystick1.button(5).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, 0.2)); 
+      m_joystick1.button(3).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, -0.2)); 
     }
 
     // Driver 2

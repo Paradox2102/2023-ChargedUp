@@ -22,7 +22,7 @@ public class ManualClawMotorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Logger.log("ClawMotorCommand", 1, "initialize");
+    Logger.log("ClawMotorCommand", 1, String.format("initialize: power = %f ", m_power));
     m_intakeSubsystem.setClawPower(m_power); 
   }
 

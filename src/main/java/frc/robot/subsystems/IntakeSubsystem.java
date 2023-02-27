@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax m_clawMotor = new CANSparkMax(Constants.k_clawMotor, MotorType.kBrushless);
 
   RelativeEncoder m_clawEncoder = m_clawMotor.getEncoder();
-  private final double k_clawTicksToDegrees = 173.08;
+  private final double k_clawTicksToDegrees = 90/6.928; //173.08;
 
   private final double k_clawStartingAngle = 0;
   private final double k_clawDeadZoneInDegrees = 2;
@@ -45,7 +45,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double k_clawI = 0;
   private final double k_clawD = 0;
   PIDController m_clawPID = new PIDController(k_clawP, k_clawI, k_clawD);
-  private final double k_clawF = 0.001;
+  private final double k_clawF = 0;
+  private boolean m_enabled = false; 
   
   // Digital Input Limit switch for the IntakeSubsystem 
   
@@ -61,6 +62,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_leftIntakeMotor.setNeutralMode(NeutralMode.Brake);
     m_rightIntakeMotor.setNeutralMode(NeutralMode.Brake);
     m_clawMotor.restoreFactoryDefaults();
+    m_clawMotor.setInverted(true);
     resetClawPosition();
     m_clawMotor.setIdleMode(IdleMode.kBrake);
 
@@ -95,13 +97,17 @@ public class IntakeSubsystem extends SubsystemBase {
     } else {
       switch(position) {
         case OPEN:
+          m_enabled = true; 
           m_clawTargetAngleInDegrees = 0;
           break;
         case CUBE:
-          m_clawTargetAngleInDegrees = -67;
+          m_enabled = true; 
+          m_clawTargetAngleInDegrees = 67;
           break;
         case CONE:
-          m_clawTargetAngleInDegrees = -90;
+          m_enabled = false; 
+          setClawPower(0.2); 
+          // m_clawTargetAngleInDegrees = 90;
           break;
       }
     }
@@ -142,11 +148,14 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Intake Current", m_powerDistribution.getCurrent(Constants.k_rightIntakeMotor));
     SmartDashboard.putNumber("Claw Angle in Degrees", getClawAngleInDegrees());
 
-    double clawPower = m_clawPID.calculate(getClawAngleInDegrees(), m_clawTargetAngleInDegrees);
-    if (Constants.k_isCompetition) {
-      // m_clawMotor.set(clawPower);
+    if (m_enabled) {
+      double clawPower = m_clawPID.calculate(getClawAngleInDegrees(), m_clawTargetAngleInDegrees);
+      if (Constants.k_isCompetition) {
+        m_clawMotor.set(clawPower);
+      }
+      SmartDashboard.putNumber("Claw Power", clawPower);
     }
-    SmartDashboard.putNumber("Claw Power", clawPower);
+  
     // System.out.println(String.format("Arm Power = %f", armPower));
     // }
     // if (isClawOnTarget()) {
