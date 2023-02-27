@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import java.util.OptionalDouble;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
@@ -22,9 +23,11 @@ public class TurnToTargetCommand extends CommandBase {
   double m_distance;
   private final double k_deadZone = 3;
   private boolean m_invalid = true; 
+  private BooleanSupplier m_switchSides;
   /** Creates a new TurnToTargetCommand. */
-  public TurnToTargetCommand(DriveSubsystem driveSubsystem) {
+  public TurnToTargetCommand(DriveSubsystem driveSubsystem, BooleanSupplier switchSides) {
     m_subsystem = driveSubsystem;
+    m_switchSides = switchSides;
     // m_target = target;
     m_tracker = m_subsystem.getTracker();
     // m_targetAngle = targetAngle;
@@ -47,7 +50,7 @@ public class TurnToTargetCommand extends CommandBase {
   public void execute() {
     OptionalDouble angle = m_subsystem.findTargetAngleDegrees(); 
     if (angle.isPresent()) {
-      m_targetAngle = angle.getAsDouble(); 
+      m_targetAngle = angle.getAsDouble() + (m_switchSides.getAsBoolean() ? 0 : 180); 
       double currentRobotAngle = m_tracker.getPose2d().getRotation().getDegrees();
       m_distance =  currentRobotAngle - m_targetAngle;
       m_distance = ParadoxField.normalizeAngle(m_distance);

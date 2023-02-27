@@ -10,6 +10,7 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.Auto_4LBS;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DeleteMeCommand;
+import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.Drive10Ft;
 import frc.robot.commands.Auto_4LS;
 import frc.robot.commands.BrakeOffCommand;
@@ -140,7 +141,7 @@ public class RobotContainer {
       m_joystick1.button(12).toggleOnTrue(new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
       m_joystick1.button(11).onTrue(new Drive10Ft(m_driveSubsystem));
       m_joystick1.button(10).toggleOnTrue(new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-      m_joystick1.button(1).toggleOnTrue(new TurnToTargetCommand(m_driveSubsystem));
+      m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
       m_joystick1.button(2).whileTrue(new DeleteMeCommand(m_driveSubsystem));
       m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem)); 
     }

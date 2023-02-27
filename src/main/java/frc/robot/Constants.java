@@ -38,7 +38,7 @@ public final class Constants {
   public static final int k_reachMotor = 0;
   public static final int k_canTimeOut = 30;
   public static final int k_topSwitch = 9;
-  public static final int k_bottomSwitch = 0;
+  public static int k_bottomSwitch = 0;
 
   // Arm
   public static final int k_armMotor = 19; // left
@@ -104,6 +104,7 @@ public final class Constants {
       k_isCompetition = true;
       k_armDegreesPerTick = 0.0918;
       k_armZeroPoint = 0.2142;
+      k_bottomSwitch = 8;
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice
       SmartDashboard.putString("Robot name", "Downfall");

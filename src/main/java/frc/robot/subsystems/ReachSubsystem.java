@@ -32,7 +32,7 @@ public class ReachSubsystem extends SubsystemBase {
     //     Constants.k_canTimeOut);
     // m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
     //     Constants.k_canTimeOut);
-    setBrakeMode(false);
+    setBrakeMode(true);
   }
 
   public double getExtentInInches() {
@@ -79,9 +79,7 @@ public class ReachSubsystem extends SubsystemBase {
         power = 0;
       }
     }
-    if (!Constants.k_isCompetition) {
-      m_reachMotor.set(ControlMode.PercentOutput, power);
-    }
+    m_reachMotor.set(ControlMode.PercentOutput, power);
   }
   // ------------------------
 }

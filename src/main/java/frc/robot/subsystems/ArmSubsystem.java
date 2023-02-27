@@ -8,6 +8,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.OptionalDouble;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
@@ -124,27 +126,35 @@ public class ArmSubsystem extends SubsystemBase {
     enableArm(true);
   }
 
-  public double computeTargetAngleInDegrees() {
-    double targetHeight = m_positionServer.getTarget().m_h;
-    double distance = m_positionServer.getTarget().m_y;
+  public OptionalDouble computeTargetAngleInDegrees() {
+    PositionServer.Target target = m_positionServer.getTarget(); 
+    if (target == null) {
+      return OptionalDouble.empty();
+    }
+    double targetHeight = target.m_h;
+    double distance = target.m_y;
     double pivotHeight = Constants.k_pivotHeight;
     double heightToTarget = targetHeight - pivotHeight;
     double targetAngleInDegrees = Math.atan(heightToTarget / distance);
-    return targetAngleInDegrees;
+    return OptionalDouble.of(targetAngleInDegrees);
   }
 
-  public double computeTargetDistance() {
+  public OptionalDouble computeTargetDistance() {
+    PositionServer.Target target = m_positionServer.getTarget(); 
     Pose2d pose = m_positionTracker.getPose2d();
-    double targetY = m_positionServer.getTarget().m_y;
-    double targetX = m_positionServer.getTarget().m_x;
+    if (target == null) {
+      return OptionalDouble.empty();
+    }
+    double targetY = target.m_y;
+    double targetX = target.m_x;
     double robotY = pose.getY();
     double robotX = pose.getX();
-    double targetHeight = m_positionServer.getTarget().m_h;
+    double targetHeight = target.m_h;
     double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
     double pivotHeight = Constants.k_pivotHeight;
     double heightToTarget = targetHeight - pivotHeight;
     double targetDistance = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget));
-    return targetDistance;
+    return OptionalDouble.of(targetDistance - Constants.k_minArmLength);
   }
 
   public void enableArm(boolean enable) {
@@ -186,7 +196,6 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getArmFeedforward() {
-    // double length = m_reachSubsystem.getExtentInInches();
     double length = Constants.k_minArmLength + m_reachSubsystem.getExtentInInches(); // inches
     return -Constants.k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
   }

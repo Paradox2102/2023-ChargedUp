@@ -144,7 +144,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     double clawPower = m_clawPID.calculate(getClawAngleInDegrees(), m_clawTargetAngleInDegrees);
     if (Constants.k_isCompetition) {
-      m_clawMotor.set(clawPower);
+      // m_clawMotor.set(clawPower);
     }
     SmartDashboard.putNumber("Claw Power", clawPower);
     // System.out.println(String.format("Arm Power = %f", armPower));

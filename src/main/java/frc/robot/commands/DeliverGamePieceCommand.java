@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ArmSubsystem;
@@ -15,12 +17,12 @@ import frc.robot.subsystems.ReachSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DeliverGamePieceCommand extends SequentialCommandGroup {
   /** Creates a new DeliverGamePieceCommand. */
-  public DeliverGamePieceCommand(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem) {
+  public DeliverGamePieceCommand(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem, BooleanSupplier switchSides) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new TurnToTargetCommand(driveSubsystem),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem)
+      new TurnToTargetCommand(driveSubsystem, switchSides),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, switchSides)
     );
   }
 

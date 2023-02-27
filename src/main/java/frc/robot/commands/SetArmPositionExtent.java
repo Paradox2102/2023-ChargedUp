@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
+import java.util.OptionalDouble;
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
@@ -24,6 +26,7 @@ public class SetArmPositionExtent extends CommandBase {
   private static final double k_deadZone = 1;
 
   private boolean m_constructor1;
+  private boolean m_isFinished = false;
 
   /** Creates a new SetArmExtent. */
   public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSystem, double extentInInches, double armAngleInDegrees, BooleanSupplier throttle) {
@@ -45,9 +48,10 @@ public class SetArmPositionExtent extends CommandBase {
     addRequirements(m_reachSubsystem, m_armSubsystem);
   }
 
-  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem) {
+  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, BooleanSupplier throttle) {
     m_armSubsystem = armSubsystem;
     m_reachSubsystem = reachSubsystem;
+    m_throttle = throttle;
     m_constructor1 = false;
     addRequirements(m_armSubsystem, m_reachSubsystem);
   }
@@ -57,10 +61,21 @@ public class SetArmPositionExtent extends CommandBase {
   public void initialize() {
     Logger.log("SetArmPositionExtent", 1, "initialize");
     if (!m_constructor1) {
-      m_armAngleInDegrees = m_armSubsystem.computeTargetAngleInDegrees();
-      m_extentInInches = m_armSubsystem.computeTargetDistance();
+      OptionalDouble armAngleInDegrees = m_armSubsystem.computeTargetAngleInDegrees();
+      OptionalDouble extentInInches = m_armSubsystem.computeTargetDistance();
+      if (armAngleInDegrees.isPresent() && extentInInches.isPresent()){
+        m_armAngleInDegrees = armAngleInDegrees.getAsDouble();
+        m_extentInInches = extentInInches.getAsDouble();
+        SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
+        SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
+        m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+      } else {
+        m_isFinished = true;
+      }
+    } else {
+      m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+
     }
-    m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -86,6 +101,6 @@ public class SetArmPositionExtent extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_isFinished;
   }
 }
