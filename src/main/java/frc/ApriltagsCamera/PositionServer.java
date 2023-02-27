@@ -87,7 +87,17 @@ public class PositionServer implements NetworkReceiver {
 
     public void setAllianceColor(boolean red)
     {
-        m_redAlliance = red;
+        ApriltagLocations.setColor(!red);
+        
+        if (red != m_redAlliance)
+        {
+            m_redAlliance = red;
+
+            if (m_connected)
+            {
+                sendAllianceColor();
+            }
+        }
     }
 
     public class BezierData {
@@ -120,7 +130,7 @@ public class PositionServer implements NetworkReceiver {
     private int m_nBezier;
 
     private void processPath(String path) {
-        Logger.log("PositionServer", 1, String.format("processPath: %s", path));
+        Logger.log("PositionServer", -1, String.format("processPath: %s", path));
 
         int[] args = ApriltagsCamera.parseIntegers(path, 1);
 
@@ -241,13 +251,19 @@ public class PositionServer implements NetworkReceiver {
         return(data);
     }
 
+    private void sendAllianceColor()
+    {
+        Logger.log("PositionServer", 1, String.format("sendAllianceColor: red =%b", m_redAlliance));
+        m_network.sendMessage(String.format("c%c", m_redAlliance? 'r' : 'b'));
+    }
+
     @Override
     public void connected() {
-        Logger.log("PositionServer", 1, "connected");
+        Logger.log("PositionServer", 1, String.format("connected: red=%b", m_redAlliance));
 
         m_connected = true;
 
-        m_network.sendMessage(String.format("c%c", m_redAlliance? 'r' : 'b'));
+        sendAllianceColor();
     }
 
     @Override

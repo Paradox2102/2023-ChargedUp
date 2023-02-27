@@ -4,6 +4,8 @@
 
 package frc.ApriltagsCamera;
 
+import frc.robot.ParadoxField;
+
 /** Add your docs here. */
 public class ApriltagLocations {
     public static ApriltagLocation m_tags[] = { new ApriltagLocation(1, -9.63 * 12, 3.37 * 12, -90), 
@@ -24,11 +26,13 @@ public class ApriltagLocations {
         if (blue != m_blue)
         {
             m_blue = blue;
-        }
 
-        for (ApriltagLocation tag : m_tags)
-        {
-            tag.m_yInches = m_fieldLength - tag.m_yInches;
+            for (ApriltagLocation tag : m_tags)
+            {
+                tag.m_targetAngleDegrees = ParadoxField.normalizeAngle(tag.m_targetAngleDegrees + 180);
+                tag.m_xInches = -tag.m_xInches;
+                tag.m_yInches = m_fieldLength - tag.m_yInches;
+            }
         }
     }
 
