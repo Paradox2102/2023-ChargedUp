@@ -68,7 +68,7 @@ public class SetArmPositionExtent extends CommandBase {
         m_extentInInches = extentInInches.getAsDouble();
         SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
         SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
-        m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+        m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
       } else {
         m_isFinished = true;
       }

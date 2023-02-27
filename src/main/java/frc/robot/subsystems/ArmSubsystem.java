@@ -128,15 +128,23 @@ public class ArmSubsystem extends SubsystemBase {
 
   public OptionalDouble computeTargetAngleInDegrees() {
     PositionServer.Target target = m_positionServer.getTarget(); 
+    Pose2d pose = m_positionTracker.getPose2d();
     if (target == null) {
       return OptionalDouble.empty();
     }
+    double targetY = target.m_y;
+    double targetX = target.m_x;
+    double robotY = pose.getY();
+    double robotX = pose.getX();
     double targetHeight = target.m_h;
-    double distance = target.m_y;
-    double pivotHeight = Constants.k_pivotHeight;
+    SmartDashboard.putNumber("computeTargetAngleInDegrees.targetHeight", targetHeight);
+    double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
+    SmartDashboard.putNumber("computeTargetAngleInDegrees.distance", distance);
+    double pivotHeight = Constants.k_pivotHeight / 12;
     double heightToTarget = targetHeight - pivotHeight;
-    double targetAngleInDegrees = Math.atan(heightToTarget / distance);
-    return OptionalDouble.of(targetAngleInDegrees);
+    SmartDashboard.putNumber("computeTargetAngleInDegrees.heightToTarget", heightToTarget);
+    double targetAngleInDegrees = Math.toDegrees(Math.atan2(heightToTarget, distance));
+    return OptionalDouble.of(90 - targetAngleInDegrees);
   }
 
   public OptionalDouble computeTargetDistance() {
@@ -151,10 +159,10 @@ public class ArmSubsystem extends SubsystemBase {
     double robotX = pose.getX();
     double targetHeight = target.m_h;
     double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
-    double pivotHeight = Constants.k_pivotHeight;
+    double pivotHeight = Constants.k_pivotHeight / 12;
     double heightToTarget = targetHeight - pivotHeight;
     double targetDistance = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget));
-    return OptionalDouble.of(targetDistance - Constants.k_minArmLength);
+    return OptionalDouble.of(targetDistance * 12 - Constants.k_minArmLength - 4);
   }
 
   public void enableArm(boolean enable) {
