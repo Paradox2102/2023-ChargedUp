@@ -7,12 +7,8 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.Auto_4LBS;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DeleteMeCommand;
-import frc.robot.commands.DeliverGamePieceCommand;
-import frc.robot.commands.Drive10Ft;
-import frc.robot.commands.Auto_4LS;
 import frc.robot.commands.BrakeOffCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
@@ -23,7 +19,9 @@ import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
 import frc.robot.commands.SetClawCommand;
-import frc.robot.commands.TurnToTargetCommand;
+import frc.robot.commands.Autos.Auto_4LBS;
+import frc.robot.commands.Autos.Auto_4LS;
+import frc.robot.commands.Autos.Drive10Ft;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -142,7 +140,7 @@ public class RobotContainer {
       m_joystick1.button(12).toggleOnTrue(new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
       m_joystick1.button(11).onTrue(new Drive10Ft(m_driveSubsystem));
       m_joystick1.button(10).toggleOnTrue(new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-      m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
+      // m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
       m_joystick1.button(2).whileTrue(new DeleteMeCommand(m_driveSubsystem));
       m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem)); 
 
@@ -161,7 +159,7 @@ public class RobotContainer {
     // Set Arm to mid cone node/high cube node
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides));
     // Set arm to mid cube node
-    
+
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides));
     // Set Arm to last cone node opposite battery side
     // m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 26, -55, () -> m_joystick1.getThrottle() > 0)); //-60 

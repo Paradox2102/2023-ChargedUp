@@ -12,7 +12,7 @@ public class PurePursuitData {
     public double k_maxDecl = 5.000000;
     public double k_maxJerk = 100;
 
-    PurePursuitData() {
+    public PurePursuitData() {
 
     }
 

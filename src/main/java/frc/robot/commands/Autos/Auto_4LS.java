@@ -4,7 +4,7 @@
 
 // Place cube on low, engage charge station
 
-package frc.robot.commands;
+package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
@@ -34,8 +34,7 @@ public class Auto_4LS extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("Auto_4LS", 1, "initialize");
-    m_armSubsystem.moveToAngle(-100);
-    m_intakeSubsystem.setClaw(IntakeSubsystem.ClawPosition.CONE);
+    m_armSubsystem.moveToAngle(100);
     m_driveSubsystem.resetEncoders();
     m_driveSubsystem.setSpeedFPS(3, 3);
   }
@@ -43,7 +42,10 @@ public class Auto_4LS extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     m_currentRobotPitch = m_driveSubsystem.getPitch();
+    m_currentRobotPitch = m_driveSubsystem.getPitch();
+    if (Math.abs(m_armSubsystem.getArmAngleDegrees()) <= 5) {
+      m_armSubsystem.moveToAngle(-100);
+    }
     if (m_driveSubsystem.getLeftPos() >= 7.5 || m_driveSubsystem.getRightPos() >= 7.5) {
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(.5, .5);

@@ -60,8 +60,8 @@ public final class Constants {
   //Arm positions
   public static final double k_groundPickupExtent = 3;
   public static final double k_groundPickupAngle = -120;
-  public static final double k_midConeNodeExtent = 30;
-  public static final double k_midConeNodeAngle = -60;
+  public static final double k_midConeNodeExtent = 15;
+  public static final double k_midConeNodeAngle = -70;
   public static final double k_midCubeNodeExtent = 6;
   public static final double k_midCubeNodeAngle = -75;
   public static final double k_humanPlayerStationExtent = 6;
