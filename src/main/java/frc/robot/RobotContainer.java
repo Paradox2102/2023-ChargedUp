@@ -19,12 +19,14 @@ import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetBrakeCommand;
 import frc.robot.commands.SetClawCommand;
+import frc.robot.commands.SetLEDCommand;
 import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
 import frc.robot.commands.Autos.Drive10Ft;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 
 import java.io.IOException;
@@ -55,6 +57,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   @SuppressWarnings("unused")
   private final Constants m_constants = new Constants();
+  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -100,8 +103,12 @@ public class RobotContainer {
       m_xbox1 = null;
     }
 
-    System.out.println("Setting Arm Zero Command"); 
+    // Shuffleboard commands
     SmartDashboard.putData("SetArmZero", new SetArmZeroCommand(m_armSubsystem));
+    SmartDashboard.putData("Paradox Lights", new SetLEDCommand(m_LEDSubsystem, "idle"));
+    SmartDashboard.putData("Request Cube", new SetLEDCommand(m_LEDSubsystem, "cube"));
+    SmartDashboard.putData("Request Cone", new SetLEDCommand(m_LEDSubsystem, "cone"));
+
     ShuffleboardTab driverTab = Shuffleboard.getTab("Tab 4");
     driverTab.addCamera("Camera Viewer", "Front Camera", "http://10.21.2.2:1181/?action=stream").withPosition(1, 1);
     // Configure the trigger bindings

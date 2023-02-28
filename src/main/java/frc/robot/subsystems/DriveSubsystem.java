@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.DoubleSupplier;
 
@@ -28,7 +27,6 @@ import frc.robot.ParadoxField;
 import frc.robot.PositionTracker;
 import frc.robot.PurePursuit;
 import frc.robot.Sensor;
-import frc.robot.PositionTracker.PositionContainer;
 
 public class DriveSubsystem extends SubsystemBase {
   ApriltagsCamera m_frontCamera;
