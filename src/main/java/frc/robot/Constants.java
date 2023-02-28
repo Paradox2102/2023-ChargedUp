@@ -56,6 +56,12 @@ public final class Constants {
 
   public static final double k_wheelBase = 2.04;
   public static final double k_startAngleDegrees = -90;
+
+  // LED
+  public static final int k_leftLED = 0;
+  public static final int k_rightLED = 0;
+  public static final int k_leftLength = 0;
+  public static final int k_rightLength = 0;
   
   //Arm positions
   public static final double k_groundPickupExtent = 3;
