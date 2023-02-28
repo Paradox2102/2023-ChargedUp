@@ -115,7 +115,9 @@ public class RobotContainer {
     configureBindings();
   }
 
-  public void initialize() {}
+  public void initialize() {
+    new SetLEDCommand(m_LEDSubsystem, "idle");
+  }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
