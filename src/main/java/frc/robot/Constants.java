@@ -59,8 +59,8 @@ public final class Constants {
   
   //Arm positions
   public static final double k_groundPickupExtent = 3;
-  public static final double k_groundPickupAngle = -115;
-  public static final double k_midConeNodeExtent = 15;
+  public static final double k_groundPickupAngle = -120;
+  public static final double k_midConeNodeExtent = 30;
   public static final double k_midConeNodeAngle = -60;
   public static final double k_midCubeNodeExtent = 6;
   public static final double k_midCubeNodeAngle = -75;
@@ -70,8 +70,8 @@ public final class Constants {
   public static final double k_straightUpAngle = 0;
 
   //Arm constants
-  public static double k_armDegreesPerTick = 0.0883;
-  public static double k_armZeroPoint = 288.96;
+  public static double k_armDegreesPerTick = 0.0895;
+  public static double k_armZeroPoint = 202.04;
   public static final double k_armP = 0.01;
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;

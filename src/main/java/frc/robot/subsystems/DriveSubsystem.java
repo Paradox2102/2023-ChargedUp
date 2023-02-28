@@ -145,7 +145,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_pursuitFollower.stopFollow();
   }
 
-  public double computeTargetAngleDegrees(double x0, double y0) {
+  public double 
+  computeTargetAngleDegrees(double x0, double y0) {
     Pose2d pose = m_posTracker.getPose2d(); 
     double y = pose.getY() - y0;
     double x = x0 - pose.getX();

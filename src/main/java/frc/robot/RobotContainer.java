@@ -86,7 +86,7 @@ public class RobotContainer {
     } catch (IOException e) {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }
-    m_frontCamera.connect("10.21.2.11", 5800);
+    m_frontCamera.connect("10.21.2.10", 5800);
     // m_backCamera.connect(); 
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
@@ -161,6 +161,7 @@ public class RobotContainer {
     // Set Arm to mid cone node/high cube node
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides));
     // Set arm to mid cube node
+    
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides));
     // Set Arm to last cone node opposite battery side
     // m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 26, -55, () -> m_joystick1.getThrottle() > 0)); //-60 

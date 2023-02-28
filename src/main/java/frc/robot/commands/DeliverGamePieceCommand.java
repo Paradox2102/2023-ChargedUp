@@ -21,8 +21,8 @@ public class DeliverGamePieceCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new TurnToTargetCommand(driveSubsystem, switchSides),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, switchSides)
+      new TurnToTargetCommand(driveSubsystem, switchSides)
+      // new SetArmPositionExtent(reachSubsystem, armSubsystem, switchSides)
     );
   }
 
