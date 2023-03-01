@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Autos;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
@@ -19,22 +18,20 @@ import frc.robot.subsystems.ReachSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto_2LA2M extends ParallelCommandGroup {
+public class Auto_2LA2M extends SequentialCommandGroup {
   /** Creates a new Auto_2LA2M. */
   public Auto_2LA2M(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // new IntakeCommand(intakeSubsystem, -.25),
-      new SequentialCommandGroup(
-        new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> false),
-        new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> true),
-        new CreatePathCommand(driveSubsystem, k_path2, true, false, "Drive10Ft"),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false),
-        new IntakeCommand(intakeSubsystem, .25)
-      )
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> false),
+      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
+      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
+      new IntakeCommand(intakeSubsystem, -.25),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> true),
+      new CreatePathCommand(driveSubsystem, k_path2, true, false, "Path 2"),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false),
+      new IntakeCommand(intakeSubsystem, .25) 
     );
   }
 

@@ -11,14 +11,12 @@ import frc.robot.commands.BrakeOffCommand;
 import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
-import frc.robot.commands.ManualClawMotorCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.Autos.Auto_2LA2M;
-import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -141,11 +139,14 @@ public class RobotContainer {
     } else {
       m_switchSides1 = () -> m_joystick1.getThrottle() < 0;
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), m_switchSides1));
-      m_joystick1.button(10).toggleOnTrue(new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-      m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides2));
-
-      m_joystick1.button(5).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, 0.2)); 
-      m_joystick1.button(3).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, -0.2));
+      m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
+      m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
+      m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides2));
+      if (Constants.k_isCompetition) {
+        m_joystick1.button(6).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN));
+      } else {
+        m_joystick1.button(6).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
+      }
       m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem));
     }
 
