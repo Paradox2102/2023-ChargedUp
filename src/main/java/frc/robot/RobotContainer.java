@@ -9,6 +9,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.CalibrateDrive;
 import frc.robot.commands.DeleteMeCommand;
+import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.BrakeOffCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
@@ -57,7 +58,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   @SuppressWarnings("unused")
   private final Constants m_constants = new Constants();
-  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
+  // private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -105,9 +106,9 @@ public class RobotContainer {
 
     // Shuffleboard commands
     SmartDashboard.putData("SetArmZero", new SetArmZeroCommand(m_armSubsystem));
-    SmartDashboard.putData("Paradox Lights", new SetLEDCommand(m_LEDSubsystem, "idle"));
-    SmartDashboard.putData("Request Cube", new SetLEDCommand(m_LEDSubsystem, "cube"));
-    SmartDashboard.putData("Request Cone", new SetLEDCommand(m_LEDSubsystem, "cone"));
+    // SmartDashboard.putData("Paradox Lights", new SetLEDCommand(m_LEDSubsystem, "idle"));
+    // SmartDashboard.putData("Request Cube", new SetLEDCommand(m_LEDSubsystem, "cube"));
+    // SmartDashboard.putData("Request Cone", new SetLEDCommand(m_LEDSubsystem, "cone"));
 
     ShuffleboardTab driverTab = Shuffleboard.getTab("Tab 4");
     driverTab.addCamera("Camera Viewer", "Front Camera", "http://10.21.2.2:1181/?action=stream").withPosition(1, 1);
@@ -116,7 +117,7 @@ public class RobotContainer {
   }
 
   public void initialize() {
-    new SetLEDCommand(m_LEDSubsystem, "idle");
+    // new SetLEDCommand(m_LEDSubsystem, "idle");
   }
 
   /**
@@ -149,7 +150,7 @@ public class RobotContainer {
       m_joystick1.button(12).toggleOnTrue(new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
       m_joystick1.button(11).onTrue(new Drive10Ft(m_driveSubsystem));
       m_joystick1.button(10).toggleOnTrue(new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-      // m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
+      m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
       m_joystick1.button(2).whileTrue(new DeleteMeCommand(m_driveSubsystem));
       m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem)); 
 
