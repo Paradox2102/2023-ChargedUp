@@ -211,43 +211,49 @@ public class ArmSubsystem extends SubsystemBase {
   private void applyArmPower() {
     double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
     armPower = Math.abs(armPower) > Constants.k_maxArmPower ? Constants.k_maxArmPower * Math.signum(armPower) : armPower;
-    armPower *= k_maxPower;
-    if (Constants.k_isCompetition) {
-      m_arm.set(armPower);
-    } else {
-      m_arm.set(armPower);
-    }
+    m_arm.set(armPower);
     SmartDashboard.putNumber("Arm Power", armPower);
   }
 
   private void runPID() {
-    if (m_wasOnTarget) {
-      if (isArmOnTarget()) {
-        if (m_brakeTimer.get() > Constants.k_brakeEngageTime) {
-          m_arm.set(0);
-          SmartDashboard.putNumber("Arm Power", 0);
-        } else {
-          applyArmPower();
-        }
-      } else {
-        setArmBrake(false);
-        m_wasOnTarget = false;
-        applyArmPower();
-      }
+    if (isArmOnTarget()) {
+      m_arm.set(0);
+      setArmBrake(true);
     } else {
-      if (isArmOnTarget()) {
-        setArmBrake(true);
-        m_wasOnTarget = true;
-        m_brakeTimer.reset();
-        applyArmPower();
-      } else {
-        setArmBrake(false);
-        applyArmPower();
-      }
+      setArmBrake(false);
+      applyArmPower();
     }
+    
+    // if (m_wasOnTarget) {
+    //   if (isArmOnTarget()) {
+    //     if (m_brakeTimer.get() > Constants.k_brakeEngageTime) {
+    //       m_arm.set(0);
+    //       SmartDashboard.putNumber("Arm Power", 0);
+    //     } else {
+    //       setArmBrake(false);
+    //       applyArmPower();
+    //     }
+    //   } else {
+    //     setArmBrake(false);
+    //     m_wasOnTarget = false;
+    //     applyArmPower();
+    //   }
+    // } else {
+    //   if (isArmOnTarget()) {
+
+    //     setArmBrake(true);
+    //     m_wasOnTarget = true;
+    //     m_brakeTimer.reset();
+    //     applyArmPower();
+    //   } else {
+    //     setArmBrake(false);
+    //     applyArmPower();
+    //   }
+    // }
   }
 
   public boolean isArmOnTarget() {
+    SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees;
   }
 

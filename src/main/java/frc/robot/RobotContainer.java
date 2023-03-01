@@ -7,10 +7,8 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.CalibrateDrive;
-import frc.robot.commands.DeleteMeCommand;
-import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.BrakeOffCommand;
+import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualClawMotorCommand;
@@ -18,16 +16,13 @@ import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
-import frc.robot.commands.SetBrakeCommand;
 import frc.robot.commands.SetClawCommand;
-import frc.robot.commands.SetLEDCommand;
+import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
-import frc.robot.commands.Autos.Drive10Ft;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 
 import java.io.IOException;
@@ -36,6 +31,7 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -71,7 +67,10 @@ public class RobotContainer {
   // Driver 2 Controller
   private final CommandJoystick m_stick2 = new CommandJoystick(1);
 
-  private final BooleanSupplier m_switchSides;
+  private final BooleanSupplier m_switchSides2;
+  private BooleanSupplier m_switchSides1;
+
+  SendableChooser<Command> m_selectAuto = new SendableChooser<>();
 
 
 
@@ -93,7 +92,7 @@ public class RobotContainer {
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
     m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem.getTracker()); 
-    m_switchSides = () -> m_stick2.getThrottle() < 0;
+    m_switchSides2 = () -> m_stick2.getThrottle() > 0;
 
     // Choose which Joystick Driver 1 wants
     if (Constants.k_xboxController) {
@@ -140,58 +139,37 @@ public class RobotContainer {
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_xbox1.getLeftX(), () -> m_xbox1.getRightY(), new ToggleTrigger(directionSwitch.debounce(.1))));
       m_xbox1.b().toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, () -> m_xbox1.getRightY()));
     } else {
-      m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), () -> m_joystick1.getThrottle() < 0));
-      // m_joystick1.button(1).onTrue(new PathFollowingCommand(m_driveSubsystem, null));// () -> -m_joystick1.getY()));
-
-      // m_joystick1.button(2).toggleOnTrue(new PathFollowingCommand(m_driveSubsystem, null));
-      m_joystick1.button(9).whileTrue(new CalibrateDrive(m_driveSubsystem));
-      m_joystick1.button(4).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
-      // m_joystick1.button(12).onTrue(new SetArmZeroCommand(m_armSubsystem)); 
-      m_joystick1.button(12).toggleOnTrue(new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-      m_joystick1.button(11).onTrue(new Drive10Ft(m_driveSubsystem));
+      m_switchSides1 = () -> m_joystick1.getThrottle() < 0;
+      m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), m_switchSides1));
       m_joystick1.button(10).toggleOnTrue(new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-      m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides));
-      m_joystick1.button(2).whileTrue(new DeleteMeCommand(m_driveSubsystem));
-      m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem)); 
+      m_joystick1.button(1).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides2));
 
       m_joystick1.button(5).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, 0.2)); 
-      m_joystick1.button(3).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, -0.2)); 
+      m_joystick1.button(3).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, -0.2));
+      m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem));
     }
 
     // Driver 2
-    m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
-    m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
-    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
     m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
-
-    // Set arm to opposite battery pick up
-    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides));
-    // Set Arm to mid cone node/high cube node
-    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides));
-    // Set arm to mid cube node
-
-    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides));
-    // Set Arm to last cone node opposite battery side
-    // m_stick2.button(6).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 26, -55, () -> m_joystick1.getThrottle() > 0)); //-60 
-    // Set Arm to human player station opposite battery side
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides)); // 14
-    // Straight up, retract arm
-    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides));
-
-    // m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, 6, -120, -163));
-    // m_stick2.button(3).onTrue(new SetArmPositionCommand(m_armSubsystem, -120, -163));
-
-    // m_stick2.button(4).onTrue(new DisableArmCommand(m_armSubsystem));
-   //  m_stick2.button(5).toggleOnTrue(new ManualArmCommand(m_armSubsystem, () -> m_stick2.getY()));
-    // m_stick2.button(8).whileTrue(new ManualClawMotorCommand(m_intakeSubsystem, .2)); //May need to reverse
-    // m_stick2.button(10).toggleOnTrue(new ManualClawMotorCommand(m_intakeSubsystem, -.2)); //may need ot reverese
+    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2));
+    m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
+    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2));
+    m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
+    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2));
+    m_stick2.button(8).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
+    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2));
     m_stick2.button(10).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE));
+    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides2));
     if (Constants.k_isCompetition) {
-      m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
+      m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN));
     } else {
       m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
     }
-    m_stick2.button(8).toggleOnTrue(new SetBrakeCommand(m_armSubsystem));
+
+    // Auto Selection
+    m_selectAuto.addOption("4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     
   }
 
@@ -204,6 +182,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new Drive10Ft(m_driveSubsystem);
+    return m_selectAuto.getSelected();
   }
 }

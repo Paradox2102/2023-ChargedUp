@@ -65,12 +65,12 @@ public final class Constants {
   
   //Arm positions
   public static final double k_groundPickupExtent = 3;
-  public static final double k_groundPickupAngle = -120;
+  public static final double k_groundPickupAngle = -115;
   public static final double k_midConeNodeExtent = 15;
-  public static final double k_midConeNodeAngle = -70;
+  public static final double k_midConeNodeAngle = -60;
   public static final double k_midCubeNodeExtent = 6;
   public static final double k_midCubeNodeAngle = -75;
-  public static final double k_humanPlayerStationExtent = 6;
+  public static final double k_humanPlayerStationExtent = 8;
   public static final double k_humanPlayerStationAngle = -60;
   public static final double k_straightUpExtent = 0;
   public static final double k_straightUpAngle = 0;
@@ -78,10 +78,10 @@ public final class Constants {
   //Arm constants
   public static double k_armDegreesPerTick = 0.0895;
   public static double k_armZeroPoint = 202.04;
-  public static final double k_armP = 0.01;
+  public static final double k_armP = 0.02; // 0.01
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;
-  public static final double k_armF = 0.004;
+  public static final double k_armF = 0.003; // 0.004
   public static final double k_armTicksToDegrees = 6;
   public static final double k_armStartingAngle = 0;
   public static final double k_maxArmPower = 0.5;
@@ -108,8 +108,8 @@ public final class Constants {
     if (!f.exists()) { //Competition
       //this is where code for competition robot goes
       k_isCompetition = true;
-      k_armDegreesPerTick = 0.0918;
-      k_armZeroPoint = 0.2142;
+      k_armDegreesPerTick = 0.0877;
+      k_armZeroPoint = 130.204;
       k_bottomSwitch = 8;
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice

@@ -73,7 +73,7 @@ public class SetArmPositionExtent extends CommandBase {
         m_isFinished = true;
       }
     } else {
-      m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+      m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
 
     }
   }
