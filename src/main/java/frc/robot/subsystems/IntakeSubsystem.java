@@ -144,9 +144,9 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Left Intake Current", m_powerDistribution.getCurrent(Constants.k_leftIntakeMotor));
-    SmartDashboard.putNumber("Right Intake Current", m_powerDistribution.getCurrent(Constants.k_rightIntakeMotor));
-    SmartDashboard.putNumber("Claw Angle in Degrees", getClawAngleInDegrees());
+    // SmartDashboard.putNumber("Left Intake Current", m_powerDistribution.getCurrent(Constants.k_leftIntakeMotor));
+    // SmartDashboard.putNumber("Right Intake Current", m_powerDistribution.getCurrent(Constants.k_rightIntakeMotor));
+    // SmartDashboard.putNumber("Claw Angle in Degrees", getClawAngleInDegrees());
 
     if (m_enabled) {
       double clawPower = m_clawPID.calculate(getClawAngleInDegrees(), m_clawTargetAngleInDegrees);
