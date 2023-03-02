@@ -35,8 +35,6 @@ public class ArmSubsystem extends SubsystemBase {
   CANSparkMax m_arm = new CANSparkMax(Constants.k_armMotor, MotorType.kBrushless);
   CANSparkMax m_armFollower = new CANSparkMax(Constants.k_armFollower, MotorType.kBrushless);
 
-  private final double k_maxPower = 1;
-
   // Combine motors
   // private MotorControllerGroup m_arm = new MotorControllerGroup(m_armMotor,
   // m_armFollower);

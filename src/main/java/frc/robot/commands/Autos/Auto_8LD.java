@@ -34,7 +34,7 @@ public class Auto_8LD extends ParallelRaceGroup {
 
     private static final Waypoint[] k_path = {
       new Waypoint(-10.25, 5.774, Math.toRadians(90), 3.618, 5.833),
-      new Waypoint(-10.5, 22.306, Math.toRadians(89))
+      new Waypoint(-10.5, 20, Math.toRadians(89))
   };
 }
 

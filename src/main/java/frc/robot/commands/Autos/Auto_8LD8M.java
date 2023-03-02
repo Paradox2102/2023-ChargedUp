@@ -24,7 +24,7 @@ public class Auto_8LD8M extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeAngle, Constants.k_straightUpExtent, () -> true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new IntakeCommand(intakeSubsystem, -.25),
@@ -37,11 +37,11 @@ public class Auto_8LD8M extends SequentialCommandGroup {
 
   private static final Waypoint[] k_path1 = {
       new Waypoint(-10.25, 5.774, Math.toRadians(90), 3.618, 5.833),
-      new Waypoint(-10.5, 22.306, Math.toRadians(89))
+      new Waypoint(-10.5, 20, Math.toRadians(89))
   };
 
   private static final Waypoint[] k_path2 = {
-    new Waypoint(-10.5, 22.306, Math.toRadians(271)),
+    new Waypoint(-10.5, 20, Math.toRadians(271)),
     new Waypoint(-10.25, 5.774, Math.toRadians(270), 3.618, 5.833)
 };
 }

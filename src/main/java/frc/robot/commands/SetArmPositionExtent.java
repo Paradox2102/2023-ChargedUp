@@ -86,6 +86,7 @@ public class SetArmPositionExtent extends CommandBase {
 
     if (Math.abs(distance) < k_deadZone) {
       m_reachSubsystem.setPower(0);
+      m_isFinished = true;
     } else {
       double power = distance * k_p;
       if (Math.abs(power) < 0.2)
