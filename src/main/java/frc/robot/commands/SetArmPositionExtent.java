@@ -87,7 +87,12 @@ public class SetArmPositionExtent extends CommandBase {
     if (Math.abs(distance) < k_deadZone) {
       m_reachSubsystem.setPower(0);
     } else {
-      m_reachSubsystem.setPower(distance * k_p);
+      double power = distance * k_p;
+      if (Math.abs(power) < 0.2)
+      {
+        power = 0.2 * Math.signum(power);
+      }
+      m_reachSubsystem.setPower(power);
     }
   }
 
