@@ -59,9 +59,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_backCamera = backCamera; 
     m_tags = tags;
     m_gyro.reset();
-    SmartDashboard.putNumber("True X", 0);
-    SmartDashboard.putNumber("True Y", 0);
-    SmartDashboard.putNumber("True Yaw", 0);
+    // SmartDashboard.putNumber("True X", 0);
+    // SmartDashboard.putNumber("True Y", 0);
+    // SmartDashboard.putNumber("True Yaw", 0);
 
     m_rightDrive.setSelectedSensorPosition(0);
     m_leftDrive.setSelectedSensorPosition(0);
@@ -99,8 +99,8 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized(m_setlock){
       m_rightDrive.set(TalonFXControlMode.Velocity, rightSpeed);
       m_leftDrive.set(TalonFXControlMode.Velocity, leftSpeed);
-      SmartDashboard.putNumber("Right Speed", rightSpeed);
-		  SmartDashboard.putNumber("Left Speed", leftSpeed);
+      // SmartDashboard.putNumber("Right Speed", rightSpeed);
+			// SmartDashboard.putNumber("Left Speed", leftSpeed);
     }
   }
 
@@ -208,14 +208,14 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Left Pos", m_leftDrive.getSelectedSensorPosition() * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Right Pos", m_rightDrive.getSelectedSensorPosition() * Constants.k_feetPerTick);
-    SmartDashboard.putNumber("Navigator X", m_navigator.getPos().x);
-    SmartDashboard.putNumber("Navigator Y", m_navigator.getPos().y);
-    SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Left Vel (feet)", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
-    SmartDashboard.putNumber("Right Vel (feet)", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
+    // SmartDashboard.putNumber("Navigator X", m_navigator.getPos().x);
+    // SmartDashboard.putNumber("Navigator Y", m_navigator.getPos().y);
+    // SmartDashboard.putNumber("Left Position", m_leftDrive.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Left Vel (feet)", m_leftDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
+    // SmartDashboard.putNumber("Right Vel (feet)", m_rightDrive.getSelectedSensorVelocity() * 10 * Constants.k_feetPerTick);
     SmartDashboard.putNumber("Gyro Yaw", m_gyro.getAngle());
     SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
-    SmartDashboard.putNumber("Navigator Angle", ParadoxField.normalizeAngle(m_posTracker.getPose2d().getRotation().getDegrees()));
+    // SmartDashboard.putNumber("Navigator Angle", ParadoxField.normalizeAngle(m_posTracker.getPose2d().getRotation().getDegrees()));
 
     m_field.setRobotPose(m_navigator.getPose2d());
 
