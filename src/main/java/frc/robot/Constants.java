@@ -74,6 +74,7 @@ public final class Constants {
   public static final double k_humanPlayerStationAngle = -60;
   public static final double k_straightUpExtent = 0;
   public static final double k_straightUpAngle = 0;
+  public static final double k_topConeExtent = 23;
 
   //Arm constants
   public static double k_armDegreesPerTick = 0.0895;
@@ -81,11 +82,12 @@ public final class Constants {
   public static final double k_armP = 0.02; // 0.01
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;
-  public static final double k_armF = 0.003; // 0.004
+  public static double k_armF = 0.003;
   public static final double k_armTicksToDegrees = 6;
   public static final double k_armStartingAngle = 0;
-  public static final double k_maxArmPower = 0.5;
+  public static final double k_maxArmPower = 0.4;
   public static final double k_armDeadZoneInDegrees = 5;
+  public static final double k_armDeadZoneInDegreesBraked = 10;
   public static final double k_brakeEngageTime = 0.1;
   public static final double k_pivotHeight = 22.25;
 
@@ -108,9 +110,10 @@ public final class Constants {
     if (!f.exists()) { //Competition
       //this is where code for competition robot goes
       k_isCompetition = true;
-      k_armDegreesPerTick = 0.0877;
-      k_armZeroPoint = 130.204;
+      k_armDegreesPerTick = 0.088;
+      k_armZeroPoint = 0.733;
       k_bottomSwitch = 8;
+      k_armF = 0.002;
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice
       SmartDashboard.putString("Robot name", "Downfall");

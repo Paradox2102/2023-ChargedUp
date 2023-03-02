@@ -24,6 +24,7 @@ public class ManualArmCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_subsystem.setArmBrake(false);
     Logger.log("ManualArmCommand", 2, "initialize");
   }
 
@@ -31,10 +32,9 @@ public class ManualArmCommand extends CommandBase {
   @Override
   public void execute() {
     double angle = m_angleInDegrees.getAsDouble();
-    //Logger.log("ManualArmCommand", 2, "initialize");
     // power = power * power * power * .5;
-    // m_subsystem.setArmPower(power);
-    m_subsystem.moveToAngle(angle * 120);
+    m_subsystem.setArmPower(angle);
+    // m_subsystem.moveToAngle(angle * 120);
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +42,7 @@ public class ManualArmCommand extends CommandBase {
   public void end(boolean interrupted) {
     Logger.log("ManualArmCommand", 2, "end");
     m_subsystem.enableArm(false);
+    m_subsystem.setArmBrake(true);
   }
 
   // Returns true when the command should end.

@@ -219,7 +219,7 @@ public class ArmSubsystem extends SubsystemBase {
     if (isArmOnTarget()) {
       m_arm.set(0);
       setArmBrake(true);
-    } else {
+    } else if (!isArmOnTargetBraked()) {
       setArmBrake(false);
       applyArmPower();
     }
@@ -257,6 +257,11 @@ public class ArmSubsystem extends SubsystemBase {
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees;
   }
 
+  public boolean isArmOnTargetBraked() {
+    SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegreesBraked;
+  }
+
   public void enable(boolean enable) {
     m_isEnabled = enable;
   }
@@ -270,6 +275,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
+    SmartDashboard.putBoolean("Arm PID is enabled", m_isEnabled);
 
     checkArmLimitSwitch();
 

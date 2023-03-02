@@ -10,14 +10,19 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.BrakeOffCommand;
 import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
+import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
+import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
+import frc.robot.commands.Autos.Auto_8LD;
+import frc.robot.commands.Autos.Auto_8LD8M;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -90,7 +95,7 @@ public class RobotContainer {
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
     m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem.getTracker()); 
-    m_switchSides2 = () -> m_stick2.getThrottle() > 0;
+    m_switchSides2 = () -> m_stick2.getThrottle() < 0;
 
     // Choose which Joystick Driver 1 wants
     if (Constants.k_xboxController) {
@@ -148,6 +153,8 @@ public class RobotContainer {
         m_joystick1.button(6).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
       }
       m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem));
+      m_joystick1.button(9). whileTrue(new ManualArmCommand(m_armSubsystem, () -> .2));
+      m_joystick1.button(11). whileTrue(new ManualArmCommand(m_armSubsystem, () -> -.2));
     }
 
     // Driver 2
@@ -158,20 +165,25 @@ public class RobotContainer {
     m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2));
     m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2));
-    m_stick2.button(8).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
+    m_stick2.button(8).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_topConeExtent, Constants.k_midConeNodeAngle, m_switchSides2));
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2));
     m_stick2.button(10).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE));
     m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides2));
     if (Constants.k_isCompetition) {
-      m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN));
+      m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
     } else {
       m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
     }
 
     // Auto Selection
     m_selectAuto.addOption("4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("8LD", new Auto_8LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("8LD8M", new Auto_8LD8M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     
+    SmartDashboard.putData(m_selectAuto); 
   }
 
 
