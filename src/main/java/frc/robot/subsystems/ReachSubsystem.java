@@ -57,12 +57,12 @@ public class ReachSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Top Switch", m_topSwitch.get());
-    SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
-    SmartDashboard.putNumber("Reach Position", m_reachMotor.getSelectedSensorPosition());
+    // SmartDashboard.putBoolean("Top Switch", m_topSwitch.get());
+    // SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
+    // SmartDashboard.putNumber("Reach Position", m_reachMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Extent Inches", getExtentInInches());
-    SmartDashboard.putBoolean("Top Switch", m_topSwitch.get());
-    SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
+    // SmartDashboard.putBoolean("Top Switch", m_topSwitch.get());
+    // SmartDashboard.putBoolean("Bottom Switch", m_bottomSwitch.get());
 
     if (!m_bottomSwitch.get()) {
       m_armZero = m_reachMotor.getSelectedSensorPosition(); 
