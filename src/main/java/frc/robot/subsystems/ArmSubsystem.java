@@ -251,12 +251,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isArmOnTarget() {
-    SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    // SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees;
   }
 
   public boolean isArmOnTargetBraked() {
-    SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    // SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegreesBraked;
   }
 
@@ -269,11 +269,11 @@ public class ArmSubsystem extends SubsystemBase {
     // Comment out later
     SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
     SmartDashboard.putNumber("Arm Angle", getArmAngleDegrees());
-    SmartDashboard.putNumber("Mag Encoder Position", m_intakeSubsystem.getMagEncoderPosition());
-    SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
-    SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
-    SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
-    SmartDashboard.putBoolean("Arm PID is enabled", m_isEnabled);
+    // SmartDashboard.putNumber("Mag Encoder Position", m_intakeSubsystem.getMagEncoderPosition());
+    // SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
+    // SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
+    // SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
+    // SmartDashboard.putBoolean("Arm PID is enabled", m_isEnabled);
 
     checkArmLimitSwitch();
 
