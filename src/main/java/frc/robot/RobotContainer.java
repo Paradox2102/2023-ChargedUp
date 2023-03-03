@@ -159,7 +159,7 @@ public class RobotContainer {
 
     // Driver 2
     m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
-    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
+    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5)); //outake //0.25
     m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2));
     m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
     m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2));

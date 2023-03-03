@@ -64,15 +64,15 @@ public final class Constants {
   public static final int k_rightLength = 40;
   
   //Arm positions
-  public static final double k_groundPickupExtent = 3;
+  public static final double k_groundPickupExtent = 0;
   public static final double k_groundPickupAngle = -115;
-  public static final double k_midConeNodeExtent = 15;
-  public static final double k_midConeNodeAngle = -60;
-  public static final double k_topConeNodeAngle = -58;
-  public static final double k_midCubeNodeExtent = 6;
+  public static final double k_midConeNodeExtent = 10;
+  public static final double k_midConeNodeAngle = -62;
+  public static final double k_topConeNodeAngle = -57;
+  public static final double k_midCubeNodeExtent = 0;
   public static final double k_midCubeNodeAngle = -75;
-  public static final double k_humanPlayerStationExtent = 8;
-  public static final double k_humanPlayerStationAngle = -60;
+  public static final double k_humanPlayerStationExtent = 13.5;
+  public static final double k_humanPlayerStationAngle = -59;
   public static final double k_straightUpExtent = 0;
   public static final double k_straightUpAngle = 0;
   public static final double k_topConeExtent = 25;
