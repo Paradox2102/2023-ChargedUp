@@ -60,15 +60,15 @@ public final class Constants {
   // LED
   public static final int k_leftLED = 0;
   public static final int k_rightLED = 1;
-  public static final int k_leftLength = 0;
-  public static final int k_rightLength = 0;
+  public static final int k_leftLength = 40;
+  public static final int k_rightLength = 40;
   
   //Arm positions
   public static final double k_groundPickupExtent = 3;
   public static final double k_groundPickupAngle = -115;
   public static final double k_midConeNodeExtent = 15;
   public static final double k_midConeNodeAngle = -60;
-  public static final double k_topConeNodeAngle = -65;
+  public static final double k_topConeNodeAngle = -58;
   public static final double k_midCubeNodeExtent = 6;
   public static final double k_midCubeNodeAngle = -75;
   public static final double k_humanPlayerStationExtent = 8;

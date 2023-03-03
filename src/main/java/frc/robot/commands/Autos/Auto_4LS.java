@@ -46,7 +46,7 @@ public class Auto_4LS extends CommandBase {
     if (Math.abs(m_armSubsystem.getArmAngleDegrees()) <= 5) {
       m_armSubsystem.moveToAngle(-100);
     }
-    if (m_driveSubsystem.getLeftPos() >= 7.5 || m_driveSubsystem.getRightPos() >= 7.5) {
+    if (m_driveSubsystem.getLeftPos() >= 7.25 || m_driveSubsystem.getRightPos() >= 7.25) { // 7.5
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(.5, .5);
     }
