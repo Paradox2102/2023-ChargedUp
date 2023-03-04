@@ -209,7 +209,7 @@ public class ArmSubsystem extends SubsystemBase {
   private void applyArmPower() {
     double armPower = getArmFeedforward() + m_armPID.calculate(getArmAngleDegrees(), m_armTargetAngleInDegrees);
     armPower = Math.abs(armPower) > Constants.k_maxArmPower ? Constants.k_maxArmPower * Math.signum(armPower) : armPower;
-    armPower = Math.abs(armPower) < 0.05 ? 0.05 * Math.signum(armPower) : armPower;
+    // armPower = Math.abs(armPower) < 0.05 ? 0.05 * Math.signum(armPower) : armPower;
     m_arm.set(armPower);
     SmartDashboard.putNumber("Arm Power", armPower);
   }
