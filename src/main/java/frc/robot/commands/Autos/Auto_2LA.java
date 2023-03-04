@@ -18,17 +18,15 @@ import frc.robot.subsystems.ReachSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto_2LA extends ParallelRaceGroup {
+public class Auto_2LA extends SequentialCommandGroup {
   /** Creates a new Auto_2LA2M. */
   public Auto_2LA(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> true),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")
-      )
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> false, 0, 0),
+      new WaitCommand(1),
+      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")
     );
   }
 

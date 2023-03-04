@@ -62,6 +62,9 @@ public final class Constants {
   public static final int k_rightLED = 0;
   public static final int k_leftLength = 40;
   public static final int k_rightLength = 40;
+  // 66 red side
+
+
   
   //Arm positions
   public static final double k_groundPickupExtent = 0;

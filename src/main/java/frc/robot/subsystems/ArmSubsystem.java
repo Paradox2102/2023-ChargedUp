@@ -73,6 +73,8 @@ public class ArmSubsystem extends SubsystemBase {
   private Timer m_brakeTimer = new Timer();
   private boolean m_wasOnTarget = false;
 
+  private boolean m_override = false;
+
   ReachSubsystem m_reachSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   PositionServer m_positionServer;
@@ -201,6 +203,11 @@ public class ArmSubsystem extends SubsystemBase {
     // }
   }
 
+  public void addToTargetAngle(double degrees, boolean switchSides) {
+    m_armTargetAngleInDegrees += switchSides ? degrees : -degrees;
+    m_override = true;
+  } 
+
   public double getArmFeedforward() {
     double length = Constants.k_minArmLength + m_reachSubsystem.getExtentInInches(); // inches
     return -Constants.k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
@@ -218,9 +225,10 @@ public class ArmSubsystem extends SubsystemBase {
     if (isArmOnTarget()) {
       m_arm.set(0);
       setArmBrake(true);
-    } else if (!isArmOnTargetBraked()) {
+    } else if (!isArmOnTargetBraked() || m_override) {
       setArmBrake(false);
       applyArmPower();
+      m_override = false;
     }
     
     // if (m_wasOnTarget) {

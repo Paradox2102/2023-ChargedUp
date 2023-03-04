@@ -110,7 +110,7 @@ public class IntakeSubsystem extends SubsystemBase {
           break;
         case CONE:
           m_enabled = false; 
-          // setClawPower(0.2); 
+          setClawPower(0.2); 
           // m_clawTargetAngleInDegrees = 90;
           break;
       }
@@ -167,9 +167,9 @@ public class IntakeSubsystem extends SubsystemBase {
       setClawPower(.2);
     }
 
-    if (m_isAuto) {
-      setPower(m_power);
-    }
+    // if (m_isAuto) {
+    //   setPower(m_power);
+    // }
   
     // System.out.println(String.format("Arm Power = %f", armPower));
     // }

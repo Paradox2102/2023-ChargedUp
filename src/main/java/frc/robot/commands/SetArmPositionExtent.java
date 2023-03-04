@@ -27,14 +27,18 @@ public class SetArmPositionExtent extends CommandBase {
 
   private boolean m_constructor1;
   private boolean m_isFinished = false;
+  private double m_changeBatteryAngle;
+  private double m_changeMotorAngle;
 
   /** Creates a new SetArmExtent. */
-  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSystem, double extentInInches, double armAngleInDegrees, BooleanSupplier throttle) {
+  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSystem, double extentInInches, double armAngleInDegrees, BooleanSupplier throttle, double changeBatteryAngle, double changeMotorAngle) {
     m_reachSubsystem = reachSubsystem;
     m_armSubsystem = armSystem;
     m_armAngleInDegrees = armAngleInDegrees;
     m_throttle = throttle;
     m_extentInInches = extentInInches;
+    m_changeMotorAngle = changeMotorAngle;
+    m_changeBatteryAngle = changeBatteryAngle;
     if (m_extentInInches < 0) {
       m_extentInInches = 0;
     }
@@ -75,7 +79,7 @@ public class SetArmPositionExtent extends CommandBase {
         m_isFinished = true;
       }
     } else {
-      m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+      m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
       m_reachSubsystem.isRunP(true);
     }
   }
@@ -101,7 +105,7 @@ public class SetArmPositionExtent extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.log("SetArmPositionExtent", 1, "end");
-    m_armSubsystem.enable(false);
+    // m_armSubsystem.enable(false);
   }
 
   // Returns true when the command should end.

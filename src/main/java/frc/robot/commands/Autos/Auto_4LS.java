@@ -40,6 +40,7 @@ public class Auto_4LS extends CommandBase {
     m_armSubsystem.moveToAngle(100);
     m_driveSubsystem.resetEncoders();
     m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

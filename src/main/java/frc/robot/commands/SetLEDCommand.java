@@ -38,7 +38,9 @@ public class SetLEDCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    System.out.println("hiiiii");
+  }
 
   // Called once the command ends or is interrupted.
   @Override

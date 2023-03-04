@@ -26,12 +26,12 @@ public class Auto_2LA2M extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0),
       new IntakeCommand(intakeSubsystem, -.3, true),
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> false),
-      new CreatePathCommand(driveSubsystem, k_path2, true, false, "Path 2"),
-      new IntakeCommand(intakeSubsystem, .5, true) 
+      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")//,
+      // new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true),
+      // new CreatePathCommand(driveSubsystem, k_path2, true, true, "Path 2"),
+      // new IntakeCommand(intakeSubsystem, .5, true) 
     );
   }
 
