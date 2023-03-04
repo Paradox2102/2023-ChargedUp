@@ -56,8 +56,6 @@ public class LEDSubsystem extends SubsystemBase {
         }
       }
     }
-    m_leftLED.setData(m_leftBuffer);
-    // m_rightLED.setData(m_rightBuffer);
   }
 
   // Yellow
@@ -72,8 +70,6 @@ public class LEDSubsystem extends SubsystemBase {
         m_rightBuffer.setRGB(j, 252, 215, 3);
       }
     }
-    m_leftLED.setData(m_leftBuffer);
-    // m_rightLED.setData(m_rightBuffer);
   }
 
   // Purple
@@ -88,8 +84,6 @@ public class LEDSubsystem extends SubsystemBase {
         m_rightBuffer.setRGB(j, 209, 0, 224);
       }
     }
-    m_leftLED.setData(m_leftBuffer);
-    // m_rightLED.setData(m_rightBuffer);
   }
 
   // Red
@@ -98,12 +92,13 @@ public class LEDSubsystem extends SubsystemBase {
       m_leftBuffer.setRGB(i, 255, 0, 0);
       System.out.println("Setting red");
     }
-    m_leftLED.setData(m_leftBuffer);
     System.out.println("Set data");
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_leftLED.setData(m_leftBuffer);
+    // m_rightLED.setData(m_rightBuffer);
   }
 }

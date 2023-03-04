@@ -58,8 +58,8 @@ public final class Constants {
   public static final double k_startAngleDegrees = -90;
 
   // LED
-  public static final int k_leftLED = 0;
-  public static final int k_rightLED = 1;
+  public static final int k_leftLED = 1;
+  public static final int k_rightLED = 0;
   public static final int k_leftLength = 40;
   public static final int k_rightLength = 40;
   
