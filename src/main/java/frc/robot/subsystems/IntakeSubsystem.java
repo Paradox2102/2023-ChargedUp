@@ -145,7 +145,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-  public void autoPeriod(double power) {
+  public void setPowerAutoPeriod(double power) {
     m_power = power;
     m_isAuto = true;
   }

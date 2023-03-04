@@ -70,32 +70,32 @@ public class SetArmPositionExtent extends CommandBase {
         // SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
         // SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
         m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+        m_reachSubsystem.isRunP(true);
       } else {
         m_isFinished = true;
       }
     } else {
       m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
-
+      m_reachSubsystem.isRunP(true);
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentPosition = m_reachSubsystem.getExtentInInches();
-    double distance = m_extentInInches - currentPosition;
+    // double currentPosition = m_reachSubsystem.getExtentInInches();
+    // double distance = m_extentInInches - currentPosition;
 
-    if (Math.abs(distance) < k_deadZone) {
-      m_reachSubsystem.setPower(0);
-    } else {
-      double power = distance * k_p;
-      if (Math.abs(power) < 0.2)
-      {
-        power = 0.2 * Math.signum(power);
-      }
-      m_reachSubsystem.setPower(power);
+    // if (Math.abs(distance) < k_deadZone) {
+    //   m_reachSubsystem.setPower(0);
+    // } else {
+    //   double power = distance * k_p;
+    //   if (Math.abs(power) < 0.2)
+    //   {
+    //     power = 0.2 * Math.signum(power);
+    //   }
+    //   m_reachSubsystem.setPower(power);
     }
-  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -107,6 +107,6 @@ public class SetArmPositionExtent extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_isFinished;
+    return true;
   }
 }

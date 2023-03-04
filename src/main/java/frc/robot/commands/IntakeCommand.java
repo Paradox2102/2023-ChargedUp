@@ -28,7 +28,7 @@ public class IntakeCommand extends CommandBase {
     if (!m_isAuto) {
       m_subsystem.setPower(m_power);
     } else {
-      m_subsystem.autoPeriod(m_power);
+      m_subsystem.setPowerAutoPeriod(m_power);
     }
   }
 
