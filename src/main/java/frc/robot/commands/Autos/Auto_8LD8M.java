@@ -24,14 +24,13 @@ public class Auto_8LD8M extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeAngle, Constants.k_straightUpExtent, () -> true),
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-      new IntakeCommand(intakeSubsystem, -.25),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> true),
+      new IntakeCommand(intakeSubsystem, -.3, true),
+      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> false),
       new CreatePathCommand(driveSubsystem, k_path2, true, false, "Path 2"),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false),
-      new IntakeCommand(intakeSubsystem, .25) 
+      new IntakeCommand(intakeSubsystem, .5, true) 
     );
   }
 

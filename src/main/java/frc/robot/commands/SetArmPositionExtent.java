@@ -60,6 +60,7 @@ public class SetArmPositionExtent extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("SetArmPositionExtent", 1, "initialize");
+    m_reachSubsystem.setExtentInInches(m_extentInInches);
     if (!m_constructor1) {
       OptionalDouble armAngleInDegrees = m_armSubsystem.computeTargetAngleInDegrees();
       OptionalDouble extentInInches = m_armSubsystem.computeTargetDistance();
@@ -86,7 +87,6 @@ public class SetArmPositionExtent extends CommandBase {
 
     if (Math.abs(distance) < k_deadZone) {
       m_reachSubsystem.setPower(0);
-      // m_isFinished = true;
     } else {
       double power = distance * k_p;
       if (Math.abs(power) < 0.2)

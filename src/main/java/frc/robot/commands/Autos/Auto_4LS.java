@@ -6,6 +6,7 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.ArmSubsystem;
@@ -17,8 +18,10 @@ public class Auto_4LS extends CommandBase {
   ArmSubsystem m_armSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   private boolean m_tippedStation = false;
+  private boolean m_start = true;
   private double m_previousRobotPitch = 0;
   private double m_currentRobotPitch = 0;
+  private Timer m_timer = new Timer();
   /** Creates a new DriveStationAuto. */
   public Auto_4LS(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     m_driveSubsystem = driveSubsystem;
@@ -36,13 +39,17 @@ public class Auto_4LS extends CommandBase {
     Logger.log("Auto_4LS", 1, "initialize");
     m_armSubsystem.moveToAngle(100);
     m_driveSubsystem.resetEncoders();
-    m_driveSubsystem.setSpeedFPS(3, 3);
+    m_timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_currentRobotPitch = m_driveSubsystem.getPitch();
+    if (m_start && m_timer.get() > 1) {
+      m_driveSubsystem.setSpeedFPS(3, 3);
+      m_start = false;
+    }
     if (Math.abs(m_armSubsystem.getArmAngleDegrees()) <= 5) {
       m_armSubsystem.moveToAngle(-100);
     }

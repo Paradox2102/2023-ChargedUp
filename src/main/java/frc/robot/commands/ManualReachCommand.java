@@ -11,10 +11,12 @@ import frc.robot.subsystems.ReachSubsystem;
 public class ManualReachCommand extends CommandBase {
   ReachSubsystem m_subsystem;
   double m_power;
+  boolean m_runP;
   /** Creates a new ManualReachCommand. */
-  public ManualReachCommand(ReachSubsystem reachSubsystem, double power) {
+  public ManualReachCommand(ReachSubsystem reachSubsystem, double power, boolean runP) {
     m_subsystem = reachSubsystem;
     m_power = power;
+    m_runP = runP;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
@@ -24,6 +26,7 @@ public class ManualReachCommand extends CommandBase {
   public void initialize() {
     Logger.log("ManualReachCommand", 1, "initialize");
     m_subsystem.setPower(m_power);
+    m_subsystem.isRunP(m_runP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

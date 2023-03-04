@@ -31,12 +31,16 @@ public class IntakeSubsystem extends SubsystemBase {
   private PowerDistribution m_powerDistribution = new PowerDistribution();
   public enum ClawPosition {OPEN, CUBE, CONE}
   private CANSparkMax m_clawMotor = new CANSparkMax(Constants.k_clawMotor, MotorType.kBrushless);
+  boolean m_commandEnded = false;
 
   RelativeEncoder m_clawEncoder = m_clawMotor.getEncoder();
   private final double k_clawTicksToDegrees = 90/6.928; //173.08;
 
   private final double k_clawStartingAngle = 0;
   private final double k_clawDeadZoneInDegrees = 2;
+
+  private double m_power = 0;
+  private boolean m_isAuto = false;
 
   private double m_clawTargetAngleInDegrees = k_clawStartingAngle;
 
@@ -141,6 +145,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
+  public void autoPeriod(double power) {
+    m_power = power;
+    m_isAuto = true;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -154,6 +163,10 @@ public class IntakeSubsystem extends SubsystemBase {
         m_clawMotor.set(clawPower);
       }
       SmartDashboard.putNumber("Claw Power", clawPower);
+    }
+
+    if (m_isAuto) {
+      setPower(m_power);
     }
   
     // System.out.println(String.format("Arm Power = %f", armPower));

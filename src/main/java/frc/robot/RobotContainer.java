@@ -144,8 +144,8 @@ public class RobotContainer {
     } else {
       m_switchSides1 = () -> m_joystick1.getThrottle() < 0;
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), m_switchSides1));
-      m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
-      m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.25)); //outake //0.25
+      m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25, false)); //intake
+      m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
       m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_switchSides2));
       if (Constants.k_isCompetition) {
         m_joystick1.button(6).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN));
@@ -158,12 +158,12 @@ public class RobotContainer {
     }
 
     // Driver 2
-    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25)); //intake
-    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5)); //outake //0.25
+    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.3, false)); //intake
+    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
     m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2));
-    m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3)); //in
+    m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3, false)); //in
     m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2));
-    m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3)); //out
+    m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3, false)); //out
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2));
     m_stick2.button(8).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_topConeExtent, Constants.k_topConeNodeAngle, m_switchSides2));
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2));

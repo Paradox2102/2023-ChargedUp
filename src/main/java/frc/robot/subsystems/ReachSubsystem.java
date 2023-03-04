@@ -24,6 +24,13 @@ public class ReachSubsystem extends SubsystemBase {
 
   private double m_power;
 
+  private final double k_deadZone = 1;
+  private static final double k_p = 0.1;
+
+  private boolean m_runP;
+
+  private double m_extentInInches = 0;
+
 
   /** Creates a new ReachSubsystem. */
   public ReachSubsystem() {
@@ -56,6 +63,27 @@ public class ReachSubsystem extends SubsystemBase {
     m_reachMotor.setSelectedSensorPosition(value);
   }
 
+  public void runP(double distance) {
+    if (Math.abs(distance) < k_deadZone) {
+      setPower(0);
+    } else {
+      double power = distance * k_p;
+      if (Math.abs(power) < 0.2)
+      {
+        power = 0.2 * Math.signum(power);
+      }
+      setPower(power);
+    }
+  }
+
+  public void isRunP(boolean runP) {
+    m_runP = runP;
+  }
+
+  public void setExtentInInches(double extent) {
+    m_extentInInches = extent;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -68,6 +96,13 @@ public class ReachSubsystem extends SubsystemBase {
 
     if (!m_bottomSwitch.get()) {
       m_armZero = m_reachMotor.getSelectedSensorPosition(); 
+    }
+
+    double currentPosition = getExtentInInches();
+    double distance = m_extentInInches - currentPosition;
+
+    if (m_runP) {
+      runP(distance);
     }
 
     // run reach motor -----

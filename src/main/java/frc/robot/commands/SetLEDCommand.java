@@ -21,13 +21,19 @@ public class SetLEDCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_state == "idle") {
-      m_subsystem.setStateIdle();
-    } else if (m_state == "cone") {
-      m_subsystem.setStateCone();
-    } else if (m_state == "cube") {
-      m_subsystem.setStateCube();
-    }
+    // if (m_state == "idle") {
+    //   m_subsystem.setStateIdle();
+    // } else if (m_state == "cone") {
+    //   m_subsystem.setStateCone();
+    // } else if (m_state == "cube") {
+    //   m_subsystem.setStateCube();
+    // }
+    m_subsystem.setRed();
+  }
+
+  @Override 
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
