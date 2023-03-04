@@ -96,8 +96,10 @@ public class LEDSubsystem extends SubsystemBase {
   public void setRed() {
     for (int i = 0; i < Constants.k_leftLength; i++) {
       m_leftBuffer.setRGB(i, 255, 0, 0);
+      System.out.println("Setting red");
     }
     m_leftLED.setData(m_leftBuffer);
+    System.out.println("Set data");
   }
 
   @Override
