@@ -110,7 +110,7 @@ public class IntakeSubsystem extends SubsystemBase {
           break;
         case CONE:
           m_enabled = false; 
-          setClawPower(0.2); 
+          // setClawPower(0.2); 
           // m_clawTargetAngleInDegrees = 90;
           break;
       }
@@ -163,6 +163,8 @@ public class IntakeSubsystem extends SubsystemBase {
         m_clawMotor.set(clawPower);
       }
       SmartDashboard.putNumber("Claw Power", clawPower);
+    } else {
+      setClawPower(.2);
     }
 
     if (m_isAuto) {
