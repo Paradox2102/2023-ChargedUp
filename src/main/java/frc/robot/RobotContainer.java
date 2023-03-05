@@ -20,7 +20,7 @@ import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
-import frc.robot.commands.Autos.Auto_4LS;
+import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_8LD;
 import frc.robot.commands.Autos.Auto_8LD8M;
 import frc.robot.subsystems.ArmSubsystem;
@@ -176,7 +176,7 @@ public class RobotContainer {
     }
 
     // Auto Selection
-    m_selectAuto.addOption("4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("4LS", new Auto_4MS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
