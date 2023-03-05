@@ -23,6 +23,7 @@ import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
+import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_9LD;
 import frc.robot.commands.Autos.Auto_8LD8M;
 import frc.robot.subsystems.ArmSubsystem;
@@ -187,6 +188,7 @@ public class RobotContainer {
     m_selectAuto.addOption("2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("8LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("8LD8M", new Auto_8LD8M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("4MS", new Auto_4MS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem, m_reachSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }
