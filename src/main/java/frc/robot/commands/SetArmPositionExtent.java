@@ -25,7 +25,7 @@ public class SetArmPositionExtent extends CommandBase {
   private static final double k_p = 0.1;
   private static final double k_deadZone = 1;
 
-  private boolean m_constructor1;
+  private boolean m_manualTarget;
   private boolean m_isFinished = false;
   private double m_changeBatteryAngle;
   private double m_changeMotorAngle;
@@ -46,7 +46,7 @@ public class SetArmPositionExtent extends CommandBase {
       m_extentInInches = Constants.k_maxArmLength; 
     }
 
-    m_constructor1 = true;
+    m_manualTarget = true;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_reachSubsystem, m_armSubsystem);
@@ -56,7 +56,7 @@ public class SetArmPositionExtent extends CommandBase {
     m_armSubsystem = armSubsystem;
     m_reachSubsystem = reachSubsystem;
     m_throttle = throttle;
-    m_constructor1 = false;
+    m_manualTarget = false;
     addRequirements(m_armSubsystem, m_reachSubsystem);
   }
 
@@ -64,17 +64,16 @@ public class SetArmPositionExtent extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("SetArmPositionExtent", 1, "initialize");
-    m_reachSubsystem.setExtentInInches(m_extentInInches);
-    if (!m_constructor1) {
+    if (!m_manualTarget) {
       OptionalDouble armAngleInDegrees = m_armSubsystem.computeTargetAngleInDegrees();
       OptionalDouble extentInInches = m_armSubsystem.computeTargetDistance();
-      if (armAngleInDegrees.isPresent() && extentInInches.isPresent()){
+      if (armAngleInDegrees.isPresent() && extentInInches.isPresent()) {
         m_armAngleInDegrees = armAngleInDegrees.getAsDouble();
         m_extentInInches = extentInInches.getAsDouble();
-        // SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
-        // SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
+        SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
+        SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
         m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
-        m_reachSubsystem.isRunP(true);
+        // m_reachSubsystem.isRunP(true);
       } else {
         m_isFinished = true;
       }
@@ -82,6 +81,7 @@ public class SetArmPositionExtent extends CommandBase {
       m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
       m_reachSubsystem.isRunP(true);
     }
+    // m_reachSubsystem.setExtentInInches(m_extentInInches);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

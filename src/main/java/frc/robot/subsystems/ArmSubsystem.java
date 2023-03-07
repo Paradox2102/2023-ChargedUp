@@ -126,6 +126,12 @@ public class ArmSubsystem extends SubsystemBase {
     enableArm(true);
   }
 
+  private double[] m_coneTargetHeights = {6/12.0, 12/12.0, 12/12.0};
+  private double[] m_cubeTargetHeights = {6/12.0, 0/12.0, 0/12.0};
+
+  private double[] m_coneTargetExtent = {-4, -4, -4};
+  private double[] m_cubeTargetExtent = {-7, -7, -7};
+
   public OptionalDouble computeTargetAngleInDegrees() {
     PositionServer.Target target = m_positionServer.getTarget(); 
     Pose2d pose = m_positionTracker.getPose2d();
@@ -137,6 +143,11 @@ public class ArmSubsystem extends SubsystemBase {
     double robotY = pose.getY();
     double robotX = pose.getX();
     double targetHeight = target.m_h;
+    if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
+      targetHeight += m_cubeTargetHeights[target.m_level];
+    } else {
+      targetHeight += m_coneTargetHeights[target.m_level];
+    }
     SmartDashboard.putNumber("computeTargetAngleInDegrees.targetHeight", targetHeight);
     double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
     SmartDashboard.putNumber("computeTargetAngleInDegrees.distance", distance);
@@ -159,6 +170,12 @@ public class ArmSubsystem extends SubsystemBase {
     double robotX = pose.getX();
     double targetHeight = target.m_h;
     double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
+    SmartDashboard.putNumber("computeTargetDistance.distance", distance);
+    if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
+      distance += m_cubeTargetExtent[target.m_level];
+    } else {
+      distance += m_coneTargetExtent[target.m_level];
+    }
     double pivotHeight = Constants.k_pivotHeight / 12;
     double heightToTarget = targetHeight - pivotHeight;
     double targetDistance = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget));
