@@ -42,6 +42,7 @@ public class PositionTracker implements Tracker {
 		if (Constants.k_isCompetition) {
 			m_sensors.getGyro().setYaw(angleInDegrees);
 		} else {
+			// pratice robot has IMU mounted upside down
 			m_sensors.getGyro().setYaw(-angleInDegrees);
 		}
 		m_poseEstimator.resetPosition(

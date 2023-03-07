@@ -184,7 +184,8 @@ public class DriveSubsystem extends SubsystemBase {
     if (Constants.k_isCompetition) {
       return m_gyro.getPitch();
     } else {
-      return m_gyro.getRoll();
+      // practice robot has IMU mounted sideways
+      return m_gyro.getRoll(); 
     }
   }
 
