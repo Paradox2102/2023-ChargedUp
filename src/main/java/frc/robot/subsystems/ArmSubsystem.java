@@ -222,8 +222,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private void runPID() {
+    // applyArmPower();
     if (isArmOnTarget()) {
-      m_arm.set(0);
+      // m_arm.set(0);
+      applyArmPower(); 
       setArmBrake(true);
     } else if (!isArmOnTargetBraked() || m_override) {
       setArmBrake(false);
@@ -260,12 +262,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isArmOnTarget() {
-    // SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees;
   }
 
   public boolean isArmOnTargetBraked() {
-    // SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegreesBraked;
   }
 

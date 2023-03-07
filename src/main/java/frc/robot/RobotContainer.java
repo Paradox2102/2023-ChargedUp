@@ -55,7 +55,7 @@ public class RobotContainer {
 
   // Variables that will be passed into commands and subsystems
   public AprilTagFieldLayout m_tags;
-  public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(6, 0, 3);
+  public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, 0, Constants.k_frontCameraAngle);
   public final ApriltagsCamera m_backCamera = null; 
 
   // The robot's subsystems and commands are defined here...

@@ -101,7 +101,7 @@ public class PositionTracker implements Tracker {
 		pos = ParadoxField.pose2dFromFRC(pos);
 		SmartDashboard.putNumber("xPos", pos.getX());
 		SmartDashboard.putNumber("yPos", pos.getY());
-		SmartDashboard.putNumber("angle", pos.getRotation().getDegrees());
+		SmartDashboard.putNumber("Robot Angle", pos.getRotation().getDegrees());
 		m_posServer.setPosition(pos.getX(), pos.getY(), pos.getRotation().getDegrees());
 
 		PositionServer.Target target = m_posServer.getTarget();

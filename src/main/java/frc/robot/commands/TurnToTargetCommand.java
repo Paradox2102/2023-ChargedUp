@@ -50,6 +50,7 @@ public class TurnToTargetCommand extends CommandBase {
   public void execute() {
     OptionalDouble angle = m_subsystem.findTargetAngleDegrees(); 
     if (angle.isPresent()) {
+      Logger.log("TurnToTargetCommand", 1, "isPresent"); 
       m_targetAngle = angle.getAsDouble() + (m_switchSides.getAsBoolean() ? 0 : 180); 
       double currentRobotAngle = m_tracker.getPose2d().getRotation().getDegrees();
       m_distance =  currentRobotAngle - m_targetAngle;
@@ -59,6 +60,7 @@ public class TurnToTargetCommand extends CommandBase {
       m_subsystem.setPower(power, -power);
     }
     else {
+      Logger.log("TurnToTargetCommand", 1, "notPresent"); 
       m_invalid = true; 
     }
   }

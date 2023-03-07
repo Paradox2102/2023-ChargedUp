@@ -86,7 +86,7 @@ public final class Constants {
   public static final double k_armP = 0.02; // 0.01
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;
-  public static double k_armF = 0.003;
+  public static double k_armF = 0.002; //0.003
   public static final double k_armTicksToDegrees = 6;
   public static final double k_armStartingAngle = 0;
   public static final double k_maxArmPower = 0.4;
@@ -107,6 +107,10 @@ public final class Constants {
   public static final double k_maxArmLength = 26.375; 
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
+  //Camera constants
+  public static double k_frontCameraAngle = 0.5; 
+  public static double k_xFrontCameraOffsetInches = - 6; 
+
   public static boolean k_isCompetition = false;
 
   public Constants() {
@@ -118,6 +122,8 @@ public final class Constants {
       k_armZeroPoint = 0.733;
       k_bottomSwitch = 8;
       k_armF = 0.002;
+      k_frontCameraAngle = 3; 
+      k_xFrontCameraOffsetInches = 6; 
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice
       SmartDashboard.putString("Robot name", "Downfall");
