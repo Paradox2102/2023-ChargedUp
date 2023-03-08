@@ -129,8 +129,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double[] m_coneTargetHeights = {6/12.0, 12/12.0, 12/12.0};
   private double[] m_cubeTargetHeights = {6/12.0, 0/12.0, 0/12.0};
 
-  private double[] m_coneTargetExtent = {-4, -4, -4};
-  private double[] m_cubeTargetExtent = {-7, -7, -7};
+  private double[] m_coneTargetExtent = {0, -2.85/12, 0};
+  private double[] m_cubeTargetExtent = {0, -10.0/12, -10.0/12};
 
   public OptionalDouble computeTargetAngleInDegrees() {
     PositionServer.Target target = m_positionServer.getTarget(); 
@@ -171,15 +171,21 @@ public class ArmSubsystem extends SubsystemBase {
     double targetHeight = target.m_h;
     double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
     SmartDashboard.putNumber("computeTargetDistance.distance", distance);
-    if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
-      distance += m_cubeTargetExtent[target.m_level];
-    } else {
-      distance += m_coneTargetExtent[target.m_level];
-    }
     double pivotHeight = Constants.k_pivotHeight / 12;
     double heightToTarget = targetHeight - pivotHeight;
-    double targetDistance = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget));
-    return OptionalDouble.of(targetDistance * 12 - Constants.k_minArmLength - 4);
+    double targetDistance = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget))*12;
+    // if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
+    //   targetDistance += m_cubeTargetExtent[target.m_level];
+    // } else {
+    //   targetDistance += m_coneTargetExtent[target.m_level];
+    // }
+    if (targetDistance < 0){
+      targetDistance = 0;
+    }
+    else if (targetDistance > Constants.k_maxArmLength) {
+      targetDistance = Constants.k_maxArmLength;
+    }
+    return OptionalDouble.of(targetDistance - Constants.k_minArmLength - 4);
   }
 
   public void enableArm(boolean enable) {

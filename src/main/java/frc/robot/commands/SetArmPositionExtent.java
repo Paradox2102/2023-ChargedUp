@@ -73,7 +73,7 @@ public class SetArmPositionExtent extends CommandBase {
         SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
         SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
         m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
-        // m_reachSubsystem.isRunP(true);
+        //m_reachSubsystem.isRunP(true);
       } else {
         m_isFinished = true;
       }
@@ -81,7 +81,7 @@ public class SetArmPositionExtent extends CommandBase {
       m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
       m_reachSubsystem.isRunP(true);
     }
-    // m_reachSubsystem.setExtentInInches(m_extentInInches);
+    //m_reachSubsystem.setExtentInInches(m_extentInInches);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
