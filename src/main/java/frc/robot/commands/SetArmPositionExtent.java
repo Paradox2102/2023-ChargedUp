@@ -65,15 +65,17 @@ public class SetArmPositionExtent extends CommandBase {
   public void initialize() {
     Logger.log("SetArmPositionExtent", 1, "initialize");
     if (!m_manualTarget) {
-      OptionalDouble armAngleInDegrees = m_armSubsystem.computeTargetAngleInDegrees();
-      OptionalDouble extentInInches = m_armSubsystem.computeTargetDistance();
-      if (armAngleInDegrees.isPresent() && extentInInches.isPresent()) {
-        m_armAngleInDegrees = armAngleInDegrees.getAsDouble();
-        m_extentInInches = extentInInches.getAsDouble();
-        SmartDashboard.putNumber("Target Extent In Inches", m_extentInInches);
-        SmartDashboard.putNumber("Target Angle In Degrees", m_armAngleInDegrees);
+      // OptionalDouble armAngleInDegrees = null; //m_armSubsystem.computeTargetAngleInDegrees();
+      // OptionalDouble extentInInches = m_armSubsystem.computeTargetDistance();
+      double[] data = m_armSubsystem.computeTargetAngleInDegreesExtentInInches();
+      // if (armAngleInDegrees.isPresent() && extentInInches.isPresent()) {
+      if (data != null) {
+        m_armAngleInDegrees = data[0]; //armAngleInDegrees.getAsDouble();
+        m_extentInInches = data[1]; //extentInInches.getAsDouble();
+        SmartDashboard.putNumber("Arm Extent In Inches", m_extentInInches);
+        SmartDashboard.putNumber("Arm Angle In Degrees", m_armAngleInDegrees);
         m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
-        //m_reachSubsystem.isRunP(true);
+        m_reachSubsystem.isRunP(true);
       } else {
         m_isFinished = true;
       }
@@ -81,7 +83,7 @@ public class SetArmPositionExtent extends CommandBase {
       m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
       m_reachSubsystem.isRunP(true);
     }
-    //m_reachSubsystem.setExtentInInches(m_extentInInches);
+    m_reachSubsystem.setExtentInInches(m_extentInInches);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

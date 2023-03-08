@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.ApriltagsCamera.Logger;
 import frc.ApriltagsCamera.PositionServer;
 import frc.pathfinder.MathUtil;
 import frc.robot.Constants;
@@ -129,14 +130,15 @@ public class ArmSubsystem extends SubsystemBase {
   private double[] m_coneTargetHeights = {6/12.0, 12/12.0, 12/12.0};
   private double[] m_cubeTargetHeights = {6/12.0, 0/12.0, 0/12.0};
 
-  private double[] m_coneTargetExtent = {0, -2.85/12, 0};
-  private double[] m_cubeTargetExtent = {0, -10.0/12, -10.0/12};
+  private double[] m_coneTargetExtent = {-9, -7, -10};
+  private double[] m_cubeTargetExtent = {-9, -10, -10};
 
-  public OptionalDouble computeTargetAngleInDegrees() {
-    PositionServer.Target target = m_positionServer.getTarget(); 
+  public double[] computeTargetAngleInDegreesExtentInInches() {
+    PositionServer.Target target = m_positionServer.getTarget();
     Pose2d pose = m_positionTracker.getPose2d();
     if (target == null) {
-      return OptionalDouble.empty();
+      // return OptionalDouble.empty();
+      return null;
     }
     double targetY = target.m_y;
     double targetX = target.m_x;
@@ -155,7 +157,31 @@ public class ArmSubsystem extends SubsystemBase {
     double heightToTarget = targetHeight - pivotHeight;
     SmartDashboard.putNumber("computeTargetAngleInDegrees.heightToTarget", heightToTarget);
     double targetAngleInDegrees = Math.toDegrees(Math.atan2(heightToTarget, distance));
-    return OptionalDouble.of(90 - targetAngleInDegrees);
+
+    // Compute extent
+    double armExtentInches = Math.sqrt((distance * distance) + (heightToTarget * heightToTarget))*12 - Constants.k_minArmLength - 4;
+
+    Logger.log("ArmSubsystem", 1, String.format("Target No: %d", target.m_no));
+    if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
+      Logger.log("ArmSubsystem", 1, String.format("level=%d, extent=%f", target.m_level,
+      m_cubeTargetExtent[target.m_level]));
+      armExtentInches += m_cubeTargetExtent[target.m_level];
+    } else {
+      armExtentInches += m_coneTargetExtent[target.m_level];
+    }
+
+    if (armExtentInches < 0){
+      armExtentInches = 0;
+    }
+    else if (armExtentInches > Constants.k_maxArmLength) {
+      armExtentInches = Constants.k_maxArmLength;
+    }
+
+    double[] ret = { 90 - targetAngleInDegrees, armExtentInches };
+
+    return(ret);
+
+    // return OptionalDouble.of(90 - targetAngleInDegrees);
   }
 
   public OptionalDouble computeTargetDistance() {
