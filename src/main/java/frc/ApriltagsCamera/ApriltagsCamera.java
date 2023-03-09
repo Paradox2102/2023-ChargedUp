@@ -174,12 +174,12 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 				double b = Math.toRadians(m_angleInDegrees) - Math.PI / 2 - a;
 				double d = Math.sqrt(cx * cx + cz * cz);
 
-				if (d > 60)
+				SmartDashboard.putNumber("update d", d);
+
+				if (d > 200)
 				{
 					return;
 				}
-
-				SmartDashboard.putNumber("update d", d);
 
 				double dx = d * Math.sin(b);
 				double dy = d * Math.cos(b);
