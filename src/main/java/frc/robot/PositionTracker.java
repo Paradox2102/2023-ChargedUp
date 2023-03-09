@@ -94,7 +94,7 @@ public class PositionTracker implements Tracker {
 										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
 
-		// frontCamera.processRegions(m_poseEstimator);
+		frontCamera.processRegions(m_poseEstimator);
 
 		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
 

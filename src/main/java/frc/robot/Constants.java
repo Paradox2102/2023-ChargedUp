@@ -104,8 +104,8 @@ public final class Constants {
   public static final int k_timeout = 30; 
 
   //Reach constants
-  public static final double k_minArmLength = 22; 
-  public static final double k_maxArmLength = 26.375; 
+  public static double k_minArmLength = 22; 
+  public static double k_maxArmLength = 26.375; 
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
   //Camera constants
@@ -125,6 +125,7 @@ public final class Constants {
       k_armF = 0.002;
       k_frontCameraAngle = 3; 
       k_xFrontCameraOffsetInches = 6; 
+      k_maxArmLength = 28.5;
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice
       SmartDashboard.putString("Robot name", "Downfall");
