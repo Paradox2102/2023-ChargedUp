@@ -174,11 +174,6 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 				double b = Math.toRadians(m_angleInDegrees) - Math.PI / 2 - a;
 				double d = Math.sqrt(cx * cx + cz * cz);
 
-				if (d > 60)
-				{
-					return;
-				}
-
 				SmartDashboard.putNumber("update d", d);
 
 				double dx = d * Math.sin(b);
@@ -695,7 +690,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 	int m_frameCount = 0;
 	int m_missingCount = 0;
 	int m_lastFrame = -1;
-	boolean m_logTags = false;
+	boolean m_logTags = true;
 
 	public void processRegions(DifferentialDrivePoseEstimator poseEstimator) {
 		ApriltagsCameraRegions regions = getRegions();
