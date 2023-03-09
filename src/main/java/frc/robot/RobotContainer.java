@@ -164,15 +164,15 @@ public class RobotContainer {
     // Driver 2
     m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.3, false)); //intake
     m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2, 5, 0));
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2, 5, 0, false));
     m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3, false)); //in
-    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2, 0, 0));
+    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2, 0, 0, true));
     m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3, false)); //out
-    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2, 0, 0));
-    m_stick2.button(8).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_topConeExtent, Constants.k_topConeNodeAngle, m_switchSides2, 0, 0));
-    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2, 0, 0));
+    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2, 0, 0, false));
+    m_stick2.button(8).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_topConeExtent, Constants.k_topConeNodeAngle, m_switchSides2, 0, 0, false));
+    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2, 0, 0, false));
     m_stick2.button(10).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE));
-    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides2, 5, 5));
+    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides2, 5, 5, false));
     m_stick2.pov(0).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, 3));
     m_stick2.pov(180).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, -3));
     if (Constants.k_isCompetition) {

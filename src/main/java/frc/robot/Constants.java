@@ -94,6 +94,7 @@ public final class Constants {
   public static final double k_armDeadZoneInDegreesBraked = 10;
   public static final double k_brakeEngageTime = 0.1;
   public static final double k_pivotHeight = 22.25;
+  public static double k_armSpeedDeadzone = 5; // Degrees per second
 
   //Drive constants
   public static final double k_driveP = 0.08;

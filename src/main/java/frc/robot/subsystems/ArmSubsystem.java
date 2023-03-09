@@ -273,13 +273,18 @@ public class ArmSubsystem extends SubsystemBase {
   private void runPID() {
     // applyArmPower();
     if (isArmOnTarget()) {
-      // m_arm.set(0);
-      applyArmPower(); 
+      if (Constants.k_isCompetition) {
+        m_arm.set(0);
+      } else {
+        applyArmPower(); 
+      }
       setArmBrake(true);
-    } else if (!isArmOnTargetBraked() || m_override) {
-      setArmBrake(false);
+    } else {
+        if (!isArmOnTargetBraked() || m_override) {
+          setArmBrake(false);
+          m_override = false;
+        }
       applyArmPower();
-      m_override = false;
     }
     
     // if (m_wasOnTarget) {
@@ -310,9 +315,13 @@ public class ArmSubsystem extends SubsystemBase {
     // }
   }
 
+  public double getArmSpeed() {
+    return m_intakeSubsystem.getMagEncoderVelocity() * Constants.k_armDegreesPerTick * 10;
+  }
+
   public boolean isArmOnTarget() {
     SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
-    return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees;
+    return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees && Math.abs(getArmSpeed()) < Constants.k_armSpeedDeadzone;
   }
 
   public boolean isArmOnTargetBraked() {
@@ -334,6 +343,8 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     // SmartDashboard.putBoolean("Arm Reverse Limit", m_armReverseLimit.isPressed());
     // SmartDashboard.putBoolean("Arm PID is enabled", m_isEnabled);
+    // SmartDashboard.putBoolean("Is Arm On Target", isArmOnTarget());
+    SmartDashboard.putNumber("Arm Speed", getArmSpeed());
 
     checkArmLimitSwitch();
 

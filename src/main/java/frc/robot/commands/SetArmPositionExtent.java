@@ -29,9 +29,10 @@ public class SetArmPositionExtent extends CommandBase {
   private boolean m_isFinished = false;
   private double m_changeBatteryAngle;
   private double m_changeMotorAngle;
+  private boolean m_armStraightUp;
 
   /** Creates a new SetArmExtent. */
-  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSystem, double extentInInches, double armAngleInDegrees, BooleanSupplier throttle, double changeBatteryAngle, double changeMotorAngle) {
+  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSystem, double extentInInches, double armAngleInDegrees, BooleanSupplier throttle, double changeBatteryAngle, double changeMotorAngle, boolean armStraightUp) {
     m_reachSubsystem = reachSubsystem;
     m_armSubsystem = armSystem;
     m_armAngleInDegrees = armAngleInDegrees;
@@ -39,6 +40,7 @@ public class SetArmPositionExtent extends CommandBase {
     m_extentInInches = extentInInches;
     m_changeMotorAngle = changeMotorAngle;
     m_changeBatteryAngle = changeBatteryAngle;
+    m_armStraightUp = armStraightUp;
     if (m_extentInInches < 0) {
       m_extentInInches = 0;
     }
@@ -63,6 +65,7 @@ public class SetArmPositionExtent extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_isFinished = false;
     Logger.log("SetArmPositionExtent", 1, "initialize");
     if (!m_manualTarget) {
       // OptionalDouble armAngleInDegrees = null; //m_armSubsystem.computeTargetAngleInDegrees();
@@ -80,8 +83,14 @@ public class SetArmPositionExtent extends CommandBase {
         m_isFinished = true;
       }
     } else {
-      m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
-      m_reachSubsystem.isRunP(true);
+      if (m_armStraightUp) {
+        m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
+        m_reachSubsystem.isRunP(true);
+        m_isFinished = true;
+      } else {
+        m_reachSubsystem.isRunP(false);
+        m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
+      }
     }
     m_reachSubsystem.setExtentInInches(m_extentInInches);
   }
@@ -89,19 +98,11 @@ public class SetArmPositionExtent extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double currentPosition = m_reachSubsystem.getExtentInInches();
-    // double distance = m_extentInInches - currentPosition;
-
-    // if (Math.abs(distance) < k_deadZone) {
-    //   m_reachSubsystem.setPower(0);
-    // } else {
-    //   double power = distance * k_p;
-    //   if (Math.abs(power) < 0.2)
-    //   {
-    //     power = 0.2 * Math.signum(power);
-    //   }
-    //   m_reachSubsystem.setPower(power);
+    if (m_armSubsystem.isArmOnTarget() && !m_armStraightUp) {
+      m_reachSubsystem.isRunP(true);
+      m_isFinished = true;
     }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -113,6 +114,6 @@ public class SetArmPositionExtent extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }

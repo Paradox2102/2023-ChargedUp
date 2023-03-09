@@ -145,6 +145,14 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
+  public double getMagEncoderVelocity() {
+    if (Constants.k_isCompetition) {
+      return m_rightIntakeMotor.getSelectedSensorVelocity(); 
+    } else {
+      return m_leftIntakeMotor.getSelectedSensorVelocity(); 
+    }
+  }
+
   public void setPowerAutoPeriod(double power) {
     m_power = power;
     m_isAuto = true;
