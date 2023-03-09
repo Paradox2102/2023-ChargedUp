@@ -220,7 +220,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_field.setRobotPose(m_navigator.getPose2d());
 
-    m_posTracker.update(m_frontCamera);
+    m_posTracker.update(m_frontCamera, m_backCamera);
  
     // m_backCamera.processRegions(m_poseEstimator, tags); 
   }

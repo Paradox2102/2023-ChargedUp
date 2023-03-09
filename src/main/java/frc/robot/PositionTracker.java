@@ -88,13 +88,14 @@ public class PositionTracker implements Tracker {
 
 	ApriltagLocation tags[] = { new ApriltagLocation(1, 0, 0, -90) }; 
 	
-	public void update(ApriltagsCamera frontCamera){
+	public void update(ApriltagsCamera frontCamera, ApriltagsCamera rearCamera){
 
 		m_poseEstimator.updateWithTime(ApriltagsCamera.getTime(), ParadoxField.rotation2dFromParadoxAngle(getAngle()), 
 										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
 
 		frontCamera.processRegions(m_poseEstimator);
+		rearCamera.processRegions(m_poseEstimator);
 
 		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
 

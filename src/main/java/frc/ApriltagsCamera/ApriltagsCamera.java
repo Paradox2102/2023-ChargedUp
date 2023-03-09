@@ -162,6 +162,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 				m_angleInDegrees = m_relAngleInDegrees + tag.m_targetAngleDegrees - m_cameraAngleDegrees;
 
 				SmartDashboard.putNumber("update relAngle", m_relAngleInDegrees);
+				SmartDashboard.putNumber("update cam angle", m_cameraAngleDegrees);
 
 				if (Math.abs(m_relAngleInDegrees) > 20)
 				{
@@ -199,7 +200,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 
 				// Logger.log("ApriltagsCamera", 1, String.format("x=%f,y=%f,a=%f", xPos, yPos, m_angleInDegrees));
 
-				Pose2d pos = translatePos2d(xPos, yPos, Math.toRadians(m_angleInDegrees - m_cameraAngleDegrees));
+				Pose2d pos = translatePos2d(xPos, yPos, Math.toRadians(m_angleInDegrees));
 
 				// Logger.log("ApriltagsCamera", 1, String.format("x=%f,y=%f,a=%f", pos.getX(), pos.getY(), m_angleInDegrees));
 

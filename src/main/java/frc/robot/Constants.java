@@ -110,7 +110,9 @@ public final class Constants {
 
   //Camera constants
   public static double k_frontCameraAngle = 0.5; 
+  public static double k_rearCameraAngle = 180;
   public static double k_xFrontCameraOffsetInches = - 6; 
+  public static double k_xRearCameraOffsetInches = 6;
 
   public static boolean k_isCompetition = false;
 
@@ -123,8 +125,10 @@ public final class Constants {
       k_armZeroPoint = 0.733;
       k_bottomSwitch = 8;
       k_armF = 0.002;
-      k_frontCameraAngle = 3; 
-      k_xFrontCameraOffsetInches = 6; 
+      k_frontCameraAngle = -2.2; 
+      k_rearCameraAngle = 180;
+      k_xFrontCameraOffsetInches = 6.5; 
+      k_xRearCameraOffsetInches = -6.5;
       k_maxArmLength = 28.5;
       SmartDashboard.putString("Robot name", "Updraft");
     } else { //Practice

@@ -52,15 +52,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-
+  @SuppressWarnings("unused")
+  private final Constants m_constants = new Constants();
+  
   // Variables that will be passed into commands and subsystems
   public AprilTagFieldLayout m_tags;
   public final ApriltagsCamera m_frontCamera = new ApriltagsCamera(Constants.k_xFrontCameraOffsetInches, 0, Constants.k_frontCameraAngle);
-  public final ApriltagsCamera m_backCamera = null; 
+  public final ApriltagsCamera m_backCamera = new ApriltagsCamera(Constants.k_xRearCameraOffsetInches, 0, Constants.k_rearCameraAngle);
 
   // The robot's subsystems and commands are defined here...
-  @SuppressWarnings("unused")
-  private final Constants m_constants = new Constants();
+
   private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
@@ -95,7 +96,7 @@ public class RobotContainer {
       Logger.log("RobotContainer", 1, "Field didn't load");
     }
     m_frontCamera.connect("10.21.2.10", 5800);
-    // m_backCamera.connect(); 
+    m_backCamera.connect("10.21.2.11", 5800);
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
     m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem.getTracker()); 
