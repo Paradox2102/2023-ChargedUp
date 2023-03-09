@@ -8,6 +8,7 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
+import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetClawCommand;
@@ -26,22 +27,25 @@ public class Auto_2LA2M extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, -5, -5, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")//,
-      // new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true),
-      // new CreatePathCommand(driveSubsystem, k_path2, true, true, "Path 2"),
-      // new IntakeCommand(intakeSubsystem, .5, true) 
+      new CreatePathCommand(driveSubsystem, k_path1, true, true, "Path 1"),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, -5, -5, false),
+      new CreatePathCommand(driveSubsystem, k_path2, true, false, "Path 2"),
+      new IntakeCommand(intakeSubsystem, .3, true) 
     );
   }
 
   private static final Waypoint[] k_path1 = {
-    new Waypoint(1.163, 5.857, Math.toRadians(90)),
-    new Waypoint(1.911, 20, Math.toRadians(90))
-  };
+    new Waypoint(1.163,  5.857, Math.toRadians(90), 1.335, 5.575),
+    new Waypoint(2.3,  21.5, Math.toRadians(99.0))
+};
 
   private static final Waypoint[] k_path2 = {
-    new Waypoint(1.911, 20, Math.toRadians(270)),
-    new Waypoint(1.163, 5.857, Math.toRadians(270))
+    new Waypoint(2.3,  21.5, Math.toRadians(279)),
+    new Waypoint(1.163,  5.857, Math.toRadians(-90), 1.335, 5.575)
   };
 }
+
+
+

@@ -175,9 +175,9 @@ public class IntakeSubsystem extends SubsystemBase {
       setClawPower(.2);
     }
 
-    // if (m_isAuto) {
-    //   setPower(m_power);
-    // }
+    if (m_isAuto) {
+      setPower(m_power);
+    }
   
     // System.out.println(String.format("Arm Power = %f", armPower));
     // }
