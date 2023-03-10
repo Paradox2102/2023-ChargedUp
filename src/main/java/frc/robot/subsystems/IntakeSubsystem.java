@@ -106,7 +106,7 @@ public class IntakeSubsystem extends SubsystemBase {
           break;
         case CUBE:
           m_enabled = true; 
-          m_clawTargetAngleInDegrees = 67;
+          m_clawTargetAngleInDegrees = 77;
           break;
         case CONE:
           m_enabled = false; 

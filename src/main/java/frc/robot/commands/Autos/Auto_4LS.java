@@ -42,7 +42,7 @@ public class Auto_4LS extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("Auto_4LS", 1, "initialize");
-    m_armSubsystem.moveToAngle(100);
+    m_armSubsystem.moveToAngle(-100);
     m_driveSubsystem.resetEncoders();
     m_timer.reset();
     m_timer.start();
@@ -60,22 +60,20 @@ public class Auto_4LS extends CommandBase {
       m_driveSubsystem.setSpeedFPS(2, 2);
     }
     // I figured out at the speed the robot runs at consistently has it go to the same spot even if the wheels slip
-    if (m_driveSubsystem.getLeftPos() >= 7.25 || m_driveSubsystem.getRightPos() >= 7.25) { // 7.25
+    if (m_driveSubsystem.getLeftPos() >= 7.5 || m_driveSubsystem.getRightPos() >= 7.5) { // 7.25
       m_tippedStation = true;
-      m_driveSubsystem.setSpeedFPS(-1, -1); // .5, .5
+      m_driveSubsystem.setSpeedFPS(0, 0); // .5, .5
     }
     if (Math.abs(m_currentRobotPitch) <= .5 && m_tippedStation) {
       m_driveSubsystem.setSpeedFPS(0, 0);
     }
     // This test seems like a bad idea.  You can’t tell that one real-world measurement is less than a previous real-world measurement by just comparing the values like this.  You need to have something more like m_currentRobotPitch + epsilon < m_previousRobotPitch” for some small constant. - Gavin
     else if (m_tippedStation && Math.abs(m_currentRobotPitch) + .5 < Math.abs(m_previousRobotPitch)) {
-      System.out.println("go backwards");
       //   Why do we want to speed up to 1FPS under this condition? - Gavin
       m_driveSubsystem.setSpeedFPS(-1, -1);
     } 
     else if (m_tippedStation && Math.abs(m_currentRobotPitch) - .5 > Math.abs(m_previousRobotPitch)) {
       //   Why do we want to speed up to 1FPS under this condition? - Gavin
-      System.out.println("go forward");
       m_driveSubsystem.setSpeedFPS(1, 1);
     }
     if (m_driveSubsystem.getLeftPos() >= 9 || m_driveSubsystem.getRightPos() >= 9) {
