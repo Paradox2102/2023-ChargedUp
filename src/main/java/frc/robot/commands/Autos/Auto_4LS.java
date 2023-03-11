@@ -42,7 +42,7 @@ public class Auto_4LS extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("Auto_4LS", 1, "initialize");
-    m_armSubsystem.moveToAngle(-100);
+    m_armSubsystem.moveToAngle(-80);
     m_driveSubsystem.resetEncoders();
     m_timer.reset();
     m_timer.start();
@@ -68,13 +68,13 @@ public class Auto_4LS extends CommandBase {
       m_driveSubsystem.setSpeedFPS(0, 0);
     }
     // This test seems like a bad idea.  You can’t tell that one real-world measurement is less than a previous real-world measurement by just comparing the values like this.  You need to have something more like m_currentRobotPitch + epsilon < m_previousRobotPitch” for some small constant. - Gavin
-    else if (m_tippedStation && Math.abs(m_currentRobotPitch) + .5 < Math.abs(m_previousRobotPitch)) {
-      //   Why do we want to speed up to 1FPS under this condition? - Gavin
-      m_driveSubsystem.setSpeedFPS(-1, -1);
-    } 
-    else if (m_tippedStation && Math.abs(m_currentRobotPitch) - .5 > Math.abs(m_previousRobotPitch)) {
+    else if (m_tippedStation && Math.abs(m_currentRobotPitch) < -2.75) {
       //   Why do we want to speed up to 1FPS under this condition? - Gavin
       m_driveSubsystem.setSpeedFPS(1, 1);
+    } 
+    else if (m_tippedStation && Math.abs(m_currentRobotPitch) > 2.75) {
+      //   Why do we want to speed up to 1FPS under this condition? - Gavin
+      m_driveSubsystem.setSpeedFPS(-1, -1);
     }
     if (m_driveSubsystem.getLeftPos() >= 9 || m_driveSubsystem.getRightPos() >= 9) {
       m_driveSubsystem.setSpeedFPS(0, 0);
