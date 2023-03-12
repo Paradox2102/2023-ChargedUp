@@ -24,8 +24,12 @@ import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
 import frc.robot.commands.Autos.Auto_4MS;
+import frc.robot.commands.Autos.Auto_5L;
+import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_9LD;
+import frc.robot.commands.Autos.Auto_9MD;
 import frc.robot.commands.Autos.Auto_8LD8M;
+import frc.robot.commands.Autos.Auto_9HD;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -189,7 +193,10 @@ public class RobotContainer {
     m_selectAuto.addOption("2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("8LD8M", new Auto_8LD8M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("4MS", new Auto_4MS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem, m_reachSubsystem));
+    m_selectAuto.addOption("4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }

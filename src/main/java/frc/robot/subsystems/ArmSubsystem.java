@@ -240,7 +240,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getArmAngleDegrees() {
-    return -MathUtil.normalizeDegrees(m_intakeSubsystem.getMagEncoderPosition() * Constants.k_armDegreesPerTick - Constants.k_armZeroPoint);
+    if (Constants.k_isCompetition) {
+      return MathUtil.normalizeDegrees(m_intakeSubsystem.getMagEncoderPosition() * Constants.k_armDegreesPerTick - Constants.k_armZeroPoint);
+    } else {
+      return -MathUtil.normalizeDegrees(m_intakeSubsystem.getMagEncoderPosition() * Constants.k_armDegreesPerTick - Constants.k_armZeroPoint);
+    }
   }
 
   // Set arm angle to limit switch

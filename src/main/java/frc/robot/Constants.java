@@ -58,9 +58,9 @@ public final class Constants {
   public static final double k_startAngleDegrees = -90;
 
   // LED
-  public static final int k_leftLED = 1;
+  public static final int k_leftLED = 9;
   public static final int k_rightLED = 0;
-  public static final int k_leftLength = 40;
+  public static final int k_leftLength = 60;
   public static final int k_rightLength = 40;
   // 66 red side
 
@@ -68,7 +68,7 @@ public final class Constants {
   
   //Arm positions
   public static final double k_groundPickupExtent = 0;
-  public static final double k_groundPickupAngle = -115;
+  public static final double k_groundPickupAngle = -112;
   public static final double k_midConeNodeExtent = 10;
   public static final double k_midConeNodeAngle = -62;
   public static final double k_topConeNodeAngle = -57;
@@ -121,8 +121,8 @@ public final class Constants {
     if (!f.exists()) { //Competition
       //this is where code for competition robot goes
       k_isCompetition = true;
-      k_armDegreesPerTick = 0.088;
-      k_armZeroPoint = 0.733;
+      k_armDegreesPerTick = 0.08731;
+      k_armZeroPoint = 179.439;
       k_bottomSwitch = 8;
       k_armF = 0.002;
       k_frontCameraAngle = -2.2; 

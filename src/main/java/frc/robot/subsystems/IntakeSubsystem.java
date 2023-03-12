@@ -59,7 +59,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // Initialize motors 
     m_leftIntakeMotor = new TalonSRX(Constants.k_leftIntakeMotor);
     m_rightIntakeMotor = new TalonSRX(Constants.k_rightIntakeMotor);
-    m_leftIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute); 
+    m_leftIntakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     // Set proper inversions
     m_leftIntakeMotor.setInverted(false);
     m_rightIntakeMotor.setInverted(true);
@@ -138,19 +138,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double getMagEncoderPosition() {
-    if (Constants.k_isCompetition) {
-      return m_rightIntakeMotor.getSelectedSensorPosition(); 
-    } else {
-      return m_leftIntakeMotor.getSelectedSensorPosition(); 
-    }
+    return m_leftIntakeMotor.getSelectedSensorPosition(); 
   }
 
   public double getMagEncoderVelocity() {
-    if (Constants.k_isCompetition) {
-      return m_rightIntakeMotor.getSelectedSensorVelocity(); 
-    } else {
-      return m_leftIntakeMotor.getSelectedSensorVelocity(); 
-    }
+    return m_leftIntakeMotor.getSelectedSensorVelocity(); 
   }
 
   public void setPowerAutoPeriod(double power) {

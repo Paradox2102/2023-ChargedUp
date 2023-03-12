@@ -23,7 +23,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   /** Creates a new LEDSubsystem. */
   public LEDSubsystem() {
-    m_leftLED.setLength(Constants.k_leftLength);
+    m_leftLED.setLength(m_leftBuffer.getLength());
     // m_rightLED.setLength(Constants.k_rightLength);
 
     m_leftLED.setData(m_leftBuffer);
@@ -90,15 +90,15 @@ public class LEDSubsystem extends SubsystemBase {
   public void setRed() {
     for (int i = 0; i < Constants.k_leftLength; i++) {
       m_leftBuffer.setRGB(i, 255, 0, 0);
-      System.out.println("Setting red");
     }
-    System.out.println("Set data");
+    m_leftLED.setData(m_leftBuffer);
+    System.out.println("red");
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    m_leftLED.setData(m_leftBuffer);
+    // m_leftLED.setData(m_leftBuffer);
     // m_rightLED.setData(m_rightBuffer);
   }
 }
