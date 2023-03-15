@@ -6,6 +6,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
 import frc.robot.commands.DeliverGamePieceCommand;
@@ -26,13 +27,14 @@ public class Auto_2LA2M extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, -5, -5, false),
-      new IntakeCommand(intakeSubsystem, -.3, true),
-      new CreatePathCommand(driveSubsystem, k_path1, true, true, "Path 1"),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, -5, -5, false),
-      new CreatePathCommand(driveSubsystem, k_path2, true, false, "Path 2"),
-      new IntakeCommand(intakeSubsystem, .3, true) 
+      // new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
+      // new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, -5, -5, false),
+      // new IntakeCommand(intakeSubsystem, -.3, true),
+      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
+      new WaitCommand(1),
+      // new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, -5, -5, false),
+      new CreatePathCommand(driveSubsystem, k_path2, true, true, "Path 2")
+      // new IntakeCommand(intakeSubsystem, .3, true) 
     );
   }
 
