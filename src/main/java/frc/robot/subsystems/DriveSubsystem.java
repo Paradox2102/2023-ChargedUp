@@ -25,6 +25,8 @@ import frc.robot.LocationTracker;
 import frc.robot.Navigator;
 import frc.robot.ParadoxField;
 import frc.robot.PositionTracker;
+import frc.robot.PositionTracker2022;
+import frc.robot.PositionTrackerPose;
 import frc.robot.PurePursuit;
 import frc.robot.Sensor;
 
@@ -86,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightDrive.config_IntegralZone(0, Constants.k_DriveIZone, Constants.k_timeout);
 
     m_sensors = new Sensor(() -> m_leftDrive.getSelectedSensorPosition(), () -> m_rightDrive.getSelectedSensorPosition(), () -> m_leftDrive.getSelectedSensorVelocity(), () -> m_rightDrive.getSelectedSensorVelocity() , m_gyro);
-    m_posTracker = new PositionTracker(0, 0, m_sensors);
+    m_posTracker = new PositionTrackerPose(0, 0, m_sensors);
     m_navigator = new Navigator(m_posTracker);
     m_navigator.reset(0, 0, 0);
     m_pursuitFollower = new PurePursuit(m_navigator, (l, r) -> setSpeedFPS(l, r), 20);
@@ -218,7 +220,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
     // SmartDashboard.putNumber("Navigator Angle", ParadoxField.normalizeAngle(m_posTracker.getPose2d().getRotation().getDegrees()));
 
-    m_field.setRobotPose(m_navigator.getPose2d());
+    // m_field.setRobotPose(m_navigator.getPose2d());
 
     m_posTracker.update(m_frontCamera, m_backCamera);
  

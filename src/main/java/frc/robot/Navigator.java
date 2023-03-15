@@ -40,14 +40,15 @@ public class Navigator {
 
     public NavigatorPos getPos() {
         NavigatorPos pos;
-        PositionContainer con = m_tracker.getPos();
+        Pose2d con = m_tracker.getPose2d();
         synchronized(m_lock) {
-            pos = new NavigatorPos(m_tracker.getAngle(), con.x, con.y, m_tracker.getLeftEncoderPos(), m_tracker.getRightEncoderPos(), (float) m_tracker.getLeftEncoderVel(), (float)m_tracker.getRightEncoderVel());
+            pos = new NavigatorPos(con.getRotation().getDegrees(), con.getX(), con.getY(), m_tracker.getLeftEncoderPos(), m_tracker.getRightEncoderPos(), (float) m_tracker.getLeftEncoderVel(), (float)m_tracker.getRightEncoderVel());
         }
         return pos;
     }
-    public Pose2d getPose2d() {
-        NavigatorPos pos = getPos();
-        return new Pose2d(pos.x * 0.0254 * 12, pos.x * 0.0254 * 12, Rotation2d.fromDegrees(pos.yaw));
-    }
+
+    // public Pose2d getPose2d() {
+    //     NavigatorPos pos = getPos();
+    //     return new Pose2d(pos.x * 0.0254 * 12, pos.x * 0.0254 * 12, Rotation2d.fromDegrees(pos.yaw));
+    // }
 }
