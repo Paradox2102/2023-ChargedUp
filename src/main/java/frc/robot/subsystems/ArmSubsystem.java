@@ -20,7 +20,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ApriltagsCamera.Logger;
@@ -69,10 +68,6 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_armZero = 0;
   SmartDashboard m_smartDashboard;
   private boolean m_isEnabled = false;
-
-  // Time for brakes to engage
-  private Timer m_brakeTimer = new Timer();
-  private boolean m_wasOnTarget = false;
 
   private boolean m_override = false;
 

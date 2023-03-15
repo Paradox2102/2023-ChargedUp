@@ -35,9 +35,12 @@ public class Auto_9HD extends SequentialCommandGroup {
       new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
     );
   }
-
+  /*
+  -11.838,5.649,90,3.618,5.896
+  -10.5,22.306,436.464
+  */
   private static final Waypoint[] k_path = {
-    new Waypoint(1.703, 5.774, Math.toRadians(90), 3.618, 5.833),
-    new Waypoint(1.911, 20, Math.toRadians(98.186))
+      new Waypoint(-11.838, 5.649, Math.toRadians(90), 3.618, 5.896),
+      new Waypoint(-10.5, 22.306, Math.toRadians(436.464))
   };
 }

@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -25,9 +24,5 @@ public class DeliverGamePieceCommand extends SequentialCommandGroup {
       new TurnToTargetCommand(driveSubsystem, switchSides),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_isCompetition ? switchSides : () -> !switchSides.getAsBoolean())
     );
-  }
-
-  private Command TurnToTargetCommand(DriveSubsystem driveSubsystem) {
-    return null;
   }
 }

@@ -3,10 +3,15 @@
 
 <ins>**`Autos:`**</ins>
 ```
-4LS | Place cube low, engage charge station
-4LBS | Place cube low, grab cube, engage charge station
-2LA | Place cube low, taxi
-2LA2M | Place cube low, grab cube, place cube mid
-8LD | Place cube low, taxi
-8LDLD | Place cube low, grab cube, place mid
+Pie | 4LS | Place cube low, engage charge station
+Mango | 4MS | Place cone mid, engage charge station
+Grape | 4LBS | Place cube low, grab cube, engage charge station
+Apple | 2LA | Place cube low, taxi
+Banana | 2LA2M | Place cube low, grab cube, place cube mid
+Pineapple | 9LD | Place cube low, taxi
+Strawberry | 9MD | Place cone mid, taxi
+Kiwi | 9HD | Place cone high, taxi
+Orange | 8LD8M | Place cube low, grab cube, place mid
+Papaya | 5L | Place cube low
+Burrito | 1LA2MB2H | Place cube low, grab cube, place mid, grab cube, place high
 ```

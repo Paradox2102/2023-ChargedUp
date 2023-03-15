@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.OptionalDouble;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,8 +21,6 @@ public class SetArmPositionExtent extends CommandBase {
   private BooleanSupplier m_throttle;
   private double m_extentInInches;
 
-  private static final double k_p = 0.1;
-  private static final double k_deadZone = 1;
 
   private boolean m_manualTarget;
   private boolean m_isFinished = false;

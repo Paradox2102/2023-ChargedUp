@@ -19,13 +19,13 @@ import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.SetLEDCommand;
+import frc.robot.commands.Autos.Auto_1LA2MB2H;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
 import frc.robot.commands.Autos.Auto_4LS;
 import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_5L;
-import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_9LD;
 import frc.robot.commands.Autos.Auto_9MD;
 import frc.robot.commands.Autos.Auto_8LD8M;
@@ -187,16 +187,17 @@ public class RobotContainer {
     }
 
     // Auto Selection
-    m_selectAuto.addOption("4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("8LD8M", new Auto_8LD8M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem));
-    m_selectAuto.addOption("5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
-    m_selectAuto.addOption("9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("Pie | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("Grape | 4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Banana | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Pineapple | 9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Strawberry | 9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("Orange | 8LD8M", new Auto_8LD8M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }

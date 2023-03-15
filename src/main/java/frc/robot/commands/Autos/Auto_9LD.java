@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Autos;
-
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
@@ -30,16 +28,15 @@ public class Auto_9LD extends SequentialCommandGroup {
     );
   }
 
+  /*
+  -11.838,5.649,90,3.618,5.896
+  -10.5,22.306,436.464
+  */
   private static final Waypoint[] k_path = {
-    new Waypoint(-11.714, 5.774, Math.toRadians(90), 3.618, 5.833),
-    new Waypoint(-10.5, 22.306, Math.toRadians(89))
+      new Waypoint(-11.838, 5.649, Math.toRadians(90), 3.618, 5.896),
+      new Waypoint(-10.5, 22.306, Math.toRadians(436.464))
   };
 }
-
-/*
--10.25,5.774,90,3.618,5.833
--10.5,22.306,89
-*/
 
 
 

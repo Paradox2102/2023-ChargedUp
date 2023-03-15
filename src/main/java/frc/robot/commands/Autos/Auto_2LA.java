@@ -29,13 +29,8 @@ public class Auto_2LA extends SequentialCommandGroup {
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")
     );
   }
-
-/*
-1.703,5.774,90,3.618,5.833
-1.911,22.306,98.186
-*/
   private static final Waypoint[] k_path1 = {
-      new Waypoint(1.703, 5.774, Math.toRadians(90), 3.618, 5.833),
-      new Waypoint(1.911, 20, Math.toRadians(98.186))
+    new Waypoint(1.163,  5.857, Math.toRadians(90), 1.335, 5.575),
+    new Waypoint(2.3,  21.5, Math.toRadians(99.0))
   };
 }
