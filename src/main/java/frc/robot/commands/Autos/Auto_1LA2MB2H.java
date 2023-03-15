@@ -21,24 +21,44 @@ import frc.robot.subsystems.ReachSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto_1LA2MB2H extends SequentialCommandGroup {
   /** Creates a new Auto_1LA2MB2H. */
+
+  private final double k_maxSpeed = 7.000000;
+  private final double k_maxAccel = 5.000000;
+  private final double k_maxDecl = 5.000000;
+  private final double k_maxJerk = 50.000000;
+
   public Auto_1LA2MB2H(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    final double k_maxSpeed = 7.000000;
-    final double k_maxAccel = 5.000000;
-    final double k_maxDecl = 5.000000;
-    final double k_maxJerk = 50.000000;
-
     addCommands(
+      // Prepare to pick up game piece/knock first game piece in
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
+
+      // Go to game piece A
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+      
+      // Prepare to drop game piece A in mid cube node 
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
-      new CreatePathCommand(driveSubsystem, k_path2, true, true, "Path 2"),
+      new CreatePathCommand(driveSubsystem, k_path2, true, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+
+      // Drop game piece A
       new IntakeCommand(intakeSubsystem, .3, true),
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN)
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
+      new IntakeCommand(intakeSubsystem, -.3, true),
+
+      // Go to game piece B
+      new CreatePathCommand(driveSubsystem, k_path3, true, false, "Path 3", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+
+      // Prepare to drop game piece B in high cone node
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
+      new CreatePathCommand(driveSubsystem, k_path4, true, true, "Path 4", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+
+      // Drop Game piece C
+      new IntakeCommand(intakeSubsystem, .3, true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, 0, 0, true)
     );
   }
   /*
@@ -58,11 +78,19 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
       new Waypoint(1.412, 5.4, Math.toRadians(270))
   };
   /*
-  1.412,5.4,84.532,8.721,5.779
-  -1.828,22.431,120
+  1.412,5.4,81.985
+  -1.288,22.348,123.155
   */
   private static final Waypoint[] k_path3 = {
-      new Waypoint(1.412, 5.4, Math.toRadians(84.532), 8.721, 5.779),
-      new Waypoint(-1.828, 22.431, Math.toRadians(120))
+    new Waypoint(1.412, 5.4, Math.toRadians(81.985)),
+    new Waypoint(-1.288, 22.348, Math.toRadians(123.155))
+  };
+  /*
+  -1.288,22.348,303.155
+  1.412,5.4,261.985
+  */
+  private static final Waypoint[] k_path4 = {
+      new Waypoint(-1.288, 22.348, Math.toRadians(303.155)),
+      new Waypoint(1.412, 5.4, Math.toRadians(261.985))
   };
 }

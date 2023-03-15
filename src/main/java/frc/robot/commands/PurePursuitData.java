@@ -16,7 +16,7 @@ public class PurePursuitData {
 
     }
 
-    PurePursuitData(double maxSpeed, double maxAccel, double maxDecl, double maxJerk) {
+    public PurePursuitData(double maxSpeed, double maxAccel, double maxDecl, double maxJerk) {
         k_maxSpeed = maxSpeed;
         k_maxAccel = maxAccel;
         k_maxDecl = maxDecl;
