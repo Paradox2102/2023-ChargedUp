@@ -195,7 +195,7 @@ public class RobotContainer {
     m_selectAuto.addOption("Pineapple | 9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Strawberry | 9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
     m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
-    m_selectAuto.addOption("Orange | 8LD8M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Orange | 9LD9M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     
