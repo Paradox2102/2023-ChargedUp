@@ -20,6 +20,8 @@ public class PositionTracker2022 extends PositionTracker {
 	private PositionThread m_thread = new PositionThread();
 
 	public PositionTracker2022(double x, double y, SensorData sensor) {
+		super();
+		
 		m_sensors = sensor;
 				
 		m_prevLeft = getLeftEncoderPos();

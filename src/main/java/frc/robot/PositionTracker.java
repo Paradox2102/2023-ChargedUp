@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.ApriltagsCamera.ApriltagsCamera;
+import frc.ApriltagsCamera.Logger;
 import frc.ApriltagsCamera.PositionServer;
 
 public abstract class PositionTracker implements Tracker{
@@ -18,6 +19,8 @@ public abstract class PositionTracker implements Tracker{
 
     public PositionTracker()
     {
+		Logger.log("PositionTracker", 1, "PositionTracker()");
+		
         m_posServer = new PositionServer();
 		m_posServer.start();
     }

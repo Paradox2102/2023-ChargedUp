@@ -16,9 +16,11 @@ import frc.ApriltagsCamera.PositionServer;
 public class PositionTrackerPose extends PositionTracker {
 	private SensorData m_sensors;
 	private DifferentialDrivePoseEstimator m_poseEstimator;
-	public PositionServer m_posServer;
+	// public PositionServer m_posServer;
 
 	public PositionTrackerPose(double x, double y, SensorData sensor) {
+		super();
+
 		m_sensors = sensor;
 		m_poseEstimator = new DifferentialDrivePoseEstimator(new DifferentialDriveKinematics(Constants.k_wheelBase),
 		ParadoxField.rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 

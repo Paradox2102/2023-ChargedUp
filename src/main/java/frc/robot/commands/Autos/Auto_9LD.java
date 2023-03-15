@@ -25,8 +25,8 @@ public class Auto_9LD extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> false, 0, 0, false),
-      new WaitCommand(1)
-      // new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
+      new WaitCommand(1),
+      new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
     );
   }
 

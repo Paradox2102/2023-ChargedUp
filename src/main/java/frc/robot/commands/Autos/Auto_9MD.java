@@ -31,8 +31,8 @@ public class Auto_9MD extends SequentialCommandGroup {
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new WaitCommand(1),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, 0, 0, true),
-      new WaitCommand(1)
-      // new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
+      new WaitCommand(1),
+      new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
     );
   }
 
