@@ -9,7 +9,6 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
-import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -27,7 +26,6 @@ public class Auto_4LS extends CommandBase {
   private double m_previousRobotPitch = 0;
   private double m_currentRobotPitch = 0;
   private Timer m_timer = new Timer();
-  private boolean m_isFinished = false;
   /** Creates a new DriveStationAuto. */
   public Auto_4LS(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     m_driveSubsystem = driveSubsystem;
@@ -91,6 +89,6 @@ public class Auto_4LS extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;//m_isFinished;
+    return false;
   }
 }
