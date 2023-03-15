@@ -18,9 +18,9 @@ import frc.robot.subsystems.ReachSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto_8LD8M extends SequentialCommandGroup {
+public class Auto_9LD9M extends SequentialCommandGroup {
   /** Creates a new Auto_8LD8M. */
-  public Auto_8LD8M(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
+  public Auto_9LD9M(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -34,15 +34,23 @@ public class Auto_8LD8M extends SequentialCommandGroup {
     );
   }
 
+  /*
+  -11.838,5.649,90,3.618,5.896
+  -10.5,22.306,436.464
+  */
   private static final Waypoint[] k_path1 = {
-      new Waypoint(-10.25, 5.774, Math.toRadians(90), 3.618, 5.833),
-      new Waypoint(-10.5, 20, Math.toRadians(89))
-  };
-
-  private static final Waypoint[] k_path2 = {
-    new Waypoint(-10.5, 20, Math.toRadians(271)),
-    new Waypoint(-10.25, 5.774, Math.toRadians(270), 3.618, 5.833)
+    new Waypoint(-11.838, 5.649, Math.toRadians(90), 3.618, 5.896),
+    new Waypoint(-10.5, 22.306, Math.toRadians(436.464))
 };
+
+  /*
+  -10.5,22.306,256.464,6.937,5.57
+  -11.838,5.649,270
+  */
+  private static final Waypoint[] k_path2 = {
+      new Waypoint(-10.5, 22.306, Math.toRadians(256.464), 6.937, 5.57),
+      new Waypoint(-11.838, 5.649, Math.toRadians(270))
+  };
 }
 
 

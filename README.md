@@ -11,7 +11,7 @@ Banana | 2LA2M | Place cube low, grab cube, place cube mid
 Pineapple | 9LD | Place cube low, taxi
 Strawberry | 9MD | Place cone mid, taxi
 Kiwi | 9HD | Place cone high, taxi
-Orange | 8LD8M | Place cube low, grab cube, place mid
+Orange | 9LD9M | Place cube low, grab cube, place mid
 Papaya | 5L | Place cube low
 Burrito | 1LA2MB2H | Place cube low, grab cube, place mid, grab cube, place high
 ```
