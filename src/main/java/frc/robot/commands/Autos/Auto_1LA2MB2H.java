@@ -5,6 +5,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -46,6 +47,7 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
 
       // Drop game piece A
       new IntakeCommand(intakeSubsystem, .3, true),
+      new WaitCommand(.25),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
 
