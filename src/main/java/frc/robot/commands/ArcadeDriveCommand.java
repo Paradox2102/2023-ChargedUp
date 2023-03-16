@@ -15,9 +15,9 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class ArcadeDriveCommand extends CommandBase {
   DriveSubsystem m_subsystem;
-  DoubleSupplier m_getX;
-  DoubleSupplier m_getY;
-  BooleanSupplier m_goingForward;
+  DoubleSupplier m_getX; // turn
+  DoubleSupplier m_getY; // drive
+  BooleanSupplier m_goingForward; // flips direction
   SlewRateLimiter m_filter = new SlewRateLimiter(1.0 / Constants.k_rampTimeSeconds);
 
   /** Creates a new ArcadeDriveCommand. */
