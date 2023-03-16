@@ -37,6 +37,7 @@ public class ReachSubsystem extends SubsystemBase {
     m_reachMotor.setInverted(true);
     m_armZero = m_reachMotor.getSelectedSensorPosition();
     // Set limit switches
+    // There's no point in using a timeout unless you're going to check the return value. -Gavin
     m_reachMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
         Constants.k_canTimeOut);
     m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
