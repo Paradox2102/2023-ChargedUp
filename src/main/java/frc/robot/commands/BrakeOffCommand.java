@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.DriveSubsystem;
 
+// This has to be a command in order to be able to run while disabled. - Gavin
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html

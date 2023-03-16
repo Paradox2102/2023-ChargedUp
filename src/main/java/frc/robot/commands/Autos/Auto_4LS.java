@@ -23,7 +23,7 @@ public class Auto_4LS extends CommandBase {
   private boolean m_tippedStation = false;
   // m_start is true for a short initial period to allow us to deliver a game piece before we start moving.
   private boolean m_start = true;
-  private double m_previousRobotPitch = 0;
+  private double m_previousRobotPitch = 0; 
   private double m_currentRobotPitch = 0;
   private Timer m_timer = new Timer();
   /** Creates a new DriveStationAuto. */
@@ -75,14 +75,14 @@ public class Auto_4LS extends CommandBase {
     if (m_driveSubsystem.getLeftPos() >= 9 || m_driveSubsystem.getRightPos() >= 9) {
       m_driveSubsystem.setSpeedFPS(0, 0);
     }
-    m_previousRobotPitch = m_currentRobotPitch;
+    m_previousRobotPitch = m_currentRobotPitch; // not used?
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Logger.log("Auto_4LS", 1, "end");
-    m_driveSubsystem.setSpeedFPS(0, 0);
+    m_driveSubsystem.setSpeedFPS(0, 0); // Should call stop() -Gavin
     m_intakeSubsystem.setClaw(IntakeSubsystem.ClawPosition.OPEN);
   }
 
