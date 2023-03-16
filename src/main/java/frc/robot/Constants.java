@@ -96,8 +96,8 @@ public final class Constants {
   public static final double k_maxArmPower = 0.4;
   public static final double k_armDeadZoneInDegrees = 5;
   public static final double k_armDeadZoneInDegreesBraked = 10;
-  public static final double k_brakeEngageTime = 0.1;
-  public static final double k_pivotHeight = 22.25;
+  public static final double k_brakeEngageTime = 0.1; // seconds
+  public static final double k_pivotHeight = 22.25; // inches
   public static double k_armSpeedDeadzone = 5; // Degrees per second
 
   //Drive constants
@@ -108,8 +108,8 @@ public final class Constants {
   public static final int k_timeout = 30; 
 
   //Reach constants
-  public static double k_minArmLength = 22; 
-  public static double k_maxArmLength = 26.375; 
+  public static double k_minArmLength = 22; // inches; distance from pivot to CoM when extent=0
+  public static double k_maxArmLength = 26.375; // inches; maximum extension beyond minimum
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
   //Camera constants

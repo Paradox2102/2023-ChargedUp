@@ -122,11 +122,13 @@ public class ArmSubsystem extends SubsystemBase {
     enableArm(true);
   }
 
-  private double[] m_coneTargetHeights = {6/12.0, 12/12.0, 12/12.0};
-  private double[] m_cubeTargetHeights = {6/12.0, 0/12.0, 0/12.0};
+  // The position server is returning node locations, but we need to adjust them slightly
+  // to get the robot into the correct position.  These will be added to the calculated values.
+  private double[] m_coneTargetHeights = {6/12.0, 12/12.0, 12/12.0}; // feet
+  private double[] m_cubeTargetHeights = {6/12.0, 0/12.0, 0/12.0}; // feet
 
-  private double[] m_coneTargetExtent = {-9, -7, -10};
-  private double[] m_cubeTargetExtent = {-9, -10, -10};
+  private double[] m_coneTargetExtent = {-9, -7, -10}; // inches
+  private double[] m_cubeTargetExtent = {-9, -10, -10}; // inches
 
   public double[] computeTargetAngleInDegreesExtentInInches() {
     PositionServer.Target target = m_positionServer.getTarget();
@@ -140,6 +142,7 @@ public class ArmSubsystem extends SubsystemBase {
     double robotY = pose.getY();
     double robotX = pose.getX();
     double targetHeight = target.m_h;
+    // Magic numbers! And again below.  Should at least be hidden in a method.  -Gavin
     if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
       targetHeight += m_cubeTargetHeights[target.m_level];
     } else {
@@ -148,8 +151,8 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("computeTargetAngleInDegrees.targetHeight", targetHeight);
     double distance = Math.sqrt(Math.pow((targetY - robotY), 2) + Math.pow((targetX - robotX), 2));
     SmartDashboard.putNumber("computeTargetAngleInDegrees.distance", distance);
-    double pivotHeight = Constants.k_pivotHeight / 12;
-    double heightToTarget = targetHeight - pivotHeight;
+    double pivotHeight = Constants.k_pivotHeight / 12; // feet
+    double heightToTarget = targetHeight - pivotHeight; // feet
     SmartDashboard.putNumber("computeTargetAngleInDegrees.heightToTarget", heightToTarget);
     double targetAngleInDegrees = Math.toDegrees(Math.atan2(heightToTarget, distance));
 

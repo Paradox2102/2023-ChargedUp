@@ -24,7 +24,7 @@ public class ReachSubsystem extends SubsystemBase {
 
   private double m_power;
 
-  private final double k_deadZone = 1;
+  private final double k_deadZone = 1; // inches
   private static final double k_p = 0.1;
 
   private boolean m_runP;
