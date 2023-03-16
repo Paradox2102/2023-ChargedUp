@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.SetCoastModeCommand;
+import frc.robot.commands.BrakeOffCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     new Trigger(this::isEnabled)
     .negate()  
     .debounce(5)
-    .onTrue(new SetCoastModeCommand(m_robotContainer.m_driveSubsystem)); 
+    .onTrue(new BrakeOffCommand(m_robotContainer.m_driveSubsystem)); 
   }
 
   /**
@@ -58,9 +58,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {
-    m_robotContainer.m_driveSubsystem.setBrakeMode(true);
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}

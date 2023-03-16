@@ -98,9 +98,11 @@ public class PositionTrackerPose extends PositionTracker {
 		m_poseEstimator.updateWithTime(ApriltagsCamera.getTime(), ParadoxField.rotation2dFromParadoxAngle(getGyroAngleDegrees()), 
 										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
-
-		frontCamera.processRegions(m_poseEstimator);
-		rearCamera.processRegions(m_poseEstimator);
+		
+		if (!DriverStation.isAutonomous()) {
+			frontCamera.processRegions(m_poseEstimator);
+			rearCamera.processRegions(m_poseEstimator);
+		}
 
 		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
 

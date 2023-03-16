@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.ApriltagsCamera.ApriltagsCamera;
 
 public class PositionTracker2022 extends PositionTracker {
@@ -53,6 +54,8 @@ public class PositionTracker2022 extends PositionTracker {
 		double leftPos = getLeftEncoderPos();
 		double rightPos = getRightEncoderPos();
 		double curAngle = getGyroAngleDegrees();
+
+		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
 
 		synchronized(lock) {
 			double[] offset = computeNewPosition(leftPos, rightPos, curAngle, m_prevLeft, m_prevRight, m_lastAngle); 

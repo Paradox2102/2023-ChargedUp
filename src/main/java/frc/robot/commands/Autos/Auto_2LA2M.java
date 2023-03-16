@@ -30,7 +30,7 @@ public class Auto_2LA2M extends SequentialCommandGroup {
       new IntakeCommand(intakeSubsystem, -.3, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
-      new CreatePathCommand(driveSubsystem, k_path2, true, true, "Path 2"),
+      new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
       new IntakeCommand(intakeSubsystem, .3, true),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN)
     );
