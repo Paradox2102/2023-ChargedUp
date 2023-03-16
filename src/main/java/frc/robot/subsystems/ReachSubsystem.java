@@ -113,7 +113,7 @@ public class ReachSubsystem extends SubsystemBase {
         power = 0;
       }
     } else if (power < 0) {
-      if (!m_bottomSwitch.get() || getExtentInInches() <= 0) {
+      if (!m_bottomSwitch.get() || getExtentInInches() <= 1) {
         power = 0;
       }
     }

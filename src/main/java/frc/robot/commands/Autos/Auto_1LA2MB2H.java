@@ -25,7 +25,7 @@ import frc.robot.subsystems.ReachSubsystem;
 public class Auto_1LA2MB2H extends SequentialCommandGroup {
   /** Creates a new Auto_1LA2MB2H. */
 
-  private final double k_maxSpeed = 14.000000;
+  private final double k_maxSpeed = 8.000000;
   private final double k_maxAccel = 12.000000;
   private final double k_maxDecl = 12.000000;
   private final double k_maxJerk = 50.000000;
@@ -48,7 +48,7 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
       // Prepare to drop game piece A in mid cube node
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false)
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, () -> true, 0, 0, false)
       ),
 
       // Drop game piece A
@@ -98,14 +98,14 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
   */
   private static final Waypoint[] k_path3 = {
     new Waypoint(1.412, 5.4, Math.toRadians(81.985)),
-    new Waypoint(-1.288, 20.348, Math.toRadians(123.155))
+    new Waypoint(-1.288, 20.848, Math.toRadians(103.155))
   };
   /*
-  -1.288,22.348,303.155
-  1.412,5.4,261.985
+  -1.288,22.348,293.155
+    1.412,5.4,-90
   */
   private static final Waypoint[] k_path4 = {
-      new Waypoint(-1.288, 20.348, Math.toRadians(303.155)),
-      new Waypoint(1.412, 5.4, Math.toRadians(261.985))
+      new Waypoint(-1.288, 20.848, Math.toRadians(283.155)),
+      new Waypoint(  1.412, 5.4, Math.toRadians(-90))
   };
 }
