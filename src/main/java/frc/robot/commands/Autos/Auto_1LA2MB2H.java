@@ -40,14 +40,14 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
 
       // Go to game piece A
       new ParallelDeadlineGroup(
-        new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+        new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
         new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
         new IntakeCommand(intakeSubsystem, -.3, true)
         ),
       
       // Prepare to drop game piece A in mid cube node
       new ParallelDeadlineGroup(
-        new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+        new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
         new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, () -> true, 0, 0, false)
       ),
 
@@ -59,20 +59,20 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
 
       // Go to game piece B
       new ParallelDeadlineGroup(
-        new CreatePathCommand(driveSubsystem, k_path3, false, false, "Path 3", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
+        new CreatePathCommand(driveSubsystem, k_path3, false, false, "Path 3", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
         new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
         new IntakeCommand(intakeSubsystem, -.3, true)
       ),
 
       // Prepare to drop game piece B in high cube node
       new ParallelDeadlineGroup(
-        new CreatePathCommand(driveSubsystem, k_path4, false, true, "Path 4", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk)),
-        new IntakeCommand(intakeSubsystem, .3, true),
+        new CreatePathCommand(driveSubsystem, k_path4, false, true, "Path 4", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
         new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false)
       ),
 
       // Drop Game piece B
-      new IntakeCommand(intakeSubsystem, -.3, true),
+      new IntakeCommand(intakeSubsystem, .3, true),
+      new WaitCommand(.15),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, 0, 0, true)
     );
   }
@@ -93,19 +93,19 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
       new Waypoint(1.412, 5.4, Math.toRadians(270))
   };
   /*
-  1.412,5.4,81.985
-  -1.288,22.348,123.155
+  1.412,5.4,81.985,8.581,6.022
+  -1.288,22.348,134.721
   */
   private static final Waypoint[] k_path3 = {
-    new Waypoint(1.412, 5.4, Math.toRadians(81.985)),
-    new Waypoint(-1.288, 20.848, Math.toRadians(103.155))
+      new Waypoint(1.412, 5.4, Math.toRadians(81.985), 8.581, 6.022),
+      new Waypoint(-1.288, 22.348, Math.toRadians(139.721))
   };
   /*
-  -1.288,22.348,293.155
-    1.412,5.4,-90
+  -1.288,22.348,-46.721,4.75,5.721
+  1.412,5.4,-99.985,8.581,6.022
   */
   private static final Waypoint[] k_path4 = {
-      new Waypoint(-1.288, 20.848, Math.toRadians(283.155)),
-      new Waypoint(  1.412, 5.4, Math.toRadians(-90))
+      new Waypoint(-1.288, 22.348, Math.toRadians(-41.721), 4.75, 5.721),
+      new Waypoint(1.412, 5, Math.toRadians(-99.985), 8.581, 6.022)
   };
 }
