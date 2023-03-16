@@ -25,10 +25,10 @@ import frc.robot.subsystems.ReachSubsystem;
 public class Auto_1LA2MB2H extends SequentialCommandGroup {
   /** Creates a new Auto_1LA2MB2H. */
 
-  private final double k_maxSpeed = 8.000000;
-  private final double k_maxAccel = 12.000000;
-  private final double k_maxDecl = 12.000000;
-  private final double k_maxJerk = 50.000000;
+  private final double k_maxSpeed = 8.000000; // feet per second
+  private final double k_maxAccel = 12.000000; // feet per second squared
+  private final double k_maxDecl = 12.000000; // feet per second squared
+  private final double k_maxJerk = 50.000000; // feet per second cubed
 
   public Auto_1LA2MB2H(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
