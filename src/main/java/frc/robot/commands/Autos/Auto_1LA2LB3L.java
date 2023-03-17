@@ -27,8 +27,8 @@ public class Auto_1LA2LB3L extends SequentialCommandGroup {
    * . */
 
   private final double k_maxSpeed = 8.000000; // feet per second
-  private final double k_maxAccel = 12.000000; // feet per second squared
-  private final double k_maxDecl = 12.000000; // feet per second squared
+  private final double k_maxAccel = 10.000000; // feet per second squared
+  private final double k_maxDecl = 10.000000; // feet per second squared
   private final double k_maxJerk = 50.000000; // feet per second cubed
 
   public Auto_1LA2LB3L
@@ -68,7 +68,7 @@ public class Auto_1LA2LB3L extends SequentialCommandGroup {
       // Prepare to drop game piece B in high cube node
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path4, false, true, "Path 4", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false)
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, 10, -100, () -> false, 0, 0, false)
       ),
 
       // Drop Game piece B
@@ -78,36 +78,35 @@ public class Auto_1LA2LB3L extends SequentialCommandGroup {
     );
   }
   /*
-  3.323,5.525,90
+  3.323,7.525,90
   1.952,22.5,90
   */
   private static final Waypoint[] k_path1 = {
-      new Waypoint(3.323, 5.525, Math.toRadians(90)),
+      new Waypoint(3.323, 7.525, Math.toRadians(90)),
       new Waypoint(1.952, 20.5, Math.toRadians(90))
   };
   /*
   1.952,22.5,270
-  1.412,5.4,270
+  1.412,7.4,270
   */
   private static final Waypoint[] k_path2 = {
       new Waypoint(1.952, 20.5, Math.toRadians(270)),
-      new Waypoint(1.412, 10.4, Math.toRadians(270))
+      new Waypoint(1.412, 7.4, Math.toRadians(270))
   };
   /*
-  1.412,5.4,81.985,8.581,6.022
+  1.412,7.4,81.985,8.581,6.022
   -1.288,22.348,134.721
   */
   private static final Waypoint[] k_path3 = {
-      new Waypoint(1.412, 10.4, Math.toRadians(81.985), 8.581, 6.022),
+      new Waypoint(1.412, 7.4, Math.toRadians(81.985), 8.581, 6.022),
       new Waypoint(-1.288, 22.348, Math.toRadians(139.721))
   };
   /*
   -1.288,22.348,-46.721,4.75,5.721
-  1.122,6.563,-119.985,8.581,6.022
+  1.122,8.563,-119.985,8.581,6.022
   */
-  // 86 degrees
   private static final Waypoint[] k_path4 = {
       new Waypoint(-1.288, 22.348, Math.toRadians(-46.721), 4.75, 5.721),
-      new Waypoint(1.122, 6.563, Math.toRadians(-119.985), 8.581, 6.022)
+      new Waypoint(1.122, 8.563, Math.toRadians(-119.985), 8.581, 6.022)
   };
 }

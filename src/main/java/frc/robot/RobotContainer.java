@@ -19,6 +19,7 @@ import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.SetLEDCommand;
+import frc.robot.commands.Autos.Auto_1LA2LB3L;
 import frc.robot.commands.Autos.Auto_1LA2MB2H;
 import frc.robot.commands.Autos.Auto_1MA2M;
 import frc.robot.commands.Autos.Auto_2LA;
@@ -200,6 +201,7 @@ public class RobotContainer {
     m_selectAuto.addOption("Orange | 9LD9M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Dragonfruit | 1LA2LB3L", new Auto_1LA2LB3L(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }
