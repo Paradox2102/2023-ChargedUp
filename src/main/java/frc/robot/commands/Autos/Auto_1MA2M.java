@@ -28,14 +28,13 @@ public class Auto_1MA2M extends SequentialCommandGroup {
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true /*this may be backwards, can swap*/, 0, 0, false),
-      new IntakeCommand(intakeSubsystem, .3, true),
+      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
       new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
-      new IntakeCommand(intakeSubsystem, .3, true),
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN)
+      new IntakeCommand(intakeSubsystem, .3, true)
     );
   }
 
