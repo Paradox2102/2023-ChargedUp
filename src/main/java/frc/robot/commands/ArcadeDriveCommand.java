@@ -47,11 +47,11 @@ public class ArcadeDriveCommand extends CommandBase {
     drive = MathUtil.applyDeadband(drive, Constants.k_deadBand);
     turn = MathUtil.applyDeadband(turn, Constants.k_deadBand);
 
-    turn = turn * turn * turn / 5;
+    turn /= 5;// turn * turn * turn / 5;
     if (!goingForward) {
       drive = -drive;
     }
-    drive = drive * drive * drive;
+    // drive = drive * drive * drive;
     drive = m_filter.calculate(drive);
     // double k_maxSpeed = Constants.k_maxSpeed;
     // m_subsystem.setPower(drive+turn, drive-turn);

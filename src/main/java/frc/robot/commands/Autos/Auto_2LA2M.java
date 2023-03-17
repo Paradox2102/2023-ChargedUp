@@ -32,17 +32,24 @@ public class Auto_2LA2M extends SequentialCommandGroup {
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
       new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
       new IntakeCommand(intakeSubsystem, .3, true),
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN)
+      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, 0, 0, true)
     );
   }
-
+    /*
+    1.163, 5.857, 90
+    2.3, 20.5, 99
+    */
     private static final Waypoint[] k_path1 = {
       new Waypoint(1.163,  5.857, Math.toRadians(90), 1.335, 5.575),
-      new Waypoint(2.3,  21.5, Math.toRadians(99.0))
+      new Waypoint(2.3,  20.5, Math.toRadians(99.0))
   };
-
+  /*
+  2.3, 21.5, 279
+  1.163, 5.857, -90
+  */
   private static final Waypoint[] k_path2 = {
-    new Waypoint(2.3,  21.5, Math.toRadians(279)),
+    new Waypoint(2.3,  20.5, Math.toRadians(279)),
     new Waypoint(1.163,  5.857, Math.toRadians(-90), 1.335, 5.575)
   };
 }

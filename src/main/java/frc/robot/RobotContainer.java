@@ -20,6 +20,7 @@ import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.SetLEDCommand;
 import frc.robot.commands.Autos.Auto_1LA2MB2H;
+import frc.robot.commands.Autos.Auto_1MA2M;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
@@ -188,6 +189,7 @@ public class RobotContainer {
 
     // Auto Selection
     m_selectAuto.addOption("Pie | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem));
     m_selectAuto.addOption("Grape | 4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));

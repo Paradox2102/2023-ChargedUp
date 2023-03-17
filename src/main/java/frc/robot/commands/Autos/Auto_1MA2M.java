@@ -29,9 +29,9 @@ public class Auto_1MA2M extends SequentialCommandGroup {
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true /*this may be backwards, can swap*/, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> true, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
