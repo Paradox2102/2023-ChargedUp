@@ -6,6 +6,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -27,6 +28,7 @@ public class Auto_1MA2M extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
+      new WaitCommand(1),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true /*this may be backwards, can swap*/, 0, 0, false),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
