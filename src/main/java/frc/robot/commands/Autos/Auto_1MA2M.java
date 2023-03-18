@@ -30,8 +30,11 @@ public class Auto_1MA2M extends SequentialCommandGroup {
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
       new WaitCommand(1),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
+      new WaitCommand(.5),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> true, 0, 0, false),
+      new WaitCommand(.5),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, 0, 0, () -> false, 0, 0, true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
@@ -41,13 +44,13 @@ public class Auto_1MA2M extends SequentialCommandGroup {
   }
 
     private static final Waypoint[] k_path1 = {
-      new Waypoint(3.157,  5.857, Math.toRadians(90), 1.335, 5.575),
+      new Waypoint(3.15,  5.857, Math.toRadians(90), 1.335, 5.575),
       new Waypoint(2.3,  21.5, Math.toRadians(99.0))
   };
 
   private static final Waypoint[] k_path2 = {
     new Waypoint(2.3,  21.5, Math.toRadians(279)),
-    new Waypoint(1.163,  5.857, Math.toRadians(-90), 1.335, 5.575)
+    new Waypoint(1.37,  5.857, Math.toRadians(-90), 1.335, 5.575)
   };
 }
 

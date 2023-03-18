@@ -35,21 +35,21 @@ public class Auto_9LD9M extends SequentialCommandGroup {
   }
 
   /*
-  -11.838,5.649,90,3.618,5.896
+  -11.41,5.649,90,3.618,5.896
   -10.5,22.306,436.464
   */
   private static final Waypoint[] k_path1 = {
-    new Waypoint(-11.838, 5.649, Math.toRadians(90), 3.618, 5.896),
+    new Waypoint(-11.41, 5.649, Math.toRadians(90), 3.618, 5.896),
     new Waypoint(-10.5, 22.306, Math.toRadians(436.464))
 };
 
   /*
   -10.5,22.306,256.464,6.937,5.57
-  -11.838,5.649,270
+  -11.41,5.649,270
   */
   private static final Waypoint[] k_path2 = {
       new Waypoint(-10.5, 22.306, Math.toRadians(256.464), 6.937, 5.57),
-      new Waypoint(-11.838, 5.649, Math.toRadians(270))
+      new Waypoint(-11.41, 5.649, Math.toRadians(270))
   };
 }
 

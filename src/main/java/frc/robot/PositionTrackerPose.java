@@ -99,10 +99,10 @@ public class PositionTrackerPose extends PositionTracker {
 										ParadoxField.distanceFromParadox(getLeftEncoderPos()), 
 										ParadoxField.distanceFromParadox(getRightEncoderPos()));
 		
-		if (!DriverStation.isAutonomous()) {
+		// if (!DriverStation.isAutonomous()) {
 			frontCamera.processRegions(m_poseEstimator);
 			rearCamera.processRegions(m_poseEstimator);
-		}
+		// }
 
 		m_posServer.setAllianceColor(DriverStation.getAlliance() == DriverStation.Alliance.Red);
 

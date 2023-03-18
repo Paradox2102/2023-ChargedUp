@@ -78,11 +78,11 @@ public class Auto_1LA2LB3L extends SequentialCommandGroup {
     );
   }
   /*
-  3.323,7.525,90
+  3.15,7.525,90
   1.952,22.5,90
   */
   private static final Waypoint[] k_path1 = {
-      new Waypoint(3.323, 7.525, Math.toRadians(90)),
+      new Waypoint(3.15, 7.525, Math.toRadians(90)),
       new Waypoint(1.952, 20.5, Math.toRadians(90))
   };
   /*
@@ -107,6 +107,6 @@ public class Auto_1LA2LB3L extends SequentialCommandGroup {
   */
   private static final Waypoint[] k_path4 = {
       new Waypoint(-1.288, 22.348, Math.toRadians(-46.721), 4.75, 5.721),
-      new Waypoint(1.122, 8.563, Math.toRadians(-119.985), 8.581, 6.022)
+      new Waypoint(1.37, 8.563, Math.toRadians(-119.985), 8.581, 6.022)
   };
 }

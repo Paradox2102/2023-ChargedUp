@@ -74,19 +74,19 @@ public class SetArmPositionExtent extends CommandBase {
         m_extentInInches = data[1]; //extentInInches.getAsDouble();
         SmartDashboard.putNumber("Arm Extent In Inches", m_extentInInches);
         SmartDashboard.putNumber("Arm Angle In Degrees", m_armAngleInDegrees);
-        m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
+        m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
         m_reachSubsystem.isRunP(true);
       } else {
         m_isFinished = true;
       }
     } else {
       if (m_armStraightUp) {
-        m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
+        m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
         m_reachSubsystem.isRunP(true);
         m_isFinished = true;
       } else {
         m_reachSubsystem.isRunP(false);
-        m_armSubsystem.moveToAngle(!m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
+        m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);
       }
     }
     m_reachSubsystem.setExtentInInches(m_extentInInches);

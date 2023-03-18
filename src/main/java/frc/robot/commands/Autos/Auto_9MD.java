@@ -36,11 +36,11 @@ public class Auto_9MD extends SequentialCommandGroup {
     );
   }
   /*
-  -11.838,5.649,90,3.618,5.896
+  -11.41,5.649,90,3.618,5.896
   -10.5,22.306,436.464
   */
   private static final Waypoint[] k_path = {
-      new Waypoint(-11.838, 5.649, Math.toRadians(90), 3.618, 5.896),
+      new Waypoint(-11.41, 5.649, Math.toRadians(90), 3.618, 5.896),
       new Waypoint(-10.5, 22.306, Math.toRadians(436.464))
   };
 }

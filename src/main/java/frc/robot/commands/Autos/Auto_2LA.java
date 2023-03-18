@@ -29,7 +29,7 @@ public class Auto_2LA extends SequentialCommandGroup {
     );
   }
   private static final Waypoint[] k_path1 = {
-    new Waypoint(1.163,  5.857, Math.toRadians(90), 1.335, 5.575),
+    new Waypoint(1.37,  5.857, Math.toRadians(90), 1.335, 5.575),
     new Waypoint(2.3,  21.5, Math.toRadians(99.0))
   };
 }
