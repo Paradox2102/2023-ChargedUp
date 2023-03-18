@@ -10,6 +10,13 @@ import frc.robot.subsystems.ReachSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+//
+// Could be a factory method on the ReachSubsystem:
+// public Command getCommand(double extentInInches) {
+//   return new InstantCommand(() -> { this.setExtentInInches(extentInInches); this.isRunP(true); }, this);
+// }
+// -Gavin
+
 public class SetReachCommand extends InstantCommand {
   private ReachSubsystem m_subsystem;
   private double m_extent;

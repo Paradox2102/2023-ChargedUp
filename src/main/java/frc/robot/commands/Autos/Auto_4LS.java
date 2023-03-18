@@ -41,6 +41,7 @@ public class Auto_4LS extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("Auto_4LS", 1, "initialize");
+    // Move the arm down to knock off gamepiece
     m_armSubsystem.moveToAngle(-80);
     m_driveSubsystem.resetEncoders();
     m_timer.reset();
@@ -50,28 +51,38 @@ public class Auto_4LS extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // PROBLEM: Ideally, we should only set the speed once per call to execute.  This code potentially calls it up to five times.  This could lead to jittering.  -Gavin
+
     m_currentRobotPitch = m_driveSubsystem.getPitch();
+    // Wait a second for the game piece to fall off and then start moving at 3FPS
     if (m_start && m_timer.get() > 1) {
       m_driveSubsystem.setSpeedFPS(3, 3);
       m_start = false;
     }
+    // If |pitch| <= 10° and we have't reached the middle, slow down to 2FPS
     if (Math.abs(m_driveSubsystem.getPitch()) >= 10 && m_tippedStation == false) {
       m_driveSubsystem.setSpeedFPS(2, 2);
     }
     // I figured out at the speed the robot runs at consistently has it go to the same spot even if the wheels slip
+    // If we've gone 7.5 ft on either side, then we've reached the middle.  Stop.
     if (m_driveSubsystem.getLeftPos() >= 7.5 || m_driveSubsystem.getRightPos() >= 7.5) {
       m_tippedStation = true;
       m_driveSubsystem.setSpeedFPS(0, 0); // .5, .5
     }
+    // If we've reached the middle and |pitch| <= ½°, stop.
     if (Math.abs(m_currentRobotPitch) <= .5 && m_tippedStation) {
       m_driveSubsystem.setSpeedFPS(0, 0);
     }
-    else if (m_tippedStation && Math.abs(m_currentRobotPitch) < -2.75) {
+    // PROBLEM: This test will never be true because of the call to abs(). -Gavin
+    else if (m_tippedStation && Math.abs(m_currentRobotPitch) < -2.75) { 
       m_driveSubsystem.setSpeedFPS(1, 1);
     } 
+    // If we've reached the middle and |pitch| > 2¾°, go backwards at 1FPS
+    // PROBLEM: It's strange that you want to call abs() here. -Gavin
     else if (m_tippedStation && Math.abs(m_currentRobotPitch) > 2.75) {
       m_driveSubsystem.setSpeedFPS(-1, -1);
     }
+    // If we've gone more than 9 ft (on either side), stop.  Runaway robot!
     if (m_driveSubsystem.getLeftPos() >= 9 || m_driveSubsystem.getRightPos() >= 9) {
       m_driveSubsystem.setSpeedFPS(0, 0);
     }

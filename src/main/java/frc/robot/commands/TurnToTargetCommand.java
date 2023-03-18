@@ -17,13 +17,14 @@ public class TurnToTargetCommand extends CommandBase {
   DriveSubsystem m_subsystem;
   PositionTracker m_tracker;
   // double[] m_target;
-  private final double k_p = .005;
-  private final double k_minSpeed = .1;
-  double m_targetAngle;
-  double m_distance;
-  private final double k_deadZone = 3;
-  private boolean m_invalid = true; 
-  private BooleanSupplier m_switchSides;
+  private final double k_p = .005; // Unitless power per degree
+  private final double k_minSpeed = .1; // Unitless power level in [-1,+1]
+  double m_targetAngle; // angle in degrees
+  double m_distance; // angle in degrees
+  private final double k_deadZone = 3; // angle in degrees
+  private boolean m_invalid = true; // indicates that we do not have a valid target
+  private BooleanSupplier m_switchSides; // if true, indicates that we should reverse the front and back of the robot.
+
   /** Creates a new TurnToTargetCommand. */
   public TurnToTargetCommand(DriveSubsystem driveSubsystem, BooleanSupplier switchSides) {
     m_subsystem = driveSubsystem;
@@ -40,7 +41,7 @@ public class TurnToTargetCommand extends CommandBase {
   public void initialize() {
     // m_targetAngle = m_subsystem.findTargetAngleDegrees(); 
     Logger.log("TurnToTargetCommand", 1, String.format("initialize: angle = %f", m_targetAngle));
-    m_invalid = false; 
+    m_invalid = false; // set in execute, then tested in isFinished
     // double beta = Math.atan2(m_tracker.getPose2d().getY() - m_target[1], m_tracker.getPose2d().getX() - m_target[0]);
     //double robotAngle = m_tracker.getPose2d().getRotation().getRadians();
   }
@@ -49,19 +50,18 @@ public class TurnToTargetCommand extends CommandBase {
   @Override
   public void execute() {
     OptionalDouble angle = m_subsystem.findTargetAngleDegrees(); 
-    if (angle.isPresent()) {
+    if (angle.isPresent()) { // We have a valid target
       Logger.log("TurnToTargetCommand", 1, "isPresent"); 
       m_targetAngle = angle.getAsDouble() + (m_switchSides.getAsBoolean() ? 0 : 180); 
       double currentRobotAngle = m_tracker.getPose2d().getRotation().getDegrees();
       m_distance =  currentRobotAngle - m_targetAngle;
       m_distance = ParadoxField.normalizeAngle(m_distance);
-      double power = m_distance * k_p;
+      double power = m_distance * k_p; // Unitless power [-1,+1]
       power = Math.abs(power) > k_minSpeed ? power : k_minSpeed * Math.signum(power);
       m_subsystem.setPower(power, -power);
-    }
-    else {
+    } else {
       Logger.log("TurnToTargetCommand", 1, "notPresent"); 
-      m_invalid = true; 
+      m_invalid = true; // give up
     }
   }
 
@@ -75,6 +75,7 @@ public class TurnToTargetCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // on target or no valid target
     return Math.abs(m_distance) < k_deadZone || m_invalid;
   }
 }

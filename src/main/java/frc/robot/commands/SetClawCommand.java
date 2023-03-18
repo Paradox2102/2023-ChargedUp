@@ -8,7 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.ClawPosition;
 
-public class SetClawCommand extends CommandBase {
+// Could be a factory method on IntakeSubsystem.
+// public Command getClawCommand(ClawPosition pos) {
+//   return new InstantCommand(() -> this.setClaw(pos), this);
+// }
+// -Gavin
+
+public class SetClawCommand extends CommandBase { // Should be InstantCommand -Gavin
   IntakeSubsystem m_subsystem;
   ClawPosition m_pos;
   /** Creates a new SetClawCommand. */

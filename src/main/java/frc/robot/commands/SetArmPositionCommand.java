@@ -13,6 +13,10 @@ import frc.robot.subsystems.ArmSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+//
+// E.g. new InstantCommand(() => m_armSubsystem.moveToAngle(angle), m_armSubsystem)
+// -Gavin
+
 public class SetArmPositionCommand extends InstantCommand {
   ArmSubsystem m_armSubsystem; 
   private double m_armAngle = 0; 

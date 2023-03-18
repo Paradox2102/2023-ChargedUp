@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.ArmSubsystem;
 
+// Not used? -Gavin
+
 public class SetBrakeCommand extends CommandBase {
   /** Creates a new SetBrakeCommand. */
   ArmSubsystem m_armSubsystem;
