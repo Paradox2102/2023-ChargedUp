@@ -113,9 +113,9 @@ public final class Constants {
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
   //Camera constants
-  public static double k_frontCameraAngle = 0.5; 
+  public static double k_frontCameraAngle = 0.8; 
   public static double k_rearCameraAngle = 180;
-  public static double k_xFrontCameraOffsetInches = - 6; 
+  public static double k_xFrontCameraOffsetInches = - 8.8; 
   public static double k_xRearCameraOffsetInches = 6;
 
   public static boolean k_isCompetition = false;

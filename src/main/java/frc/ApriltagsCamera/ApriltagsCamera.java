@@ -177,7 +177,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 
 				SmartDashboard.putNumber("update d", d);
 
-				if (d > 200)
+				if (d > 150)
 				{
 					return;
 				}
@@ -210,7 +210,7 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 
 				if ((Math.abs(ex) > 1) || (Math.abs(ey) > 1))
 				{
-					invalid = m_invalidCount < 20;
+					invalid = m_invalidCount < 3;
 					Logger.log("ApriltagsCamera", 1, String.format("Spurious tag: id=%d fn=%d: %f,%f cnt=%d invalid=%b", m_tag, frameNo, ex, ey, m_invalidCount, invalid));
 					m_invalidCount++;
 				}

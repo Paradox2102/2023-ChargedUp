@@ -52,7 +52,7 @@ public class Logger
 {
 	private static Object 		m_lock = new Object();
 	private final static String m_traceName = "trace";
-	private final static String m_logDir	= "/home/pi/logs/";
+	private final static String m_logDir	= "/home/lvuser/logs/";
 	private static PrintWriter	m_file		= null;
 	private static int			m_level		= -999;			// By default, use logging level based on the type
 	private static long			m_startTime	= System.currentTimeMillis();
@@ -98,7 +98,7 @@ public class Logger
 		
 		public void closeLog()
 		{
-			if (m_file != null);
+			if (m_file != null)
 			{
 				m_file.close();
 				m_file	= null;
