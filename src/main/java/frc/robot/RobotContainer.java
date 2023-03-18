@@ -159,7 +159,7 @@ public class RobotContainer {
       m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
       m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, () -> !m_switchSides2.getAsBoolean()));
       if (Constants.k_isCompetition) {
-        m_joystick1.button(6).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN));
+        m_joystick1.button(6).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, ClawPosition.OPEN));
       } else {
         m_joystick1.button(6).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
       }
@@ -185,12 +185,13 @@ public class RobotContainer {
     if (Constants.k_isCompetition) {
       m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
     } else {
+      
       m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
     }
 
     // Auto Selection
     m_selectAuto.addOption("Pie | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem)); //Drives center for cube
     m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem));
     m_selectAuto.addOption("Grape | 4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));

@@ -9,31 +9,35 @@ import java.io.File;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e
  * . public static). Do not put anything functional in this class.
  *
- * <p>It is advised to 
+ * <p>
+ * It is advised to
  * statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
 
-  // The following values are either shared between competition and practice robots,
-  // or are for the practice robot only.  Selected (non-final) values are modified
+  // The following values are either shared between competition and practice
+  // robots,
+  // or are for the practice robot only. Selected (non-final) values are modified
   // in the constructor for the competition robot.
 
   // Set controller to xbox or joystick
   public static final boolean k_xboxController = false;
 
-  // Drive 
+  // Drive
   public static final int k_rightDrive = 8; // CAN id
   public static final int k_rightFollower = 9; // CAN id
   public static final int k_leftDrive = 11; // CAN id
   public static final int k_leftFollower = 10; // CAN id
 
-  public static final double k_feetPerTick = 18.0/204024;
+  public static final double k_feetPerTick = 18.0 / 204024;
   public static final double k_rampTimeSeconds = .1;
   public static final double k_maxSpeed = 19000; // not used?
   public static final double k_deadBand = .1;
@@ -41,7 +45,7 @@ public final class Constants {
   // Reach
   public static final int k_reachMotor = 0; // CAN id
   public static final int k_canTimeOut = 30; // ms
-  public static final int k_topSwitch = 9; // DIO port 
+  public static final int k_topSwitch = 9; // DIO port
   public static int k_bottomSwitch = 0; // DIO port
 
   // Arm
@@ -51,12 +55,12 @@ public final class Constants {
 
   // Claw
   public static final int k_clawMotor = 1; // CAN id
-  
+
   // Intake
   public static final int k_leftIntakeMotor = 3; // CAN id
   public static final int k_rightIntakeMotor = 2; // CAN id
   public static final int k_claw = 0; // pneumatic channel
-  public static final int k_openCloseMotor = 0; //New intake motor - Not used?
+  public static final int k_openCloseMotor = 0; // New intake motor - Not used?
 
   public static final double k_wheelBase = 2.04; // feet
   public static final double k_startAngleDegrees = -90;
@@ -68,9 +72,13 @@ public final class Constants {
   public static final int k_rightLength = 40;
   // 66 red side
 
+  // New intake
+  public static final int k_newIntakeMotor = 7;
 
-  
-  //Arm positions
+  // Wrist
+  public static final int k_wristMotor = 1;
+
+  // Arm positions
   public static final double k_groundPickupExtent = 0;
   public static final double k_groundPickupAngle = -112;
   public static final double k_midConeNodeExtent = 10;
@@ -84,13 +92,13 @@ public final class Constants {
   public static final double k_straightUpAngle = 0;
   public static final double k_topConeExtent = 25;
 
-  //Arm constants
+  // Arm constants
   public static double k_armDegreesPerTick = 0.0895;
   public static double k_armZeroPoint = 202.04;
   public static final double k_armP = 0.02; // 0.01
   public static final double k_armI = 0;
   public static final double k_armD = 0.002;
-  public static double k_armF = 0.002; //0.003
+  public static double k_armF = 0.002; // 0.003
   public static final double k_armTicksToDegrees = 6;
   public static final double k_armStartingAngle = 0;
   public static final double k_maxArmPower = 0.4;
@@ -100,28 +108,28 @@ public final class Constants {
   public static final double k_pivotHeight = 22.25; // inches
   public static double k_armSpeedDeadzone = 5; // Degrees per second
 
-  //Drive constants
+  // Drive constants
   public static final double k_driveP = 0.08;
-  public static final double k_driveI = 0.0001; 
+  public static final double k_driveI = 0.0001;
   public static final double k_driveF = 0.045;
-  public static final double k_DriveIZone = 300; 
-  public static final int k_timeout = 30; 
+  public static final double k_DriveIZone = 300;
+  public static final int k_timeout = 30;
 
-  //Reach constants
+  // Reach constants
   public static double k_minArmLength = 22; // inches; distance from pivot to CoM when extent=0
   public static double k_maxArmLength = 26.375; // inches; maximum extension beyond minimum
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
-  //Camera constants
-  public static double k_frontCameraAngle = 0.8; 
+  // Camera constants
+  public static double k_frontCameraAngle = 0.8;
   public static double k_rearCameraAngle = 180;
-  public static double k_xFrontCameraOffsetInches = - 8.8; 
+  public static double k_xFrontCameraOffsetInches = -8.8;
   public static double k_xRearCameraOffsetInches = 6;
 
   public static boolean k_isCompetition = false;
 
   public Constants() {
-    File f = new File("/home/lvuser/practice"); 
+    File f = new File("/home/lvuser/practice");
     if (!f.exists()) { // Competition
       // this is where code for the competition robot goes
       k_isCompetition = true;
@@ -129,17 +137,18 @@ public final class Constants {
       k_armZeroPoint = 179.439;
       k_bottomSwitch = 8;
       k_armF = 0.002;
-      k_frontCameraAngle = -2.2; 
+      k_frontCameraAngle = -2.2;
       k_rearCameraAngle = 180;
-      k_xFrontCameraOffsetInches = 6.5; 
+      k_xFrontCameraOffsetInches = 6.5;
       k_xRearCameraOffsetInches = -6.5;
       k_maxArmLength = 28.5;
       SmartDashboard.putString("Robot name", "Updraft");
-    } else { //Practice
+    } else { // Practice
       SmartDashboard.putString("Robot name", "Downfall");
     }
   }
 
-  public static class OperatorConstants {}
+  public static class OperatorConstants {
+  }
 
 }
