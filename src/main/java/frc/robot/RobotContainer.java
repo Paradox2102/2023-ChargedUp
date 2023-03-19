@@ -14,7 +14,9 @@ import frc.robot.commands.ManualAdjustArmAngle;
 import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualClawCommand;
 import frc.robot.commands.ManualReachCommand;
+import frc.robot.commands.ManualWristCommand;
 import frc.robot.commands.PathFollowingCommand;
+import frc.robot.commands.PositionWristCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
@@ -39,6 +41,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.NewIntakeSubsystem;
 import frc.robot.subsystems.OldIntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.ClawPosition;
 
 import java.io.IOException;
@@ -77,6 +80,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = Constants.k_isCompetition ? new NewIntakeSubsystem() : new OldIntakeSubsystem();
   //Intake Subsystem only needed to get absolute mag encoder for arm 
   private final ArmSubsystem m_armSubsystem;
+  private final WristSubsystem m_wristSubsystem = new WristSubsystem(); 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
   private final CommandJoystick m_joystick1;
@@ -162,7 +166,7 @@ public class RobotContainer {
       m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
       m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, () -> !m_switchSides2.getAsBoolean()));
       if (Constants.k_isCompetition) {
-        m_joystick1.button(6).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, ClawPosition.OPEN));
+        m_joystick1.button(12).onTrue(new PositionWristCommand(m_wristSubsystem, 30));
       } else {
         m_joystick1.button(6).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
       }
@@ -172,8 +176,8 @@ public class RobotContainer {
     }
 
     // Driver 2
-    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.2, false)); //intake
-    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
+    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_intakePower, false)); //intake
+    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_outakePower, false)); //outake //0.25
     m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2, 5, 0, false));
     m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3, false)); //in
     m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2, 0, 0, true));
@@ -181,14 +185,14 @@ public class RobotContainer {
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2, 0, 0, false));
     m_stick2.button(8).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_topConeExtent, Constants.k_topConeNodeAngle, m_switchSides2, 0, 0, false));
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2, 0, 0, false));
-    m_stick2.button(10).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE));
     m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides2, 0, 0, false));
     m_stick2.pov(0).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, 3));
     m_stick2.pov(180).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, -3));
     if (Constants.k_isCompetition) {
-      m_stick2.button(12).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CONE));
+      m_stick2.button(10).whileTrue(new ManualWristCommand(m_wristSubsystem, 0.1)); //increases number
+      m_stick2.button(12).whileTrue(new ManualWristCommand(m_wristSubsystem, -0.1)); 
     } else {
-      
+      m_stick2.button(10).toggleOnTrue(new SetClawCommand(m_intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE));
       m_stick2.button(12).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
     }
 
