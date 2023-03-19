@@ -18,7 +18,7 @@ public class PositionTracker2022 extends PositionTracker {
 	
 	private Object lock = new Object();
 	
-	private PositionThread m_thread = new PositionThread();
+	// private PositionThread m_thread = new PositionThread();
 
 	public PositionTracker2022(double x, double y, SensorData sensor) {
 		super();

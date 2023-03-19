@@ -36,7 +36,10 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.NewIntakeSubsystem;
+import frc.robot.subsystems.OldIntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.ClawPosition;
 
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
@@ -71,7 +74,7 @@ public class RobotContainer {
   private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   public final DriveSubsystem m_driveSubsystem;
   private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = Constants.k_isCompetition ? new NewIntakeSubsystem() : new OldIntakeSubsystem();
   //Intake Subsystem only needed to get absolute mag encoder for arm 
   private final ArmSubsystem m_armSubsystem;
   // Driver 1 Controller

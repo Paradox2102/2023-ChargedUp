@@ -74,6 +74,7 @@ public final class Constants {
 
   // New intake
   public static final int k_newIntakeMotor = 7;
+  public static final int k_armEncoder = 0;   // This is a TalonSRX which is ONLY used to read the abs mag encoder for the arm
 
   // Wrist
   public static final int k_wristMotor = 1;
