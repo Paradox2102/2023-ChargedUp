@@ -56,11 +56,13 @@ public final class Constants {
   // Claw
   public static final int k_clawMotor = 1; // CAN id
 
-  // Intake
+  // Old Intake
   public static final int k_leftIntakeMotor = 3; // CAN id
   public static final int k_rightIntakeMotor = 2; // CAN id
   public static final int k_claw = 0; // pneumatic channel
   public static final int k_openCloseMotor = 0; // New intake motor - Not used?
+  public static double k_intakePower = -0.2; 
+  public static double k_outakePower = 0.5; 
 
   public static final double k_wheelBase = 2.04; // feet
   public static final double k_startAngleDegrees = -90;
@@ -75,6 +77,8 @@ public final class Constants {
   // New intake
   public static final int k_newIntakeMotor = 7;
   public static final int k_armEncoder = 0;   // This is a TalonSRX which is ONLY used to read the abs mag encoder for the arm
+  public static final double k_intakeStallSpeed = 300;
+  public static final double k_intakeMinPower = -0.075;
 
   // Wrist
   public static final int k_wristMotor = 1;
@@ -143,6 +147,8 @@ public final class Constants {
       k_xFrontCameraOffsetInches = 6.5;
       k_xRearCameraOffsetInches = -6.5;
       k_maxArmLength = 28.5;
+      k_intakePower = -0.3; 
+      k_outakePower = 0.3; 
       SmartDashboard.putString("Robot name", "Updraft");
     } else { // Practice
       SmartDashboard.putString("Robot name", "Downfall");
