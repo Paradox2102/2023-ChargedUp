@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
 
 public class ReachSubsystem extends SubsystemBase {
@@ -30,18 +31,20 @@ public class ReachSubsystem extends SubsystemBase {
   private boolean m_runP;
 
   private double m_extentInInches = 0;
+  private boolean m_isBrakeMode = false;
 
 
   /** Creates a new ReachSubsystem. */
   public ReachSubsystem() {
+    m_reachMotor.configFactoryDefault();
     m_reachMotor.setInverted(true);
+    try {
+      Thread.sleep(100, 0);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     m_armZero = m_reachMotor.getSelectedSensorPosition();
-    // Set limit switches
-    // There's no point in using a timeout unless you're going to check the return value. -Gavin
-    m_reachMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
-        Constants.k_canTimeOut);
-    m_reachMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
-        Constants.k_canTimeOut);
     setBrakeMode(true);
   }
 
@@ -53,6 +56,7 @@ public class ReachSubsystem extends SubsystemBase {
   public void setBrakeMode(boolean brake){
     NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
     m_reachMotor.setNeutralMode(mode);
+    m_isBrakeMode = brake;
   }
 
   public void setPower(double power) {
@@ -60,8 +64,12 @@ public class ReachSubsystem extends SubsystemBase {
   }
   
 
-  public void resetEncoder(double value) {
-    m_reachMotor.setSelectedSensorPosition(value);
+  // public void resetEncoder(double value) {
+  //   m_reachMotor.setSelectedSensorPosition(value);
+  // }
+
+  public boolean getBrakeMode() {
+    return m_isBrakeMode;
   }
 
   public void runP(double distance) {

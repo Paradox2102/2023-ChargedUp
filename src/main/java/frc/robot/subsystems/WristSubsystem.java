@@ -33,9 +33,13 @@ public class WristSubsystem extends SubsystemBase {
     m_wristMotor.set(power);
   }
 
+  public double getPosition() {
+    return m_encoder.getPosition() - Constants.k_wristResetPosition;
+  }
+
   public void setPosition(double position) {
     m_enabled = true;
-    m_position = position; 
+    m_position = Constants.k_wristResetPosition + position; 
   }
 
   @Override
@@ -51,7 +55,7 @@ public class WristSubsystem extends SubsystemBase {
       m_wristMotor.set(power); 
       SmartDashboard.putNumber("Wrist Power", power); 
     }
-    SmartDashboard.putNumber("Wrist Position", m_encoder.getPosition());
+    SmartDashboard.putNumber("Wrist Position", getPosition());
     // This method will be called once per scheduler run
   }
 }

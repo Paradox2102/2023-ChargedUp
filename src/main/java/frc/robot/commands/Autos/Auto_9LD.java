@@ -12,17 +12,18 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto_9LD extends SequentialCommandGroup {
   /** Creates a new Auto_8LD. */
-  public Auto_9LD(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
+  public Auto_9LD(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, WristSubsystem wristSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_midConeNodeAngle, () -> false, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_midNodeAngleCUBE, () -> false, Constants.k_groundPickupWristCUBE, 0, 0, false),
       new WaitCommand(1),
       new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
     );

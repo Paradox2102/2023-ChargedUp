@@ -30,6 +30,9 @@ import frc.robot.PositionTracker;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
+  private boolean m_isCube = true;
+  public enum ArmPosition {HIGH, MID, LOW, SUBSTATION}
+
 
   // Arm Motors
   CANSparkMax m_arm = new CANSparkMax(Constants.k_armMotor, MotorType.kBrushless);
@@ -180,6 +183,14 @@ public class ArmSubsystem extends SubsystemBase {
     return(ret);
 
     // return OptionalDouble.of(90 - targetAngleInDegrees);
+  }
+
+  public void setGamePiece(boolean isCube) {
+    m_isCube = isCube;
+  }
+
+  public boolean isGamePieceCube() {
+    return m_isCube;
   }
 
   public OptionalDouble computeTargetDistance() {
@@ -340,6 +351,7 @@ public class ArmSubsystem extends SubsystemBase {
     // Comment out later
     SmartDashboard.putNumber("Raw Arm Angle", getRawArmAngle());
     SmartDashboard.putNumber("Arm Angle", getArmAngleDegrees());
+    SmartDashboard.putBoolean("Grab Cube", isGamePieceCube());
     // SmartDashboard.putNumber("Mag Encoder Position", m_intakeSubsystem.getMagEncoderPosition());
     // SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());
     // SmartDashboard.putBoolean("Arm Forward Limit", m_armForwardLimit.isPressed());

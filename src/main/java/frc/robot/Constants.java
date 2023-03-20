@@ -76,26 +76,57 @@ public final class Constants {
 
   // New intake
   public static final int k_newIntakeMotor = 7;
-  public static final int k_armEncoder = 0;   // This is a TalonSRX which is ONLY used to read the abs mag encoder for the arm
+  public static final int k_armEncoder = 3;   // This is a TalonSRX which is ONLY used to read the abs mag encoder for the arm
   public static final double k_intakeStallSpeed = 300;
   public static final double k_intakeMinPower = -0.075;
 
   // Wrist
   public static final int k_wristMotor = 1;
+  public static final double k_wristResetPosition = 30;
 
-  // Arm positions
-  public static final double k_groundPickupExtent = 0;
-  public static final double k_groundPickupAngle = -112;
-  public static final double k_midConeNodeExtent = 10;
-  public static final double k_midConeNodeAngle = -62;
-  public static final double k_topConeNodeAngle = -57;
-  public static final double k_midCubeNodeExtent = 0;
-  public static final double k_midCubeNodeAngle = -75;
-  public static final double k_humanPlayerStationExtent = 13.5;
-  public static final double k_humanPlayerStationAngle = -59;
+  // Wrist Positions Cube
+  public static double k_groundPickupWristCUBE = 0;
+  public static double k_midConeNodeWristCUBE = 0;
+  public static double k_topConeNodeWristCUBE = 0;
+  public static double k_midCubeNodeWristCUBE = 0;
+  public static double k_humanPlayerStationWristCUBE = 0;
+
+  // Wrist Positions Cone
+  public static double k_groundPickupWristCONE = 0;
+  public static double k_midConeNodeWristCONE = 0;
+  public static double k_topConeNodeWristCONE = 0;
+  public static double k_midCubeNodeWristCONE = 0;
+  public static double k_humanPlayerStationWristCONE = 0;
+
+  // Arm positions Cube
+  public static double k_groundPickupExtentCUBE = 0;
+  public static double k_groundPickupAngleCUBE = -93;
+  public static double k_midNodeExtentCUBE = 10;
+  public static double k_midNodeAngleCUBE = -62;
+  public static double k_topNodeExtentCUBE = 10;
+  public static double k_topNodeAngleCUBE = -57;
+  public static double k_midCubeNodeExtentCUBE = 0;
+  public static double k_midCubeNodeAngleCUBE = -75;
+  public static double k_humanPlayerStationExtentCUBE = 13.5;
+  public static double k_humanPlayerStationAngleCUBE = -59;
+
+  // Arm Positions Cone
+  public static double k_groundPickupExtentCONE = 0;
+  public static double k_groundPickupAngleCONE = -93;
+  public static double k_midConeNodeExtentCONE = 10;
+  public static double k_midConeNodeAngleCONE = -62;
+  public static double k_topConeExtentCONE = 25;
+  public static double k_topConeNodeAngleCONE = -57;
+  public static double k_midCubeNodeExtentCONE = 0;
+  public static double k_midCubeNodeAngleCONE = -75;
+  public static double k_humanPlayerStationExtentCONE = 13.5;
+  public static double k_humanPlayerStationAngleCONE = -59;
+
+  // Arm position Straight Up
   public static final double k_straightUpExtent = 0;
   public static final double k_straightUpAngle = 0;
-  public static final double k_topConeExtent = 25;
+  public static final double k_straightUpWrist = 0;
+
 
   // Arm constants
   public static double k_armDegreesPerTick = 0.0895;
@@ -149,6 +180,45 @@ public final class Constants {
       k_maxArmLength = 28.5;
       k_intakePower = -0.3; 
       k_outakePower = 0.3; 
+
+      // Wrist Cube
+      k_groundPickupWristCUBE = 10;
+      k_midConeNodeWristCUBE = 0;
+      k_topConeNodeWristCUBE = 0;
+      k_midCubeNodeWristCUBE = 0;
+      k_humanPlayerStationWristCUBE = 0;
+
+      // Wrist Cone
+      k_groundPickupWristCONE = 10;
+      k_midConeNodeWristCONE = 0;
+      k_topConeNodeWristCONE = 0;
+      k_midCubeNodeWristCONE = 0;
+      k_humanPlayerStationWristCONE = 0;
+
+      // Arm positions Cube
+      k_groundPickupExtentCUBE = 0;
+      k_groundPickupAngleCUBE = -93;
+      k_midNodeExtentCUBE = 10;
+      k_midNodeAngleCUBE = -62;
+      k_topNodeExtentCUBE = 25;
+      k_topNodeAngleCUBE = -57;
+      k_midCubeNodeExtentCUBE = 0;
+      k_midCubeNodeAngleCUBE = -75;
+      k_humanPlayerStationExtentCUBE = 13.5;
+      k_humanPlayerStationAngleCUBE = -59;
+
+      // Arm Positions Cone
+      k_groundPickupExtentCONE = 0;
+      k_groundPickupAngleCONE = -93;
+      k_midConeNodeExtentCONE = 10;
+      k_midConeNodeAngleCONE = -62;
+      k_topConeExtentCONE = 25;
+      k_topConeNodeAngleCONE = -57;
+      k_midCubeNodeExtentCONE = 0;
+      k_midCubeNodeAngleCONE = -75;
+      k_humanPlayerStationExtentCONE = 13.5;
+      k_humanPlayerStationAngleCONE = -59;
+
       SmartDashboard.putString("Robot name", "Updraft");
     } else { // Practice
       SmartDashboard.putString("Robot name", "Downfall");

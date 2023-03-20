@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.BrakeOffCommand;
+import frc.robot.commands.DriveBrakeOffCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
     new Trigger(this::isEnabled)
     .negate()  
     .debounce(5)
-    .onTrue(new BrakeOffCommand(m_robotContainer.m_driveSubsystem)); 
+    .onTrue(new DriveBrakeOffCommand(m_robotContainer.m_driveSubsystem)); 
   }
 
   /**

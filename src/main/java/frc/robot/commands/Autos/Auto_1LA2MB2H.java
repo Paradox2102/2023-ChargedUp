@@ -17,6 +17,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,7 +30,7 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
   private final double k_maxDecl = 12.000000; // feet per second squared
   private final double k_maxJerk = 50.000000; // feet per second cubed
 
-  public Auto_1LA2MB2H(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
+  public Auto_1LA2MB2H(DriveSubsystem driveSubsystem, ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, WristSubsystem wristSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -40,39 +41,39 @@ public class Auto_1LA2MB2H extends SequentialCommandGroup {
       // Go to game piece A
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_groundPickupAngleCUBE, () -> false, Constants.k_groundPickupWristCUBE, 0, 0, false),
         new IntakeCommand(intakeSubsystem, -.3, true)
         ),
       
       // Prepare to drop game piece A in mid cube node
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, () -> true, 0, 0, false)
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midCubeNodeExtentCUBE, Constants.k_midCubeNodeAngleCUBE, () -> true, Constants.k_midCubeNodeWristCUBE, 0, 0, false)
       ),
 
       // Drop game piece A
       new IntakeCommand(intakeSubsystem, .3, true),
       new WaitCommand(.15),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, 0, 0, true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, Constants.k_straightUpWrist, 0, 0, true),
 
 
       // Go to game piece B
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path3, false, false, "Path 3", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, () -> false, 0, 0, false),
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_groundPickupAngleCUBE, () -> false, Constants.k_groundPickupWristCUBE, 0, 0, false),
         new IntakeCommand(intakeSubsystem, -.3, true)
       ),
 
       // Prepare to drop game piece B in high cube node
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path4, false, true, "Path 4", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false)
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, 0, false)
       ),
 
       // Drop Game piece B
       new IntakeCommand(intakeSubsystem, .3, true),
       new WaitCommand(.15),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, 0, 0, true)
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, Constants.k_straightUpWrist, 0, 0, true)
     );
   }
   /*

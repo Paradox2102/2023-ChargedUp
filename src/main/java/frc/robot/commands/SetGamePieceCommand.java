@@ -5,30 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.ApriltagsCamera.Logger;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
-// This has to be a command in order to be able to run while disabled. - Gavin
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BrakeOffCommand extends InstantCommand {
-  DriveSubsystem m_driveSubsystem; 
-
-  public BrakeOffCommand(DriveSubsystem driveSubsystem) {
-    m_driveSubsystem = driveSubsystem; 
+public class SetGamePieceCommand extends InstantCommand {
+  ArmSubsystem m_subsystem;
+  boolean m_isCube;
+  public SetGamePieceCommand(ArmSubsystem armSubsystem, boolean isCube) {
+    m_subsystem = armSubsystem;
+    m_isCube = isCube;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Logger.log("brakeOffCommand", 1, "initialize");
-    m_driveSubsystem.setBrakeMode(false);
-  }
-
-  @Override 
-  public boolean runsWhenDisabled() {
-    return true;
+    m_subsystem.setGamePiece(m_isCube);
   }
 }

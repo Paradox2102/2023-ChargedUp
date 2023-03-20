@@ -14,23 +14,23 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto_Briselda4 extends SequentialCommandGroup {
   /** Creates a new Auto_Briselda4. */
-  public Auto_Briselda4(ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem, IntakeSubsystem intakeSubsystem,
-      DriveSubsystem driveSubsystem) {
+  public Auto_Briselda4(ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem, IntakeSubsystem intakeSubsystem, DriveSubsystem driveSubsystem, WristSubsystem wristSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
     new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
-    new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, () -> true, 0, 0, false),
+    new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, 0, false),
     new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
     new IntakeCommand(intakeSubsystem, .3, true),
     new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
-    new SetArmPositionExtent(reachSubsystem, armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midCubeNodeAngle, () -> false, 0, 0, false),
+    new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midCubeNodeAngleCUBE, () -> false, Constants.k_midConeNodeWristCUBE, 0, 0, false),
     new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
     new IntakeCommand(intakeSubsystem, -.3, true),
     new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.OPEN));

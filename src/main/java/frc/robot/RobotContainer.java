@@ -7,7 +7,7 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.BrakeOffCommand;
+import frc.robot.commands.ReachBrakeOffCommand;
 import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualAdjustArmAngle;
@@ -20,6 +20,7 @@ import frc.robot.commands.PositionWristCommand;
 import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
+import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.SetLEDCommand;
 import frc.robot.commands.Autos.Auto_1LA2LB3L;
 import frc.robot.commands.Autos.Auto_1LA2MB2H;
@@ -42,7 +43,6 @@ import frc.robot.subsystems.NewIntakeSubsystem;
 import frc.robot.subsystems.OldIntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.subsystems.IntakeSubsystem.ClawPosition;
 
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
@@ -80,7 +80,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = Constants.k_isCompetition ? new NewIntakeSubsystem() : new OldIntakeSubsystem();
   //Intake Subsystem only needed to get absolute mag encoder for arm 
   private final ArmSubsystem m_armSubsystem;
-  private final WristSubsystem m_wristSubsystem = new WristSubsystem(); 
+  private final WristSubsystem m_wristSubsystem = Constants.k_isCompetition ? new WristSubsystem() : null; 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
   private final CommandJoystick m_joystick1;
@@ -162,30 +162,29 @@ public class RobotContainer {
     } else {
       m_switchSides1 = () -> m_joystick1.getThrottle() < 0;
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), m_switchSides1));
-      m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, -0.25, false)); //intake
-      m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, 0.5, false)); //outake //0.25
+      m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_intakePower, false)); //intake
+      m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_outakePower, false)); //outake //0.25
       m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, () -> !m_switchSides2.getAsBoolean()));
       if (Constants.k_isCompetition) {
         m_joystick1.button(12).onTrue(new PositionWristCommand(m_wristSubsystem, 30));
       } else {
         m_joystick1.button(6).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
       }
-      m_joystick1.button(7).onTrue(new BrakeOffCommand(m_driveSubsystem));
+      m_joystick1.button(7).onTrue(new ReachBrakeOffCommand(m_reachSubsystem));
       m_joystick1.button(9). whileTrue(new ManualArmCommand(m_armSubsystem, () -> .2));
       m_joystick1.button(11). whileTrue(new ManualArmCommand(m_armSubsystem, () -> -.2));
     }
 
     // Driver 2
-    m_stick2.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_intakePower, false)); //intake
-    m_stick2.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_outakePower, false)); //outake //0.25
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_humanPlayerStationExtent, Constants.k_humanPlayerStationAngle, m_switchSides2, 5, 0, false));
+    m_stick2.button(1).onTrue(new SetGamePieceCommand(m_armSubsystem, false)); //intake
+    m_stick2.button(2).onTrue(new SetGamePieceCommand(m_armSubsystem, true)); //outake //0.25
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.SUBSTATION, m_switchSides2));
     m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3, false)); //in
-    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2, 0, 0, true));
+    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2, Constants.k_straightUpWrist, 0, 0, true));
     m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3, false)); //out
-    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midConeNodeExtent, Constants.k_midConeNodeAngle, m_switchSides2, 0, 0, false));
-    m_stick2.button(8).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_topConeExtent, Constants.k_topConeNodeAngle, m_switchSides2, 0, 0, false));
-    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_midCubeNodeExtent, Constants.k_midCubeNodeAngle, m_switchSides2, 0, 0, false));
-    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, Constants.k_groundPickupExtent, Constants.k_groundPickupAngle, m_switchSides2, 0, 0, false));
+    m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.HIGH, m_switchSides2));
+    m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.MID, m_switchSides2));
+    m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.LOW, m_switchSides2));
     m_stick2.pov(0).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, 3));
     m_stick2.pov(180).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, -3));
     if (Constants.k_isCompetition) {
@@ -198,18 +197,18 @@ public class RobotContainer {
 
     // Auto Selection
     m_selectAuto.addOption("Pie | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem)); //Drives center for cube
-    m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem));
+    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem)); //Drives center for cube
+    m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Grape | 4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Banana | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Pineapple | 9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Strawberry | 9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
-    m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem));
-    m_selectAuto.addOption("Orange | 9LD9M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Banana | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Pineapple | 9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Strawberry | 9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Orange | 9LD9M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Dragonfruit | 1LA2LB3L", new Auto_1LA2LB3L(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Dragonfruit | 1LA2LB3L", new Auto_1LA2LB3L(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }
