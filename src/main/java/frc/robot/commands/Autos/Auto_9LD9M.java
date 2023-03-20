@@ -29,7 +29,7 @@ public class Auto_9LD9M extends SequentialCommandGroup {
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_groundPickupAngleCUBE, () -> true, Constants.k_groundPickupWristCUBE, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> false, Constants.k_midConeNodeWristCUBE, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> false, Constants.k_midNodeWristCUBE, 0, 0, false),
       new CreatePathCommand(driveSubsystem, k_path2, true, false, "Path 2"),
       new IntakeCommand(intakeSubsystem, .5, true) 
     );

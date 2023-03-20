@@ -108,12 +108,12 @@ public class SetArmPositionExtent extends CommandBase {
         switch (m_armPos) {
           case HIGH:
             extent = Constants.k_topNodeExtentCUBE;
-            wristAngle = Constants.k_topConeNodeWristCUBE;
+            wristAngle = Constants.k_topNodeWristCUBE;
             armAngle = Constants.k_topNodeAngleCUBE;
             break;
           case MID:
             extent = Constants.k_midNodeExtentCUBE;
-            wristAngle = Constants.k_midConeNodeWristCUBE;
+            wristAngle = Constants.k_midNodeWristCUBE;
             armAngle = Constants.k_midNodeAngleCUBE;
             break;
           case LOW:
@@ -131,14 +131,14 @@ public class SetArmPositionExtent extends CommandBase {
       } else {
         switch (m_armPos) {
           case HIGH:
-            extent = Constants.k_topConeExtentCONE;
-            wristAngle = Constants.k_topConeNodeWristCONE;
-            armAngle = Constants.k_topConeNodeAngleCONE;
+            extent = Constants.k_topExtentCONE;
+            wristAngle = Constants.k_topNodeWristCONE;
+            armAngle = Constants.k_topNodeAngleCONE;
             break;
           case MID:
-            extent = Constants.k_midConeNodeExtentCONE;
-            wristAngle = Constants.k_midConeNodeWristCONE;
-            armAngle = Constants.k_midConeNodeAngleCONE;
+            extent = Constants.k_midNodeExtentCONE;
+            wristAngle = Constants.k_midNodeWristCONE;
+            armAngle = Constants.k_midNodeAngleCONE;
             break;
           case LOW:
             extent = Constants.k_groundPickupExtentCONE;

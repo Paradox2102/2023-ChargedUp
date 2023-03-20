@@ -27,7 +27,7 @@ public class Auto_4MS extends SequentialCommandGroup {
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, 0, false),
       new WaitCommand(1),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new WaitCommand(1),

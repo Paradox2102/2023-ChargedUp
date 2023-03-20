@@ -27,7 +27,7 @@ public class Auto_9MD extends SequentialCommandGroup {
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, 8, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, -8, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, 8, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, -8, false),
       new WaitCommand(1),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new WaitCommand(1),

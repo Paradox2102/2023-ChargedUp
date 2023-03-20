@@ -86,15 +86,15 @@ public final class Constants {
 
   // Wrist Positions Cube
   public static double k_groundPickupWristCUBE = 0;
-  public static double k_midConeNodeWristCUBE = 0;
-  public static double k_topConeNodeWristCUBE = 0;
+  public static double k_midNodeWristCUBE = 0;
+  public static double k_topNodeWristCUBE = 0;
   public static double k_midCubeNodeWristCUBE = 0;
   public static double k_humanPlayerStationWristCUBE = 0;
 
   // Wrist Positions Cone
   public static double k_groundPickupWristCONE = 0;
-  public static double k_midConeNodeWristCONE = 0;
-  public static double k_topConeNodeWristCONE = 0;
+  public static double k_midNodeWristCONE = 0;
+  public static double k_topNodeWristCONE = 0;
   public static double k_midCubeNodeWristCONE = 0;
   public static double k_humanPlayerStationWristCONE = 0;
 
@@ -113,10 +113,10 @@ public final class Constants {
   // Arm Positions Cone
   public static double k_groundPickupExtentCONE = 0;
   public static double k_groundPickupAngleCONE = -93;
-  public static double k_midConeNodeExtentCONE = 10;
-  public static double k_midConeNodeAngleCONE = -62;
-  public static double k_topConeExtentCONE = 25;
-  public static double k_topConeNodeAngleCONE = -57;
+  public static double k_midNodeExtentCONE = 10;
+  public static double k_midNodeAngleCONE = -62;
+  public static double k_topExtentCONE = 25;
+  public static double k_topNodeAngleCONE = -57;
   public static double k_midCubeNodeExtentCONE = 0;
   public static double k_midCubeNodeAngleCONE = -75;
   public static double k_humanPlayerStationExtentCONE = 13.5;
@@ -183,15 +183,15 @@ public final class Constants {
 
       // Wrist Cube
       k_groundPickupWristCUBE = 10;
-      k_midConeNodeWristCUBE = 0;
-      k_topConeNodeWristCUBE = 0;
+      k_midNodeWristCUBE = 0;
+      k_topNodeWristCUBE = 0;
       k_midCubeNodeWristCUBE = 0;
       k_humanPlayerStationWristCUBE = 0;
 
       // Wrist Cone
       k_groundPickupWristCONE = 10;
-      k_midConeNodeWristCONE = 0;
-      k_topConeNodeWristCONE = 0;
+      k_midNodeWristCONE = 0;
+      k_topNodeWristCONE = 0;
       k_midCubeNodeWristCONE = 0;
       k_humanPlayerStationWristCONE = 0;
 
@@ -210,10 +210,10 @@ public final class Constants {
       // Arm Positions Cone
       k_groundPickupExtentCONE = 0;
       k_groundPickupAngleCONE = -93;
-      k_midConeNodeExtentCONE = 10;
-      k_midConeNodeAngleCONE = -62;
-      k_topConeExtentCONE = 25;
-      k_topConeNodeAngleCONE = -57;
+      k_midNodeExtentCONE = 10;
+      k_midNodeAngleCONE = -62;
+      k_topExtentCONE = 25;
+      k_topNodeAngleCONE = -57;
       k_midCubeNodeExtentCONE = 0;
       k_midCubeNodeAngleCONE = -75;
       k_humanPlayerStationExtentCONE = 13.5;

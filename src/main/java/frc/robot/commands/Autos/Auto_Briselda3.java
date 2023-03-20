@@ -26,7 +26,7 @@ public class Auto_Briselda3 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
     new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
-    new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, 0, false),
+    new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, 0, false),
     new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
     new IntakeCommand(intakeSubsystem, .3, true),
     new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),

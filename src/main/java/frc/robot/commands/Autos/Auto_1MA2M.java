@@ -30,7 +30,7 @@ public class Auto_1MA2M extends SequentialCommandGroup {
     addCommands(
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, 0, false),
       new WaitCommand(.5),
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new WaitCommand(.5),
@@ -38,7 +38,7 @@ public class Auto_1MA2M extends SequentialCommandGroup {
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_groundPickupAngleCUBE, () -> false, Constants.k_groundPickupWristCUBE, 0, 0, false),
       new IntakeCommand(intakeSubsystem, -.3, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midConeNodeWristCUBE, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, 0, false),
       new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
       new IntakeCommand(intakeSubsystem, .3, true)
     );

@@ -68,7 +68,7 @@ public class Auto_1LA2LB3L extends SequentialCommandGroup {
       // Prepare to drop game piece B in high cube node
       new ParallelDeadlineGroup(
         new CreatePathCommand(driveSubsystem, k_path4, false, true, "Path 4", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5),
-        new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, 10, -100, () -> false, Constants.k_midConeNodeWristCUBE, 0, 0, false)
+        new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, 10, -100, () -> false, Constants.k_midNodeWristCUBE, 0, 0, false)
       ),
 
       // Drop Game piece B
