@@ -30,10 +30,15 @@ public class Auto_4LSMobility extends SequentialCommandGroup {
     addCommands(
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, true),
 
+      // PROBLEM: This test will be performed at command creation, not while the command is running.  You want to use something like:
+      //   new ConditionalCommand(new BackUp1(driveSubsystem), new WaitCommand(1), () -> driveSubsystem.getRobotY() - 10 < 2)
+      // -Gavin
       // Is the robot stuck?
       driveSubsystem.getRobotY() - 10 < 2 ? new BackUp1(driveSubsystem) : new WaitCommand(1),
     
       new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, true),
+
+      // PROBLEM: Same as above.  -Gavin
 
       // Is the robot stuck?
       driveSubsystem.getRobotY() - 14 < 2 ? new BackUp2(driveSubsystem) : new WaitCommand(1),
