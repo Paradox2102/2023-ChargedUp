@@ -227,6 +227,9 @@ public class ApriltagsCamera implements frc.ApriltagsCamera.Network.NetworkRecei
 					// Logger.log("ApriltagsCamera", 1, String.format("raw: b=%f,dx=%f,dy=%f,x=%f,y=%f,a=%f", Math.toDegrees(b), dx, dy, xPos, yPos, m_angleInDegrees));
 					// Logger.log("ApriltagsCamera", 1, String.format("add: x=%f,y=%f,a=%f,t=%f", pos.getX(), pos.getY(), pos.getRotation().getDegrees(), convertTime(captureTime)));
 
+					// There's an extended version of addVisionMeasurement() that takes stddevs directly as a third parameter.
+					// E.g. VecBuilder.fill(0.1, 0.1, 0.1)
+					// -Gavin
 					poseEstimator.addVisionMeasurement(pos,	convertTime(captureTime));
 					pos = ParadoxField.pose2dFromFRC(poseEstimator.getEstimatedPosition());
 					// Logger.log("ApriltagsCamera", 1, String.format("est: x=%f,y=%f,a=%f,t=%f", pos.getX(), pos.getY(), pos.getRotation().getDegrees(), convertTime(captureTime)));

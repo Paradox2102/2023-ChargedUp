@@ -22,9 +22,19 @@ public class PositionTrackerPose extends PositionTracker {
 		super();
 
 		m_sensors = sensor;
+		// For the extended constructor, the default values are:
+		// VecBuilder.fill(0.02, 0.02, 0.01) - SD of internal state
+		// VecBuilder.fill(0.1, 0.1, 0.1)) - SD of vision pose measurment
+		// Based on the experiments performed on 2023-03-17 Friday, the vison pose estimates (in metres, metres, radians) should be between:
+		// env vs cam: 0.038299922	0.03770631627	0.01169028658
+		// est vs cam: 0.01801886372	0.01776299463	0.007439846418
+		// As these are significantly lower than the defaults, using them would make us trust the camera more.
+		// Slicing the data by distance, I see a stong linear relationship between distance and SD for all of X, Y, and angle,
+		// but at the maximum distance the errors are still less than the default.
+		// -Gavin
 		m_poseEstimator = new DifferentialDrivePoseEstimator(new DifferentialDriveKinematics(Constants.k_wheelBase),
-		ParadoxField.rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 
-		0, 0, ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees));
+			ParadoxField.rotation2dFromParadoxAngle(Constants.k_startAngleDegrees), 
+			0, 0, ParadoxField.pose2dFromParadox(0, 0, Constants.k_startAngleDegrees));
 	}
 		
 	public PositionTracker.PositionContainer getPos() {
