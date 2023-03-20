@@ -127,7 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public boolean isFailingChargeStationClimb() {
     // PROBLEM: We should create a getLeftVelocity method that returns FPS.
-    // It's not obvious to the reader that this test is checking against 10FPS. -Gavin
+    // It's not obvious to the reader that this test is checking against 10FPS because the TalonFX velocity reports ticks per 100ms. -Gavin
     return m_leftDrive.getSelectedSensorVelocity() * Constants.k_feetPerTick < 1 && m_pathFollowTimer.get() > 4;
   }
 
