@@ -85,7 +85,7 @@ public final class Constants {
   public static final double k_wristResetPosition = 30;
 
   // Wrist Positions Cube
-  public static double k_groundPickupWristCUBE = 0;
+  public static double k_groundPickupWristCUBE = 10;
   public static double k_midNodeWristCUBE = 0;
   public static double k_topNodeWristCUBE = 0;
   public static double k_midCubeNodeWristCUBE = 0;
@@ -98,7 +98,7 @@ public final class Constants {
   public static double k_midCubeNodeWristCONE = 0;
   public static double k_humanPlayerStationWristCONE = 0;
 
-  // Arm positions Cube
+  // Arm positions Cube PRACTICE ROBOT
   public static double k_groundPickupExtentCUBE = 0;
   public static double k_groundPickupAngleCUBE = -93;
   public static double k_midNodeExtentCUBE = 10;
@@ -110,7 +110,7 @@ public final class Constants {
   public static double k_humanPlayerStationExtentCUBE = 13.5;
   public static double k_humanPlayerStationAngleCUBE = -59;
 
-  // Arm Positions Cone
+  // Arm Positions Cone PRACTICE ROBOT
   public static double k_groundPickupExtentCONE = 0;
   public static double k_groundPickupAngleCONE = -93;
   public static double k_midNodeExtentCONE = 10;
@@ -180,20 +180,6 @@ public final class Constants {
       k_maxArmLength = 28.5;
       k_intakePower = -0.3; 
       k_outakePower = 0.3; 
-
-      // Wrist Cube
-      k_groundPickupWristCUBE = 10;
-      k_midNodeWristCUBE = 0;
-      k_topNodeWristCUBE = 0;
-      k_midCubeNodeWristCUBE = 0;
-      k_humanPlayerStationWristCUBE = 0;
-
-      // Wrist Cone
-      k_groundPickupWristCONE = 10;
-      k_midNodeWristCONE = 0;
-      k_topNodeWristCONE = 0;
-      k_midCubeNodeWristCONE = 0;
-      k_humanPlayerStationWristCONE = 0;
 
       // Arm positions Cube
       k_groundPickupExtentCUBE = 0;

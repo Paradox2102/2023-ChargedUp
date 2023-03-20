@@ -24,6 +24,7 @@ public class CreatePathCommand extends CommandBase {
   private Waypoint[] m_waypoints;
   private PurePursuitData m_data;
   private boolean m_blue = false;
+  private boolean m_isClimbingChargeStation = false;
   // private PurePursuitData m_data;
   private Path m_path;
   private static final int k_nPoints = 1000;
@@ -66,6 +67,12 @@ public class CreatePathCommand extends CommandBase {
   public CreatePathCommand(DriveSubsystem driveSubsystem, Waypoint[] waypoints, boolean setPosition, boolean reversed,
       String name, PurePursuitData data, double lookAheadTime) {
     init(driveSubsystem, waypoints, setPosition, reversed, name, data, lookAheadTime);
+  }
+
+  public CreatePathCommand(DriveSubsystem driveSubsystem, Waypoint[] waypoints, boolean setPosition, boolean reversed,
+      String name, PurePursuitData data, double lookAheadTime, boolean isClimbingChargeStation) {
+    init(driveSubsystem, waypoints, setPosition, reversed, name, data, lookAheadTime);
+    m_isClimbingChargeStation = isClimbingChargeStation;
   }
 
   public CreatePathCommand(DriveSubsystem driveSubsystem, Waypoint[] waypoints, boolean setPosition, boolean reversed,
@@ -114,6 +121,10 @@ public class CreatePathCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_driveSubsystem.isPathFinished();
+    if (m_isClimbingChargeStation) {
+      return m_driveSubsystem.isPathFinished() || m_driveSubsystem.isFailingChargeStationClimb();
+    } else {
+      return m_driveSubsystem.isPathFinished();
+    }
   }
 }

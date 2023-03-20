@@ -14,6 +14,7 @@ import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -48,12 +49,15 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFX m_leftDrive = new TalonFX(Constants.k_leftDrive);
   TalonFX m_leftFollower = new TalonFX(Constants.k_leftFollower);
 
+  Timer m_pathFollowTimer = new Timer();
+
   Navigator m_navigator;
   private Sensor m_sensors;
   private PositionTracker m_posTracker;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem(ApriltagsCamera frontCamera, ApriltagsCamera backCamera, AprilTagFieldLayout tags) {
+    m_pathFollowTimer.reset();
     SmartDashboard.putData("Field", m_field);
     m_frontCamera = frontCamera;
     m_backCamera = backCamera; 
@@ -121,6 +125,10 @@ public class DriveSubsystem extends SubsystemBase {
     setSpeed(leftSpeed, rightSpeed);
   }
 
+  public boolean isFailingChargeStationClimb() {
+    return m_leftDrive.getSelectedSensorVelocity() * Constants.k_feetPerTick < 1 && m_pathFollowTimer.get() > 4;
+  }
+
   public void setPower(double leftPower, double rightPower) {
     synchronized(m_setlock){
       m_rightDrive.set(ControlMode.PercentOutput, rightPower);
@@ -137,10 +145,21 @@ public class DriveSubsystem extends SubsystemBase {
   public void startPath(Path path, boolean isReversed, boolean setPosition, DoubleSupplier speed) {
     m_pursuitFollower.loadPath(path, isReversed, true, setPosition, speed);
     m_pursuitFollower.startPath();
+    m_pathFollowTimer.reset();
+    m_pathFollowTimer.start();
   }
 
   public void endPath() {
     m_pursuitFollower.stopFollow();
+    m_pathFollowTimer.stop();
+  }
+
+  public double getRobotY() {
+    return m_posTracker.getPose2d().getY();
+  }
+
+  public double getRobotX() {
+    return m_posTracker.getPose2d().getX();
   }
 
   public double 
