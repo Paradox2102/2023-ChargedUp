@@ -13,7 +13,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class Auto_4LS extends CommandBase {
+public class Auto_4LSOLD extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem m_armSubsystem;
   IntakeSubsystem m_intakeSubsystem;
@@ -27,7 +27,7 @@ public class Auto_4LS extends CommandBase {
   private double m_currentRobotPitch = 0;
   private Timer m_timer = new Timer();
   /** Creates a new DriveStationAuto. */
-  public Auto_4LS(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
+  public Auto_4LSOLD(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     m_driveSubsystem = driveSubsystem;
     m_armSubsystem = armSubsystem;
     m_intakeSubsystem = intakeSubsystem;

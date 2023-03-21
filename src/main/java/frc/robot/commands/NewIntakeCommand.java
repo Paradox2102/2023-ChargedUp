@@ -11,7 +11,7 @@ public class NewIntakeCommand extends CommandBase {
   private double m_power;
   private NewIntakeSubsystem m_intakeSubsystem;
   /** Creates a new NewIntakeCommand. */
-  public NewIntakeCommand(NewIntakeSubsystem subsystem, Double power) {
+  public NewIntakeCommand(NewIntakeSubsystem subsystem, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     m_intakeSubsystem = subsystem;

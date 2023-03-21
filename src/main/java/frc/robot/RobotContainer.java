@@ -7,6 +7,7 @@ package frc.robot;
 import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ReachBrakeOffCommand;
 import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
@@ -22,17 +23,18 @@ import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.SetLEDCommand;
-import frc.robot.commands.Autos.Auto_1LA2LB3L;
 import frc.robot.commands.Autos.Auto_1LA2MB2H;
 import frc.robot.commands.Autos.Auto_1MA2M;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_4LBS;
-import frc.robot.commands.Autos.Auto_4LS;
+import frc.robot.commands.Autos.Auto_4LSOLD;
 import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_5L;
 import frc.robot.commands.Autos.Auto_9LD;
 import frc.robot.commands.Autos.Auto_9MD;
+import frc.robot.commands.Autos.Auto_4LSCommands.Auto_4LS;
+import frc.robot.commands.Autos.Auto_4LSCommands.Auto_4LSMobility;
 import frc.robot.commands.Autos.Auto_9LD9M;
 import frc.robot.commands.Autos.Auto_9HD;
 import frc.robot.subsystems.ArmSubsystem;
@@ -164,6 +166,7 @@ public class RobotContainer {
       m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, () -> m_joystick1.getX(), () -> m_joystick1.getY(), m_switchSides1));
       m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_intakePower, false)); //intake
       m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_outakePower, false)); //outake //0.25
+      m_joystick1.button(4).whileTrue(new AutoBalanceCommand(m_driveSubsystem));
       m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, () -> !m_switchSides2.getAsBoolean()));
       if (Constants.k_isCompetition) {
         m_joystick1.button(12).onTrue(new PositionWristCommand(m_wristSubsystem, 30));
@@ -197,8 +200,10 @@ public class RobotContainer {
     }
 
     // Auto Selection
-    m_selectAuto.addOption("Pie | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem)); //Drives center for cube
+    m_selectAuto.addOption("PieOLD | 4LS", new Auto_4LSOLD(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("PieNEW | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Custard | 4LS (Mobility)", new Auto_4LSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem)); 
     m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Grape | 4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
@@ -209,7 +214,6 @@ public class RobotContainer {
     m_selectAuto.addOption("Orange | 9LD9M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Dragonfruit | 1LA2LB3L", new Auto_1LA2LB3L(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }

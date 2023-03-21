@@ -14,18 +14,21 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BackUp1 extends SequentialCommandGroup {
+public class BackUp1Mobility extends SequentialCommandGroup {
   /** Creates a new BackUp1. */
     private final double k_maxSpeed = 6.000000;
     private final double k_maxAccel = 4.000000;
     private final double k_maxDecl = 4.000000;
     private final double k_maxJerk = 50.000000;
-  public BackUp1(DriveSubsystem driveSubsystem) {
+  public BackUp1Mobility(DriveSubsystem driveSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      // Back up
       new CreatePathCommand(driveSubsystem, k_path1, false, true, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, false),
       new WaitCommand(1),
+
+      // Go over charge station
       new CreatePathCommand(driveSubsystem, k_path2, false, false, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, false)
     );
   }
@@ -39,10 +42,10 @@ public class BackUp1 extends SequentialCommandGroup {
   };
   /*
   -2.35,8,90
-  -2.35,13,90
+  -2.35,20,90
   */
   private static final Waypoint[] k_path2 = {
     new Waypoint(-2.35, 8, Math.toRadians(90)),
-    new Waypoint(-2.35, 13, Math.toRadians(90))
+    new Waypoint(-2.35, 20, Math.toRadians(90))
 };
 }

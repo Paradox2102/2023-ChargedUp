@@ -32,7 +32,7 @@ public class Auto_4MS extends SequentialCommandGroup {
       new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
       new WaitCommand(1),
       new SetReachCommand(reachSubsystem, 0),
-      new Auto_4LS(driveSubsystem, armSubsystem, intakeSubsystem)
+      new Auto_4LSOLD(driveSubsystem, armSubsystem, intakeSubsystem)
     );
   }
 }

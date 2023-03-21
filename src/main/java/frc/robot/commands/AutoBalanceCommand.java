@@ -9,7 +9,10 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoBalanceCommand extends CommandBase {
   /** Creates a new AutoBalanceCommand. */
+
   DriveSubsystem m_subsystem;
+  boolean m_isFinished = false;
+
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,8 +26,20 @@ public class AutoBalanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double currentRobotPitch = m_subsystem.getPitch();
 
-    // WRITE BALANCE CODE HERE
+    // If we've reached the middle and |pitch| <= ½°, stop.
+    if (Math.abs(currentRobotPitch) <= .5) {
+      m_subsystem.setSpeedFPS(0, 0);
+      m_isFinished = true;
+    }
+    else if (currentRobotPitch < -2.75) { 
+      m_subsystem.setSpeedFPS(1, 1);
+    } 
+    // If we've reached the middle and |pitch| > 2¾°, go backwards at 1FPS
+    else if (currentRobotPitch > 2.75) {
+      m_subsystem.setSpeedFPS(-1, -1);
+    }
 
   }
 
@@ -37,6 +52,6 @@ public class AutoBalanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_isFinished;
   }
 }
