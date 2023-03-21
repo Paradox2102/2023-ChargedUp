@@ -7,13 +7,14 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
-import frc.robot.Constants;
 import frc.robot.commands.SetArmPositionExtent;
+import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,7 +25,8 @@ public class Auto_2LA extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_midNodeAngleCUBE, () -> false, Constants.k_groundPickupWristCUBE, 0, 0, false),
+      new SetGamePieceCommand(armSubsystem, true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.LOW, () -> false),
       new WaitCommand(1),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")
     );

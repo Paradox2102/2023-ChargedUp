@@ -8,13 +8,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SetArmPositionExtent;
-import frc.robot.commands.SetClawCommand;
+import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -25,13 +27,14 @@ public class Auto_9HD extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
+      new SetGamePieceCommand(armSubsystem, false),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_topNodeExtentCUBE, Constants.k_topNodeAngleCUBE, () -> true, Constants.k_topNodeWristCUBE, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.HIGH, () -> true),
       new WaitCommand(1),
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
+      new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true),
+      new SetGamePieceCommand(armSubsystem, true),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> true, Constants.k_straightUpWrist, 0, 0, true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> true),
       new WaitCommand(1),
       new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
     );

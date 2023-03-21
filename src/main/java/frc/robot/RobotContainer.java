@@ -27,16 +27,12 @@ import frc.robot.commands.Autos.Auto_1LA2MB2H;
 import frc.robot.commands.Autos.Auto_1MA2M;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
-import frc.robot.commands.Autos.Auto_4LBS;
-import frc.robot.commands.Autos.Auto_4LSOLD;
-import frc.robot.commands.Autos.Auto_4MS;
 import frc.robot.commands.Autos.Auto_5L;
-import frc.robot.commands.Autos.Auto_9LD;
-import frc.robot.commands.Autos.Auto_9MD;
-import frc.robot.commands.Autos.Auto_4LSCommands.Auto_4LS;
-import frc.robot.commands.Autos.Auto_4LSCommands.Auto_4LSMobility;
-import frc.robot.commands.Autos.Auto_9LD9M;
+import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4HS;
+import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4HSMobility;
+import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4LS;
 import frc.robot.commands.Autos.Auto_9HD;
+import frc.robot.commands.Autos.Auto_9HD8H;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -115,7 +111,7 @@ public class RobotContainer {
 
     m_driveSubsystem = new DriveSubsystem(m_frontCamera, m_backCamera, m_tags);
     m_armSubsystem = new ArmSubsystem(m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem.getTracker()); 
-    m_switchSides2 = () -> m_stick2.getThrottle() < 0;
+    m_switchSides2 = () -> m_stick2.getThrottle() > 0;
 
     // Choose which Joystick Driver 1 wants
     if (Constants.k_xboxController) {
@@ -182,9 +178,9 @@ public class RobotContainer {
     // Driver 2
     m_stick2.button(1).onTrue(new SetGamePieceCommand(m_armSubsystem, false)); //intake
     m_stick2.button(2).onTrue(new SetGamePieceCommand(m_armSubsystem, true)); //outake //0.25
-    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.SUBSTATION, m_switchSides2));
+    m_stick2.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.SUBSTATION2, m_switchSides2));
     m_stick2.button(4).whileTrue(new ManualReachCommand(m_reachSubsystem, -.3, false)); //in
-    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, m_switchSides2, Constants.k_straightUpWrist, 0, 0, true));
+    m_stick2.button(5).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.RESET, m_switchSides2));
     m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3, false)); //out
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.HIGH, m_switchSides2));
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.MID, m_switchSides2));
@@ -200,20 +196,16 @@ public class RobotContainer {
     }
 
     // Auto Selection
-    m_selectAuto.addOption("PieOLD | 4LS", new Auto_4LSOLD(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("PieNEW | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Custard | 4LS (Mobility)", new Auto_4LSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem)); 
-    m_selectAuto.addOption("Mango | 4MS", new Auto_4MS(m_intakeSubsystem, m_reachSubsystem, m_armSubsystem, m_driveSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Grape | 4LBS", new Auto_4LBS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Banana | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Pineapple | 9LD", new Auto_9LD(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Strawberry | 9MD", new Auto_9MD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Orange | 9LD9M", new Auto_9LD9M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
-    m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("PieOLD | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("PieNEW | 4HS", new Auto_4HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Mango | 4HS (Mobility)", new Auto_4HSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Dragonfruit | 9HD8H", new Auto_9HD8H(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Banana | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem)); 
+    m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }

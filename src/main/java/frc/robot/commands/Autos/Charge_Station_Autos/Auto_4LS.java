@@ -4,7 +4,7 @@
 
 // Place cube on low, engage charge station
 
-package frc.robot.commands.Autos;
+package frc.robot.commands.Autos.Charge_Station_Autos;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,7 +13,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class Auto_4LSOLD extends CommandBase {
+public class Auto_4LS extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem m_armSubsystem;
   IntakeSubsystem m_intakeSubsystem;
@@ -23,11 +23,10 @@ public class Auto_4LSOLD extends CommandBase {
   private boolean m_tippedStation = false;
   // m_start is true for a short initial period to allow us to deliver a game piece before we start moving.
   private boolean m_start = true;
-  private double m_previousRobotPitch = 0; 
   private double m_currentRobotPitch = 0;
   private Timer m_timer = new Timer();
   /** Creates a new DriveStationAuto. */
-  public Auto_4LSOLD(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
+  public Auto_4LS(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     m_driveSubsystem = driveSubsystem;
     m_armSubsystem = armSubsystem;
     m_intakeSubsystem = intakeSubsystem;
@@ -86,7 +85,6 @@ public class Auto_4LSOLD extends CommandBase {
     if (m_driveSubsystem.getLeftPos() >= 9 || m_driveSubsystem.getRightPos() >= 9) {
       m_driveSubsystem.setSpeedFPS(0, 0);
     }
-    m_previousRobotPitch = m_currentRobotPitch; // not used?
   }
 
   // Called once the command ends or is interrupted.

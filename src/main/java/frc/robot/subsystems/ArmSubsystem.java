@@ -31,7 +31,7 @@ import frc.robot.PositionTracker;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
   private boolean m_isCube = true;
-  public enum ArmPosition {HIGH, MID, LOW, SUBSTATION}
+  public enum ArmPosition {HIGH, MID, LOW, SUBSTATION2, SUBSTATION1, RESET}
 
 
   // Arm Motors

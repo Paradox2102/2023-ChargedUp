@@ -26,7 +26,6 @@ public class Auto_5L extends CommandBase {
   @Override
   public void initialize() {
     m_subsystem.moveToAngle(-100);
-    m_intakeSubsystem.setClaw(IntakeSubsystem.ClawPosition.CUBE);
     m_timer.reset();
     m_timer.start();
   }

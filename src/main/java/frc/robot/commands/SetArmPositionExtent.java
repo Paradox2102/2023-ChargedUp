@@ -65,6 +65,7 @@ public class SetArmPositionExtent extends CommandBase {
     m_wristSubsystem = wristSubsystem;
     m_armPos = armPos;
     m_throttle = throttle;
+    m_armStraightUp = false;
 
     m_manualTarget = true;
     m_usePresets = true;
@@ -121,13 +122,19 @@ public class SetArmPositionExtent extends CommandBase {
             wristAngle = Constants.k_groundPickupWristCUBE;
             armAngle = Constants.k_groundPickupAngleCUBE;
             break;
-          case SUBSTATION:
+          case SUBSTATION1:
+          case SUBSTATION2:
             extent = Constants.k_humanPlayerStationExtentCUBE;
             wristAngle = Constants.k_humanPlayerStationWristCUBE;
             armAngle = Constants.k_humanPlayerStationAngleCUBE;
             break;
+          case RESET:
+            extent = Constants.k_straightUpExtent;
+            wristAngle = Constants.k_straightUpWrist;
+            armAngle = Constants.k_straightUpAngle;
+            m_armStraightUp = true;
+            break;
         } 
-        Logger.log("SetArmPositionExtent", 1, String.format("is cube=true, arm angle=%f, extent=%f, wrist=%f, armPos=%s", armAngle, extent, wristAngle, m_armPos));
       } else {
         switch (m_armPos) {
           case HIGH:
@@ -145,17 +152,29 @@ public class SetArmPositionExtent extends CommandBase {
             wristAngle = Constants.k_groundPickupWristCONE;
             armAngle = Constants.k_groundPickupAngleCONE;
             break;
-          case SUBSTATION:
+          case SUBSTATION1:
+          case SUBSTATION2:
             extent = Constants.k_humanPlayerStationExtentCONE;
             wristAngle = Constants.k_humanPlayerStationWristCONE;
             armAngle = Constants.k_humanPlayerStationAngleCONE;
             break;
+            case RESET:
+              extent = Constants.k_straightUpExtent;
+              wristAngle = Constants.k_straightUpWrist;
+              armAngle = Constants.k_straightUpAngle;
+              m_armStraightUp = true;
+              break;
         }
       }
-        m_reachSubsystem.isRunP(false);
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? armAngle : -armAngle);
         m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle - 1.5);
         m_extentInInches = extent;
+        if (m_armStraightUp) {
+          m_reachSubsystem.isRunP(true);
+          m_isFinished = true;
+        } else {
+          m_reachSubsystem.isRunP(false);
+        }
     } else {
       if (m_armStraightUp) {
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees + m_changeMotorAngle: -m_armAngleInDegrees + m_changeBatteryAngle);

@@ -11,13 +11,14 @@ import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SetArmPositionExtent;
-import frc.robot.commands.SetClawCommand;
+import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 //fruit name: Nectarine
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -28,19 +29,21 @@ public class Auto_1MA2M extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CONE),
+      new SetGamePieceCommand(armSubsystem, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.MID, () -> true),
       new WaitCommand(1),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, 0, false),
+      new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true),
       new WaitCommand(.5),
-      new SetClawCommand(intakeSubsystem, IntakeSubsystem.ClawPosition.CUBE),
+      new SetGamePieceCommand(armSubsystem, true),
       new WaitCommand(.5),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, 0, 0, () -> false, Constants.k_straightUpWrist, 0, 0, true),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_groundPickupExtentCUBE, Constants.k_groundPickupAngleCUBE, () -> false, Constants.k_groundPickupWristCUBE, 0, 0, false),
-      new IntakeCommand(intakeSubsystem, -.3, true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.LOW, () -> false),
+      new IntakeCommand(intakeSubsystem, Constants.k_intakePower, true),
       new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_midNodeExtentCUBE, Constants.k_midNodeAngleCUBE, () -> true, Constants.k_midNodeWristCUBE, 0, 0, false),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.MID, () -> true),
       new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
-      new IntakeCommand(intakeSubsystem, .3, true)
+      new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true)
     );
   }
 
