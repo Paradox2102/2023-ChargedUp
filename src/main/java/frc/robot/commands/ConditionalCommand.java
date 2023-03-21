@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ConditionalCommand extends SequentialCommandGroup {
   /** Creates a new ConditionalCommand. */
+  // PROBLEM: This won't work because the condition is evaluated at construction time.  It needs to be in the initialize method.  Why create this at all?  Why not just use the one WPILIB provides? -Gavin
   public ConditionalCommand(Command command1, Command command2, BooleanSupplier runCommand1) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

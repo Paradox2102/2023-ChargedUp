@@ -21,7 +21,9 @@ public class AutoBalanceCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // The code in execute() leaves the speed unchanged if ½°<|pitch|⩽2¾°.  What happens if we're in this range when the command starts?  -Gavin
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -29,14 +31,16 @@ public class AutoBalanceCommand extends CommandBase {
     double currentRobotPitch = m_subsystem.getPitch();
 
     // If we've reached the middle and |pitch| <= ½°, stop.
+    // For simplicity, could move this test to isFinished().  -Gavin
     if (Math.abs(currentRobotPitch) <= .5) {
       m_subsystem.setSpeedFPS(0, 0);
       m_isFinished = true;
     }
+    // If pitch < 2¾°, go forwards at 1FPS
     else if (currentRobotPitch < -2.75) { 
       m_subsystem.setSpeedFPS(1, 1);
     } 
-    // If we've reached the middle and |pitch| > 2¾°, go backwards at 1FPS
+    // If pitch > 2¾°, go backwards at 1FPS
     else if (currentRobotPitch > 2.75) {
       m_subsystem.setSpeedFPS(-1, -1);
     }
@@ -46,6 +50,7 @@ public class AutoBalanceCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Should call stop() instead for clarity. -Gavin
     m_subsystem.setSpeedFPS(0, 0);
   }
 
