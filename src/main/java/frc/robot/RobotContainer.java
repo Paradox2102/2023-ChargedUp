@@ -163,7 +163,7 @@ public class RobotContainer {
       m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_intakePower, false)); //intake
       m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_outakePower, false)); //outake //0.25
       m_joystick1.button(4).whileTrue(new AutoBalanceCommand(m_driveSubsystem));
-      m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, () -> !m_switchSides2.getAsBoolean()));
+      m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, () -> !m_switchSides2.getAsBoolean()));
       if (Constants.k_isCompetition) {
         m_joystick1.button(12).onTrue(new PositionWristCommand(m_wristSubsystem, 30));
       } else {
@@ -172,7 +172,7 @@ public class RobotContainer {
       m_joystick1.button(7).onTrue(new ReachBrakeOffCommand(m_reachSubsystem));
       m_joystick1.button(9). whileTrue(new ManualArmCommand(m_armSubsystem, () -> .2));
       m_joystick1.button(11). whileTrue(new ManualArmCommand(m_armSubsystem, () -> -.2));
-      m_joystick1.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_switchSides1));
+      m_joystick1.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, m_switchSides1));
     }
 
     // Driver 2

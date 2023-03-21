@@ -73,9 +73,10 @@ public class SetArmPositionExtent extends CommandBase {
   }
 
   // For TurnToTarget
-  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, BooleanSupplier throttle) {
+  public SetArmPositionExtent(ReachSubsystem reachSubsystem, ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, BooleanSupplier throttle) {
     m_armSubsystem = armSubsystem;
     m_reachSubsystem = reachSubsystem;
+    m_wristSubsystem = wristSubsystem;
     m_throttle = throttle;
     m_manualTarget = false;
     addRequirements(m_armSubsystem, m_reachSubsystem);
@@ -98,6 +99,7 @@ public class SetArmPositionExtent extends CommandBase {
         SmartDashboard.putNumber("Arm Angle In Degrees", m_armAngleInDegrees);
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
         m_reachSubsystem.isRunP(true);
+        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? data[2] : -data[2]);
       } else {
         m_isFinished = true;
       }

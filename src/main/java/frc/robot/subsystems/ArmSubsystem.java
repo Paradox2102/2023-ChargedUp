@@ -128,11 +128,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   // The position server is returning node locations, but we need to adjust them slightly
   // to get the robot into the correct position.  These will be added to the calculated values.
-  private double[] m_coneTargetHeights = {6/12.0, 12/12.0, 12/12.0}; // feet
-  private double[] m_cubeTargetHeights = {6/12.0, 0/12.0, 0/12.0}; // feet
+  private double[] m_coneTargetHeights = {12/12.0, 12/12.0, 12/12.0}; // feet
+  private double[] m_cubeTargetHeights = {18/12.0, 7/12.0, 10/12.0}; // feet
 
-  private double[] m_coneTargetExtent = {-9, -7, -10}; // inches
-  private double[] m_cubeTargetExtent = {-9, -10, -10}; // inches
+  private double[] m_coneTargetExtent = {-20, -7, -10}; // inches
+  private double[] m_cubeTargetExtent = {-20, -15, -19}; // inches
+
+  private double[] m_coneWristAngle = {0, 0, 0};
+  private double[] m_cubeWristAngle = {5, 15, 15};
 
   public double[] computeTargetAngleInDegreesExtentInInches() {
     PositionServer.Target target = m_positionServer.getTarget();
@@ -141,11 +144,13 @@ public class ArmSubsystem extends SubsystemBase {
       // return OptionalDouble.empty();
       return null;
     }
+
     double targetY = target.m_y;
     double targetX = target.m_x;
     double robotY = pose.getY();
     double robotX = pose.getX();
     double targetHeight = target.m_h;
+    double targetWristAngle = 0;
     // Magic numbers! And again below.  Should at least be hidden in a method.  -Gavin
     if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
       targetHeight += m_cubeTargetHeights[target.m_level];
@@ -179,7 +184,13 @@ public class ArmSubsystem extends SubsystemBase {
       armExtentInches = Constants.k_maxArmLength;
     }
 
-    double[] ret = { 90 - targetAngleInDegrees, armExtentInches };
+    if (target.m_no == 1 || target.m_no == 4 || target.m_no == 7) {
+      targetWristAngle = m_cubeWristAngle[target.m_level];
+    } else {
+      targetWristAngle = m_coneWristAngle[target.m_level];
+    }
+
+    double[] ret = { 90 - targetAngleInDegrees, armExtentInches, targetWristAngle};
 
     return(ret);
 

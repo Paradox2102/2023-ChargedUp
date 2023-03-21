@@ -173,10 +173,10 @@ public final class Constants {
       k_armZeroPoint = 179.439;
       k_bottomSwitch = 8;
       k_armF = 0.004;
-      k_frontCameraAngle = -2.2;
-      k_rearCameraAngle = 180;
+      k_frontCameraAngle = -3.2;
+      k_rearCameraAngle = 179;
       k_xFrontCameraOffsetInches = 6.5;
-      k_xRearCameraOffsetInches = -6.5;
+      k_xRearCameraOffsetInches = -7.5;
       k_maxArmLength = 28.5;
       k_intakePower = -0.3; 
       k_outakePower = 0.3; 
