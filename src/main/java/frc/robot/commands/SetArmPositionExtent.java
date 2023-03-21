@@ -154,7 +154,7 @@ public class SetArmPositionExtent extends CommandBase {
       }
         m_reachSubsystem.isRunP(false);
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? armAngle : -armAngle);
-        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle);
+        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle - 1.5);
         m_extentInInches = extent;
     } else {
       if (m_armStraightUp) {

@@ -98,6 +98,7 @@ public class ArmSubsystem extends SubsystemBase {
     // Set Brake Mode
     m_arm.setIdleMode(IdleMode.kBrake);
     m_armFollower.setIdleMode(IdleMode.kBrake);
+    setArmBrake(true);
 
     // Set arm limit switches
     m_armForwardLimit = m_arm.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
@@ -240,7 +241,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setArmBrake(boolean brake) {
     m_brake.set(!brake);
-    SmartDashboard.putBoolean("Arm Brake", brake);
+    SmartDashboard.putNumber("Arm Brake", brake ? 1 : 0);
   }
 
   // Not converted by zero point
@@ -272,6 +273,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmFeedforward() {
     double length = Constants.k_minArmLength + m_reachSubsystem.getExtentInInches(); // inches
+    if (Constants.k_isCompetition) {
+      return -Constants.k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
+    }
     return -Constants.k_armF * Math.sin(Math.toRadians(m_armTargetAngleInDegrees)) * length;
   }
 
@@ -288,10 +292,11 @@ public class ArmSubsystem extends SubsystemBase {
     if (isArmOnTarget()) {
       if (Constants.k_isCompetition) {
         m_arm.set(0);
+        setArmBrake(true);
       } else {
         applyArmPower(); 
       }
-      setArmBrake(true);
+      // setArmBrake(true);
     } else {
         if (!isArmOnTargetBraked() || m_override) {
           setArmBrake(false);
@@ -334,11 +339,13 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean isArmOnTarget() {
     SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    SmartDashboard.putNumber("Arm DeadZone In Degrees", Constants.k_armDeadZoneInDegrees);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegrees && Math.abs(getArmSpeed()) < Constants.k_armSpeedDeadzone;
   }
 
   public boolean isArmOnTargetBraked() {
     SmartDashboard.putNumber("Arm Angle Error", getArmAngleDegrees() - m_armTargetAngleInDegrees);
+    SmartDashboard.putNumber("Arm DeadZone In Degrees Braked", Constants.k_armDeadZoneInDegreesBraked);
     return Math.abs(getArmAngleDegrees() - m_armTargetAngleInDegrees) <= Constants.k_armDeadZoneInDegreesBraked;
   }
 

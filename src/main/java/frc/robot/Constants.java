@@ -61,7 +61,7 @@ public final class Constants {
   public static final int k_rightIntakeMotor = 2; // CAN id
   public static final int k_claw = 0; // pneumatic channel
   public static final int k_openCloseMotor = 0; // New intake motor - Not used?
-  public static double k_intakePower = -0.2; 
+  public static double k_intakePower = -0.4; 
   public static double k_outakePower = 0.5; 
 
   public static final double k_wheelBase = 2.04; // feet
@@ -82,21 +82,21 @@ public final class Constants {
 
   // Wrist
   public static final int k_wristMotor = 1;
-  public static final double k_wristResetPosition = 30;
+  public static final double k_wristResetPosition = 33;
 
   // Wrist Positions Cube
-  public static double k_groundPickupWristCUBE = 10;
+  public static double k_groundPickupWristCUBE = 13;
   public static double k_midNodeWristCUBE = 0;
   public static double k_topNodeWristCUBE = 0;
   public static double k_midCubeNodeWristCUBE = 0;
   public static double k_humanPlayerStationWristCUBE = 0;
 
   // Wrist Positions Cone
-  public static double k_groundPickupWristCONE = 0;
+  public static double k_groundPickupWristCONE = 5;
   public static double k_midNodeWristCONE = 0;
   public static double k_topNodeWristCONE = 0;
   public static double k_midCubeNodeWristCONE = 0;
-  public static double k_humanPlayerStationWristCONE = 0;
+  public static double k_humanPlayerStationWristCONE = 24;
 
   // Arm positions Cube PRACTICE ROBOT
   public static double k_groundPickupExtentCUBE = 0;
@@ -131,15 +131,15 @@ public final class Constants {
   // Arm constants
   public static double k_armDegreesPerTick = 0.0895;
   public static double k_armZeroPoint = 202.04;
-  public static final double k_armP = 0.02; // 0.01
-  public static final double k_armI = 0;
-  public static final double k_armD = 0.002;
+  public static double k_armP = 0.02; // 0.01
+  public static double k_armI = 0;
+  public static double k_armD = 0.002;
   public static double k_armF = 0.002; // 0.003
   public static final double k_armTicksToDegrees = 6;
   public static final double k_armStartingAngle = 0;
-  public static final double k_maxArmPower = 0.4;
-  public static final double k_armDeadZoneInDegrees = 5;
-  public static final double k_armDeadZoneInDegreesBraked = 10;
+  public static double k_maxArmPower = 0.4;
+  public static double k_armDeadZoneInDegrees = 5;
+  public static double k_armDeadZoneInDegreesBraked = 10;
   public static final double k_brakeEngageTime = 0.1; // seconds
   public static final double k_pivotHeight = 22.25; // inches
   public static double k_armSpeedDeadzone = 5; // Degrees per second
@@ -152,7 +152,7 @@ public final class Constants {
   public static final int k_timeout = 30;
 
   // Reach constants
-  public static double k_minArmLength = 22; // inches; distance from pivot to CoM when extent=0
+  public static double k_minArmLength = 18; // inches; distance from pivot to CoM when extent=0 | 22
   public static double k_maxArmLength = 26.375; // inches; maximum extension beyond minimum
   public static final double k_reachTicksPerInch = 133514 / 26.375;
 
@@ -172,7 +172,7 @@ public final class Constants {
       k_armDegreesPerTick = 0.08731;
       k_armZeroPoint = 179.439;
       k_bottomSwitch = 8;
-      k_armF = 0.002;
+      k_armF = 0.004;
       k_frontCameraAngle = -2.2;
       k_rearCameraAngle = 180;
       k_xFrontCameraOffsetInches = 6.5;
@@ -201,9 +201,17 @@ public final class Constants {
       k_topExtentCONE = 25;
       k_topNodeAngleCONE = -57;
       k_midCubeNodeExtentCONE = 0;
-      k_midCubeNodeAngleCONE = -75;
-      k_humanPlayerStationExtentCONE = 13.5;
-      k_humanPlayerStationAngleCONE = -59;
+      k_midCubeNodeAngleCONE = -18;
+      k_humanPlayerStationExtentCONE = 7;
+      k_humanPlayerStationAngleCONE = -18;
+
+      // Arm PID
+      k_armP = 0.02;
+      k_armD = 0.002;
+
+      k_armDeadZoneInDegrees = 6;
+      k_armDeadZoneInDegreesBraked = 6;
+      k_maxArmPower = 0.4;
 
       SmartDashboard.putString("Robot name", "Updraft");
     } else { // Practice

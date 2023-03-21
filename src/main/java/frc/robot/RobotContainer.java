@@ -173,6 +173,7 @@ public class RobotContainer {
       m_joystick1.button(7).onTrue(new ReachBrakeOffCommand(m_reachSubsystem));
       m_joystick1.button(9). whileTrue(new ManualArmCommand(m_armSubsystem, () -> .2));
       m_joystick1.button(11). whileTrue(new ManualArmCommand(m_armSubsystem, () -> -.2));
+      m_joystick1.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_switchSides1));
     }
 
     // Driver 2

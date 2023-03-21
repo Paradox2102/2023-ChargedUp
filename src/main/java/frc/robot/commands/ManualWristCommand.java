@@ -21,7 +21,7 @@ public class ManualWristCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_wristSubsystem.setPower(m_power);
+    m_wristSubsystem.setPosition(m_wristSubsystem.getPosition() + 2 * Math.signum(m_power));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,9 +30,7 @@ public class ManualWristCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_wristSubsystem.setPower(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
