@@ -30,7 +30,6 @@ import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_5L;
 import frc.robot.commands.Autos.Charge_Station_Autos.Auto_5HS;
 import frc.robot.commands.Autos.Charge_Station_Autos.Auto_5HSMobility;
-import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4LS;
 import frc.robot.commands.Autos.Auto_9HD;
 import frc.robot.commands.Autos.Auto_9HD8H;
 import frc.robot.subsystems.ArmSubsystem;
@@ -196,8 +195,7 @@ public class RobotContainer {
     }
 
     // Auto Selection
-    m_selectAuto.addOption("PieOLD | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("PieNEW | 4HS", new Auto_5HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Pie | 4HS", new Auto_5HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Mango | 4HS (Mobility)", new Auto_5HSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Guanbana | 9HD8H", new Auto_9HD8H(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));

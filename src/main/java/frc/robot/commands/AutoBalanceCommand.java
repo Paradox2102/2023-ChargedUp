@@ -28,7 +28,6 @@ public class AutoBalanceCommand extends CommandBase {
   @Override
   public void initialize() {
     Logger.log("AutoBalanceCommand", 1, "initialize");
-    boolean m_isFinished = false;
     m_previousRobotPitch = 0;
     m_currentSpeed = 0;
     m_balanced = false;
@@ -45,18 +44,15 @@ public class AutoBalanceCommand extends CommandBase {
     if (currentRobotPitch < -10 && !m_balanced) { 
       m_subsystem.setSpeedFPS(0.75, 0.75);
       m_currentSpeed = .75;
-      SmartDashboard.putString("Climb States", "Forward");
     } 
     // If pitch > 2¾°, go backwards at 1FPS
     else if (currentRobotPitch > 10 && !m_balanced) {
       m_subsystem.setSpeedFPS(-0.75, -0.75);
       m_currentSpeed = -.75;
-      SmartDashboard.putString("Climb States", "Backward");
     } 
     else if (Math.abs(currentRobotPitch) < Math.abs(m_previousRobotPitch) && !m_balanced){
       double speed = Math.signum(m_currentSpeed) * -2;
       m_subsystem.setSpeedFPS(speed , speed);
-      SmartDashboard.putString("Climb States", "Level");
       m_balanced = true;
       // m_isFinished = true;
     } else if (Math.abs(currentRobotPitch) < 3) {
@@ -76,6 +72,6 @@ public class AutoBalanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_isFinished;
+    return false;
   }
 }
