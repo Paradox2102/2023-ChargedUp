@@ -40,7 +40,9 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Logger.log("IntakeCommand", 1, "end");
-    m_subsystem.setPower(0);
+    if (!m_isAuto) {
+      m_subsystem.setPower(0);
+    }
   }
 
   // Returns true when the command should end.

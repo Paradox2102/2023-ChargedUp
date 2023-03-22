@@ -28,8 +28,8 @@ import frc.robot.commands.Autos.Auto_1MA2M;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
 import frc.robot.commands.Autos.Auto_5L;
-import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4HS;
-import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4HSMobility;
+import frc.robot.commands.Autos.Charge_Station_Autos.Auto_5HS;
+import frc.robot.commands.Autos.Charge_Station_Autos.Auto_5HSMobility;
 import frc.robot.commands.Autos.Charge_Station_Autos.Auto_4LS;
 import frc.robot.commands.Autos.Auto_9HD;
 import frc.robot.commands.Autos.Auto_9HD8H;
@@ -163,7 +163,7 @@ public class RobotContainer {
       m_joystick1.button(1).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_intakePower, false)); //intake
       m_joystick1.button(2).toggleOnTrue(new IntakeCommand(m_intakeSubsystem, Constants.k_outakePower, false)); //outake //0.25
       m_joystick1.button(4).whileTrue(new AutoBalanceCommand(m_driveSubsystem));
-      m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, () -> !m_switchSides2.getAsBoolean()));
+      m_joystick1.button(5).toggleOnTrue(new DeliverGamePieceCommand(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, () -> !m_switchSides2.getAsBoolean()));
       if (Constants.k_isCompetition) {
         m_joystick1.button(12).onTrue(new PositionWristCommand(m_wristSubsystem, 30));
       } else {
@@ -172,7 +172,7 @@ public class RobotContainer {
       m_joystick1.button(7).onTrue(new ReachBrakeOffCommand(m_reachSubsystem));
       m_joystick1.button(9). whileTrue(new ManualArmCommand(m_armSubsystem, () -> .2));
       m_joystick1.button(11). whileTrue(new ManualArmCommand(m_armSubsystem, () -> -.2));
-      m_joystick1.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_switchSides1));
+      m_joystick1.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, m_switchSides1));
     }
 
     // Driver 2
@@ -197,8 +197,8 @@ public class RobotContainer {
 
     // Auto Selection
     m_selectAuto.addOption("PieOLD | 4LS", new Auto_4LS(m_driveSubsystem, m_armSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("PieNEW | 4HS", new Auto_4HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Mango | 4HS (Mobility)", new Auto_4HSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("PieNEW | 4HS", new Auto_5HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Mango | 4HS (Mobility)", new Auto_5HSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Guanbana | 9HD8H", new Auto_9HD8H(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Lemon | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));

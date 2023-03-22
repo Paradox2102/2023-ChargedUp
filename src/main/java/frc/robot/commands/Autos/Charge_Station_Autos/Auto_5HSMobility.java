@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.pathfinder.Pathfinder.Waypoint;
 import frc.robot.Constants;
 import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PurePursuitData;
 import frc.robot.commands.SetArmPositionExtent;
@@ -24,19 +24,19 @@ import frc.robot.subsystems.WristSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto_4HSMobility extends SequentialCommandGroup {
+public class Auto_5HSMobility extends SequentialCommandGroup {
   private final double k_maxSpeed = 6.000000;
   private final double k_maxAccel = 4.000000;
   private final double k_maxDecl = 4.000000;
   private final double k_maxJerk = 50.000000;
   /** Creates a new Auto_4LSMobility. */
-  public Auto_4HSMobility(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem, WristSubsystem wristSubsystem, IntakeSubsystem intakeSubsystem) {
+  public Auto_5HSMobility(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, ReachSubsystem reachSubsystem, WristSubsystem wristSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Place cone high
       new SetGamePieceCommand(armSubsystem, false),
-      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmSubsystem.ArmPosition.HIGH, () -> true),
+      new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmSubsystem.ArmPosition.HIGH, () -> false),
       new WaitCommand(1),
       new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true),
       new WaitCommand(.25),
@@ -66,8 +66,8 @@ public class Auto_4HSMobility extends SequentialCommandGroup {
   -2.35,20,90
   */
   private static final Waypoint[] k_path1 = {
-      new Waypoint(-2.35, 5.857, Math.toRadians(90)),
-      new Waypoint(-2.35, 20, Math.toRadians(90))
+      new Waypoint(-4.13, 5.857, Math.toRadians(90)),
+      new Waypoint(-4.13, 20, Math.toRadians(90))
   };
   /*
   -2.35,20,-90

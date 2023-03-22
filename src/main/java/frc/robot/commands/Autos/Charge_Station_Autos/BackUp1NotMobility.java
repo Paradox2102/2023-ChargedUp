@@ -16,9 +16,9 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class BackUp1NotMobility extends SequentialCommandGroup {
   /** Creates a new BackUp1NotMobility. */
-  private final double k_maxSpeed = 6.000000;
-  private final double k_maxAccel = 4.000000;
-  private final double k_maxDecl = 4.000000;
+  private final double k_maxSpeed = 4.000000;
+  private final double k_maxAccel = 2.000000;
+  private final double k_maxDecl = 2.000000;
   private final double k_maxJerk = 50.000000;
   public BackUp1NotMobility(DriveSubsystem driveSubsystem) {
     // Add your commands in the addCommands() call, e.g.
@@ -34,15 +34,15 @@ public class BackUp1NotMobility extends SequentialCommandGroup {
   -2.35,8,-90
   */
   private static final Waypoint[] k_path1 = {
-    new Waypoint(-2.35, 10.5, Math.toRadians(-90)),
-    new Waypoint(-2.35, 8, Math.toRadians(-90))
+    new Waypoint(-4.13, 10.5, Math.toRadians(-90)),
+    new Waypoint(-4.13, 8, Math.toRadians(-90))
   };
   /*
   -2.35,8,90
   -2.35,13,90
   */
   private static final Waypoint[] k_path2 = {
-      new Waypoint(-2.35, 8, Math.toRadians(90)),
-      new Waypoint(-2.35, 13, Math.toRadians(90))
+      new Waypoint(-4.13, 8, Math.toRadians(90)),
+      new Waypoint(-4.13, 13, Math.toRadians(90))
   };
 }

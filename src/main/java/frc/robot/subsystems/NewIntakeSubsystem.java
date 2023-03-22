@@ -22,6 +22,7 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
 
   private Timer m_stallTimer = new Timer();
   private double m_power = 0;
+  private boolean m_isAuto = false;
 
 
   /** Creates a new NewIntakeSubsystem. */
@@ -36,7 +37,7 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
   public void setPower(double power) {
     m_intakeMotor.set(ControlMode.PercentOutput, power);
     m_power = power;
-    SmartDashboard.putNumber("Intake Power", power);
+    // SmartDashboard.putNumber("Intake Power", power);
   }
 
   public void setClaw(ClawPosition position) {
@@ -60,7 +61,8 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
 
   public void setPowerAutoPeriod(double power)
   {
-    setPower(power);
+    m_isAuto = true;
+    m_power = power;
   }
   
   public void setClawPower(double clawPower)
@@ -84,7 +86,9 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    setPower(m_power);
     if (isIntakeStalled()) {
+      m_power = Constants.k_intakeMinPower;
       setPower(Constants.k_intakeMinPower);
     }
     SmartDashboard.putNumber("Intake Speed", m_intakeMotor.getSelectedSensorVelocity());

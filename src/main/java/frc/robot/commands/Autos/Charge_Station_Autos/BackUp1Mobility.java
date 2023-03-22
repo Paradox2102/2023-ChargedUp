@@ -37,15 +37,15 @@ public class BackUp1Mobility extends SequentialCommandGroup {
   -2.35,8,-90
   */
   private static final Waypoint[] k_path1 = {
-    new Waypoint(-2.35, 10.5, Math.toRadians(-90)),
-    new Waypoint(-2.35, 8, Math.toRadians(-90))
+    new Waypoint(-4.13, 10.5, Math.toRadians(-90)),
+    new Waypoint(-4.13, 8, Math.toRadians(-90))
   };
   /*
   -2.35,8,90
   -2.35,20,90
   */
   private static final Waypoint[] k_path2 = {
-    new Waypoint(-2.35, 8, Math.toRadians(90)),
-    new Waypoint(-2.35, 20, Math.toRadians(90))
+    new Waypoint(-4.13, 8, Math.toRadians(90)),
+    new Waypoint(-4.13, 20, Math.toRadians(90))
 };
 }
