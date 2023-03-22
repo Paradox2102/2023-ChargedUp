@@ -128,7 +128,7 @@ public class DriveSubsystem extends SubsystemBase {
   public boolean isFailingChargeStationClimb() {
     // PROBLEM: We should create a getLeftVelocity method that returns FPS.
     // It's not obvious to the reader that this test is checking against 10FPS because the TalonFX velocity reports ticks per 100ms. -Gavin
-    return m_leftDrive.getSelectedSensorVelocity() * Constants.k_feetPerTick < 1 && m_pathFollowTimer.get() > 4;
+    return m_leftDrive.getSelectedSensorVelocity() * Constants.k_feetPerTick < .5 && m_pathFollowTimer.get() > 5;
   }
 
   public void setPower(double leftPower, double rightPower) {
@@ -203,7 +203,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getPitch() {
     if (Constants.k_isCompetition) {
-      return m_gyro.getPitch();
+      return m_gyro.getRoll();
     } else {
       // practice robot has IMU mounted sideways
       return m_gyro.getRoll(); 

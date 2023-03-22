@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.ApriltagsCamera.Logger;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoBalanceCommand extends CommandBase {
@@ -12,6 +14,9 @@ public class AutoBalanceCommand extends CommandBase {
 
   DriveSubsystem m_subsystem;
   boolean m_isFinished = false;
+  double m_previousRobotPitch = 0;
+  double m_currentSpeed = 0;
+  boolean m_balanced = false;
 
   public AutoBalanceCommand(DriveSubsystem driveSubsystem) {
     m_subsystem = driveSubsystem;
@@ -22,7 +27,11 @@ public class AutoBalanceCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // The code in execute() leaves the speed unchanged if ½°<|pitch|⩽2¾°.  What happens if we're in this range when the command starts?  -Gavin
+    Logger.log("AutoBalanceCommand", 1, "initialize");
+    boolean m_isFinished = false;
+    m_previousRobotPitch = 0;
+    m_currentSpeed = 0;
+    m_balanced = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,25 +41,35 @@ public class AutoBalanceCommand extends CommandBase {
 
     // If we've reached the middle and |pitch| <= ½°, stop.
     // For simplicity, could move this test to isFinished().  -Gavin
-    if (Math.abs(currentRobotPitch) <= .5) {
-      m_subsystem.setSpeedFPS(0, 0);
-      m_isFinished = true;
-    }
     // If pitch < 2¾°, go forwards at 1FPS
-    else if (currentRobotPitch < -2.75) { 
-      m_subsystem.setSpeedFPS(1, 1);
+    if (currentRobotPitch < -10 && !m_balanced) { 
+      m_subsystem.setSpeedFPS(0.75, 0.75);
+      m_currentSpeed = .75;
+      SmartDashboard.putString("Climb States", "Forward");
     } 
     // If pitch > 2¾°, go backwards at 1FPS
-    else if (currentRobotPitch > 2.75) {
-      m_subsystem.setSpeedFPS(-1, -1);
+    else if (currentRobotPitch > 10 && !m_balanced) {
+      m_subsystem.setSpeedFPS(-0.75, -0.75);
+      m_currentSpeed = -.75;
+      SmartDashboard.putString("Climb States", "Backward");
+    } 
+    else if (Math.abs(currentRobotPitch) < Math.abs(m_previousRobotPitch) && !m_balanced){
+      double speed = Math.signum(m_currentSpeed) * -2;
+      m_subsystem.setSpeedFPS(speed , speed);
+      SmartDashboard.putString("Climb States", "Level");
+      m_balanced = true;
+      // m_isFinished = true;
+    } else if (Math.abs(currentRobotPitch) < 3) {
+      m_subsystem.setSpeed(0, 0);
     }
-
+    m_previousRobotPitch = currentRobotPitch;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // Should call stop() instead for clarity. -Gavin
+    Logger.log("AutoBalanceCommand", 1, "end");
     m_subsystem.setSpeedFPS(0, 0);
   }
 

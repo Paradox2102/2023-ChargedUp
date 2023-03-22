@@ -85,18 +85,16 @@ public final class Constants {
   public static final double k_wristResetPosition = 33;
 
   // Wrist Positions Cube
-  public static double k_groundPickupWristCUBE = 13;
-  public static double k_midNodeWristCUBE = 0;
-  public static double k_topNodeWristCUBE = 0;
-  public static double k_midCubeNodeWristCUBE = 0;
-  public static double k_humanPlayerStationWristCUBE = 0;
+  public static double k_groundPickupWristCUBE = 16;
+  public static double k_midNodeWristCUBE = 20;
+  public static double k_topNodeWristCUBE = 5;
+  public static double k_humanPlayerStationWristCUBE = 25;
 
   // Wrist Positions Cone
   public static double k_groundPickupWristCONE = 5;
-  public static double k_midNodeWristCONE = 0;
-  public static double k_topNodeWristCONE = 0;
-  public static double k_midCubeNodeWristCONE = 0;
-  public static double k_humanPlayerStationWristCONE = 24;
+  public static double k_midNodeWristCONE = 15;
+  public static double k_topNodeWristCONE = 15;
+  public static double k_humanPlayerStationWristCONE = 25;
 
   // Arm positions Cube PRACTICE ROBOT
   public static double k_groundPickupExtentCUBE = 0;
@@ -179,31 +177,31 @@ public final class Constants {
       k_xRearCameraOffsetInches = -7.5;
       k_maxArmLength = 28.5;
       k_intakePower = -0.3; 
-      k_outakePower = 0.3; 
+      k_outakePower = 0.6; 
 
       // Arm positions Cube
       k_groundPickupExtentCUBE = 0;
       k_groundPickupAngleCUBE = -93;
-      k_midNodeExtentCUBE = 10;
-      k_midNodeAngleCUBE = -62;
-      k_topNodeExtentCUBE = 25;
-      k_topNodeAngleCUBE = -57;
+      k_midNodeExtentCUBE = 0;
+      k_midNodeAngleCUBE = -10;
+      k_topNodeExtentCUBE = 5;
+      k_topNodeAngleCUBE = -30;
       k_midCubeNodeExtentCUBE = 0;
       k_midCubeNodeAngleCUBE = -75;
-      k_humanPlayerStationExtentCUBE = 13.5;
-      k_humanPlayerStationAngleCUBE = -59;
+      k_humanPlayerStationExtentCUBE = 6;
+      k_humanPlayerStationAngleCUBE = -21;
 
       // Arm Positions Cone
       k_groundPickupExtentCONE = 0;
       k_groundPickupAngleCONE = -93;
-      k_midNodeExtentCONE = 10;
-      k_midNodeAngleCONE = -62;
-      k_topExtentCONE = 25;
-      k_topNodeAngleCONE = -57;
+      k_midNodeExtentCONE = 7;
+      k_midNodeAngleCONE = -47;
+      k_topExtentCONE = 26;
+      k_topNodeAngleCONE = -47;
       k_midCubeNodeExtentCONE = 0;
       k_midCubeNodeAngleCONE = -18;
-      k_humanPlayerStationExtentCONE = 7;
-      k_humanPlayerStationAngleCONE = -18;
+      k_humanPlayerStationExtentCONE = 9;
+      k_humanPlayerStationAngleCONE = -21;
 
       // Arm PID
       k_armP = 0.02;
