@@ -8,7 +8,7 @@ import frc.ApriltagsCamera.ApriltagsCamera;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.AutoBalanceCommand;
-import frc.robot.commands.ReachBrakeOffCommand;
+import frc.robot.commands.ReachWristBrakeOffCommand;
 import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualAdjustArmAngle;
@@ -169,7 +169,7 @@ public class RobotContainer {
       } else {
         m_joystick1.button(6).toggleOnTrue(new ManualClawCommand(m_intakeSubsystem));
       }
-      m_joystick1.button(7).onTrue(new ReachBrakeOffCommand(m_reachSubsystem));
+      m_joystick1.button(7).onTrue(new ReachWristBrakeOffCommand(m_reachSubsystem, m_wristSubsystem));
       m_joystick1.button(9). whileTrue(new ManualArmCommand(m_armSubsystem, () -> .2));
       m_joystick1.button(11). whileTrue(new ManualArmCommand(m_armSubsystem, () -> -.2));
       m_joystick1.button(3).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, m_switchSides1));

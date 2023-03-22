@@ -22,7 +22,6 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
 
   private Timer m_stallTimer = new Timer();
   private double m_power = 0;
-  private boolean m_isAuto = false;
 
 
   /** Creates a new NewIntakeSubsystem. */
@@ -61,7 +60,6 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
 
   public void setPowerAutoPeriod(double power)
   {
-    m_isAuto = true;
     m_power = power;
   }
   

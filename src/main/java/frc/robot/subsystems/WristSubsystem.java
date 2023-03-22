@@ -42,6 +42,14 @@ public class WristSubsystem extends SubsystemBase {
     m_position = Constants.k_wristResetPosition + position; 
   }
 
+  public void setBrakeMode(boolean brake) {
+    m_wristMotor.setIdleMode(brake ? IdleMode.kBrake : IdleMode.kCoast);
+  }
+
+  public boolean getBrakeMode() {
+    return m_wristMotor.getIdleMode() == IdleMode.kBrake;
+  }
+
   @Override
   public void periodic() {
     if (m_enabled) {
