@@ -19,7 +19,6 @@ import frc.robot.commands.ManualWristCommand;
 import frc.robot.commands.PathFollowingCommand;
 import frc.robot.commands.PositionWristCommand;
 import frc.robot.commands.SetArmPositionExtent;
-import frc.robot.commands.SetArmZeroCommand;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.SetLEDCommand;
@@ -122,7 +121,6 @@ public class RobotContainer {
     }
 
     // Shuffleboard commands
-    SmartDashboard.putData("SetArmZero", new SetArmZeroCommand(m_armSubsystem));
     SmartDashboard.putData("Paradox Lights", new SetLEDCommand(m_LEDSubsystem, "idle"));
     // SmartDashboard.putData("Request Cube", new SetLEDCommand(m_LEDSubsystem, "cube"));
     // SmartDashboard.putData("Request Cone", new SetLEDCommand(m_LEDSubsystem, "cone"));
