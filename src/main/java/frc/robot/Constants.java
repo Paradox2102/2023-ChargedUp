@@ -85,16 +85,16 @@ public final class Constants {
   public static final double k_wristResetPosition = 33;
 
   // Wrist Positions Cube
-  public static double k_groundPickupWristCUBE = 16;
+  public static double k_groundPickupWristCUBE = 17;
   public static double k_midNodeWristCUBE = 20;
   public static double k_topNodeWristCUBE = 5;
   public static double k_humanPlayerStationWristCUBE = 25;
 
   // Wrist Positions Cone
   public static double k_groundPickupWristCONE = 5;
-  public static double k_midNodeWristCONE = 15;
-  public static double k_topNodeWristCONE = 15;
-  public static double k_humanPlayerStationWristCONE = 25;
+  public static double k_midNodeWristCONE = 17;
+  public static double k_topNodeWristCONE = 18;
+  public static double k_humanPlayerStationWristCONE = 23;
 
   // Arm positions Cube PRACTICE ROBOT
   public static double k_groundPickupExtentCUBE = 0;
@@ -117,7 +117,7 @@ public final class Constants {
   public static double k_topNodeAngleCONE = -57;
   public static double k_midCubeNodeExtentCONE = 0;
   public static double k_midCubeNodeAngleCONE = -75;
-  public static double k_humanPlayerStationExtentCONE = 13.5;
+  public static double k_humanPlayerStationExtentCONE = 11.5;
   public static double k_humanPlayerStationAngleCONE = -59;
 
   // Arm position Straight Up
@@ -200,7 +200,7 @@ public final class Constants {
       k_topNodeAngleCONE = -47;
       k_midCubeNodeExtentCONE = 0;
       k_midCubeNodeAngleCONE = -18;
-      k_humanPlayerStationExtentCONE = 9;
+      k_humanPlayerStationExtentCONE = 8.5;
       k_humanPlayerStationAngleCONE = -21;
 
       // Arm PID

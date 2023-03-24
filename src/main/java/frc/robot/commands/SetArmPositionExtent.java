@@ -99,7 +99,7 @@ public class SetArmPositionExtent extends CommandBase {
         SmartDashboard.putNumber("Arm Angle In Degrees", m_armAngleInDegrees);
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? m_armAngleInDegrees : -m_armAngleInDegrees);
         m_reachSubsystem.isRunP(true);
-        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? data[2] : -data[2]);
+        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? -data[2] : data[2]);
       } else {
         m_isFinished = true;
       }
@@ -169,8 +169,8 @@ public class SetArmPositionExtent extends CommandBase {
         }
       }
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? armAngle : -armAngle);
-        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle - 1.5);
-        m_extentInInches = extent;
+        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle + 2);
+        m_extentInInches = m_throttle.getAsBoolean() ? extent : extent;
         if (m_armStraightUp) {
           m_reachSubsystem.isRunP(true);
           m_isFinished = true;
