@@ -56,10 +56,10 @@ public class Auto_5HS extends SequentialCommandGroup {
   }
 /*
 -2.35,5.857,90
--2.35,11.5,90
+-2.35,12,90
 */
 private static final Waypoint[] k_path = {
     new Waypoint(-4.13, 5.857, Math.toRadians(90)),
-    new Waypoint(-4.13, 11.75, Math.toRadians(90))
+    new Waypoint(-4.13, 12, Math.toRadians(90))
 };
 }

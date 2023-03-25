@@ -44,13 +44,13 @@ public class Auto_5HSMobility extends SequentialCommandGroup {
       new IntakeCommand(intakeSubsystem, 0, true),
 
       // Drive over charge station
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, true),
+      new CreatePathCommand(driveSubsystem, k_path1, true, true, "Path 1", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, true),
 
       // Is the robot stuck?
       new ConditionalCommand(new BackUp1Mobility(driveSubsystem), new WaitCommand(1), () -> driveSubsystem.getRobotY() - 10 < 2),
     
       // Get on charge station
-      new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, true),
+      new CreatePathCommand(driveSubsystem, k_path2, false, false, "Path 2", new PurePursuitData(k_maxSpeed, k_maxAccel, k_maxDecl, k_maxJerk), .5, true),
 
       // Is the robot stuck?
       new ConditionalCommand(new BackUp2Mobility(driveSubsystem), new AutoBalanceCommand(driveSubsystem), () -> driveSubsystem.getRobotY() - 14 < 2),

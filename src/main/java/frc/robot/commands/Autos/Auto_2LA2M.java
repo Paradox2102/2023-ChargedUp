@@ -30,10 +30,10 @@ public class Auto_2LA2M extends SequentialCommandGroup {
       new SetGamePieceCommand(armSubsystem, true),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.LOW, () -> false),
       new IntakeCommand(intakeSubsystem, Constants.k_intakePower, true),
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
+      new CreatePathCommand(driveSubsystem, k_path1, true, true, "Path 1"),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> true),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.MID, () -> true),
-      new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
+      new CreatePathCommand(driveSubsystem, k_path2, false, false, "Path 2"),
       new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> false)
     );

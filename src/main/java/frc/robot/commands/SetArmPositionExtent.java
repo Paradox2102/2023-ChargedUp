@@ -104,6 +104,8 @@ public class SetArmPositionExtent extends CommandBase {
         m_isFinished = true;
       }
     } else if (m_usePresets) {
+      boolean isCube = false;
+      boolean placeConeOnGrid = true;
       double extent = 0;
       double wristAngle = 0;
       double armAngle = 0;
@@ -129,6 +131,7 @@ public class SetArmPositionExtent extends CommandBase {
             extent = Constants.k_humanPlayerStationExtentCUBE;
             wristAngle = Constants.k_humanPlayerStationWristCUBE;
             armAngle = Constants.k_humanPlayerStationAngleCUBE;
+            placeConeOnGrid = true;
             break;
           case RESET:
             extent = Constants.k_straightUpExtent;
@@ -137,6 +140,7 @@ public class SetArmPositionExtent extends CommandBase {
             m_armStraightUp = true;
             break;
         } 
+        isCube = true;
       } else {
         switch (m_armPos) {
           case HIGH:
@@ -167,9 +171,18 @@ public class SetArmPositionExtent extends CommandBase {
               m_armStraightUp = true;
               break;
         }
+        isCube = false;
       }
         m_armSubsystem.moveToAngle(m_throttle.getAsBoolean() ? armAngle : -armAngle);
-        m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle + 2);
+        if (isCube) {
+          m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle : -wristAngle - 3);
+        } else {
+          if (!placeConeOnGrid) {
+            m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle + 4 : -wristAngle - 5);
+          } else {
+            m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle + 2: -wristAngle);
+          }
+        }
         m_extentInInches = m_throttle.getAsBoolean() ? extent : extent;
         if (m_armStraightUp) {
           m_reachSubsystem.isRunP(true);

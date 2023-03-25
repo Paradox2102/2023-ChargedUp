@@ -36,7 +36,7 @@ public class Auto_9HD extends SequentialCommandGroup {
       new WaitCommand(1),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> true),
       new WaitCommand(1),
-      new CreatePathCommand(driveSubsystem, k_path, true, false, "Path 1")
+      new CreatePathCommand(driveSubsystem, k_path, true, true, "Path 1")
     );
   }
   /*

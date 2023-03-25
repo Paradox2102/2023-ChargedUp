@@ -28,7 +28,7 @@ public class Auto_2LA extends SequentialCommandGroup {
       new SetGamePieceCommand(armSubsystem, true),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.LOW, () -> false),
       new WaitCommand(1),
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1")
+      new CreatePathCommand(driveSubsystem, k_path1, true, true, "Path 1")
     );
   }
   private static final Waypoint[] k_path1 = {

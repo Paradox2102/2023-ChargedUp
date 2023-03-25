@@ -36,10 +36,10 @@ public class Auto_9HD8H extends SequentialCommandGroup {
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> false),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.LOW, () -> false),
       new IntakeCommand(intakeSubsystem, Constants.k_intakePower, true),
-      new CreatePathCommand(driveSubsystem, k_path1, true, false, "Path 1"),
+      new CreatePathCommand(driveSubsystem, k_path1, true, true, "Path 1"),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> false),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.HIGH, () -> true),
-      new CreatePathCommand(driveSubsystem, k_path2, false, true, "Path 2"),
+      new CreatePathCommand(driveSubsystem, k_path2, false, false, "Path 2"),
       new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true),
       new WaitCommand(.15),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.RESET, () -> false)

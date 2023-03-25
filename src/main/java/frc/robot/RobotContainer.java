@@ -9,6 +9,7 @@ import frc.ApriltagsCamera.Logger;
 import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.ReachWristBrakeOffCommand;
+import frc.robot.commands.ResetWristCommand;
 import frc.robot.commands.DeliverGamePieceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ManualAdjustArmAngle;
@@ -39,6 +40,7 @@ import frc.robot.subsystems.NewIntakeSubsystem;
 import frc.robot.subsystems.OldIntakeSubsystem;
 import frc.robot.subsystems.ReachSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmPosition;
 
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
@@ -181,6 +183,7 @@ public class RobotContainer {
     m_stick2.button(6).whileTrue(new ManualReachCommand(m_reachSubsystem, .3, false)); //out
     m_stick2.button(7).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.HIGH, m_switchSides2));
     m_stick2.button(9).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.MID, m_switchSides2));
+    m_stick2.button(8).onTrue(new ResetWristCommand(m_wristSubsystem));
     m_stick2.button(11).onTrue(new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmSubsystem.ArmPosition.LOW, m_switchSides2));
     m_stick2.pov(0).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, 3));
     m_stick2.pov(180).onTrue(new ManualAdjustArmAngle(m_armSubsystem, m_switchSides2, -3));
@@ -193,15 +196,16 @@ public class RobotContainer {
     }
 
     // Auto Selection
-    m_selectAuto.addOption("Pie | 4HS", new Auto_5HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
-    m_selectAuto.addOption("Mango | 4HS (Mobility)", new Auto_5HSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Pie | 5HS", new Auto_5HS(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Burrito | 1LA2MB2H", new Auto_1LA2MB2H(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Mango | 4HS (Mobility)", new Auto_5HSMobility(m_driveSubsystem, m_armSubsystem, m_reachSubsystem, m_wristSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Guanbana | 9HD8H", new Auto_9HD8H(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Lemon | 2LA2M", new Auto_2LA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Kiwi | 9HD", new Auto_9HD(m_armSubsystem, m_reachSubsystem, m_intakeSubsystem, m_driveSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Nectarine | 1MA2M", new Auto_1MA2M(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem)); 
-    m_selectAuto.addOption("Apple | 2LA", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
+    m_selectAuto.addOption("Apple | 2LA 0", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Onion | 1", new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmPosition.RESET, m_switchSides1));
     
     SmartDashboard.putData(m_selectAuto); 
   }

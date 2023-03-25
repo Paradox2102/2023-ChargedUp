@@ -78,17 +78,17 @@ public final class Constants {
   public static final int k_newIntakeMotor = 7;
   public static final int k_armEncoder = 3;   // This is a TalonSRX which is ONLY used to read the abs mag encoder for the arm
   public static final double k_intakeStallSpeed = 300;
-  public static final double k_intakeMinPower = -0.075;
+  public static final double k_intakeMinPower = 0.075;
 
   // Wrist
   public static final int k_wristMotor = 1;
-  public static final double k_wristResetPosition = 33;
+  public static final double k_wristResetPosition = 29.5;
 
   // Wrist Positions Cube
   public static double k_groundPickupWristCUBE = 17;
   public static double k_midNodeWristCUBE = 20;
   public static double k_topNodeWristCUBE = 5;
-  public static double k_humanPlayerStationWristCUBE = 25;
+  public static double k_humanPlayerStationWristCUBE = 27;
 
   // Wrist Positions Cone
   public static double k_groundPickupWristCONE = 5;
@@ -176,8 +176,8 @@ public final class Constants {
       k_xFrontCameraOffsetInches = 6.5;
       k_xRearCameraOffsetInches = -7.5;
       k_maxArmLength = 28.5;
-      k_intakePower = -0.3; 
-      k_outakePower = 0.6; 
+      k_intakePower = 0.3; 
+      k_outakePower = -0.6; 
 
       // Arm positions Cube
       k_groundPickupExtentCUBE = 0;
@@ -196,7 +196,7 @@ public final class Constants {
       k_groundPickupAngleCONE = -93;
       k_midNodeExtentCONE = 7;
       k_midNodeAngleCONE = -47;
-      k_topExtentCONE = 26;
+      k_topExtentCONE = 28;
       k_topNodeAngleCONE = -47;
       k_midCubeNodeExtentCONE = 0;
       k_midCubeNodeAngleCONE = -18;

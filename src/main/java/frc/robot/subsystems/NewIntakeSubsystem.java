@@ -69,7 +69,7 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
   }
 
   private boolean isIntakeStalled() {
-    if (Math.abs(m_intakeMotor.getSelectedSensorVelocity()) < Constants.k_intakeStallSpeed && m_power < 0) {
+    if (Math.abs(m_intakeMotor.getSelectedSensorVelocity()) < Constants.k_intakeStallSpeed && m_power > 0) {
       if (m_stallTimer.get() > .1) {
         return true;
       } else {
