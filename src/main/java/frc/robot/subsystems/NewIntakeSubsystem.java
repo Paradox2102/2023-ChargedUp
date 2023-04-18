@@ -61,6 +61,7 @@ public class NewIntakeSubsystem extends IntakeSubsystem {
   public void setPowerAutoPeriod(double power)
   {
     m_power = power;
+    m_intakeMotor.set(ControlMode.PercentOutput, power);
   }
   
   public void setClawPower(double clawPower)

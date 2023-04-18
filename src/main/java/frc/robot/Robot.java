@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveBrakeOffCommand;
+import frc.robot.commands.ReachWristBrakeOffCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -40,7 +41,10 @@ public class Robot extends TimedRobot {
     .negate()  
     .debounce(5)
     .onTrue(new DriveBrakeOffCommand(m_robotContainer.m_driveSubsystem)); 
+
+    new Trigger(this::isEnabled).onTrue(new ReachWristBrakeOffCommand(m_robotContainer.m_reachSubsystem, m_robotContainer.m_wristSubsystem, true));
   }
+
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics

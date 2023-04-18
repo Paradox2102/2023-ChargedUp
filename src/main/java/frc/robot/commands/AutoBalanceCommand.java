@@ -50,8 +50,8 @@ public class AutoBalanceCommand extends CommandBase {
       m_currentSpeed = -.75;
     } 
     else if (Math.abs(currentRobotPitch) < Math.abs(m_previousRobotPitch) && !m_balanced){
-      double speed = Math.signum(m_currentSpeed) * -2;
-      // m_subsystem.setSpeedFPS(speed , speed);
+      double speed = Math.signum(m_currentSpeed) * -1;
+      m_subsystem.setSpeedFPS(speed , speed);
       m_balanced = true;
       // m_isFinished = true;
     } else if (Math.abs(currentRobotPitch) < 3) {

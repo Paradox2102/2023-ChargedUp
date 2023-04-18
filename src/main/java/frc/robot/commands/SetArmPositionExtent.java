@@ -109,6 +109,8 @@ public class SetArmPositionExtent extends CommandBase {
       double extent = 0;
       double wristAngle = 0;
       double armAngle = 0;
+      boolean isConeLow = false;
+      boolean isConeStation = false;
       if (m_armSubsystem.isGamePieceCube()) {
         switch (m_armPos) {
           case HIGH:
@@ -157,12 +159,14 @@ public class SetArmPositionExtent extends CommandBase {
             extent = Constants.k_groundPickupExtentCONE;
             wristAngle = Constants.k_groundPickupWristCONE;
             armAngle = Constants.k_groundPickupAngleCONE;
+            isConeLow = true;
             break;
           case SUBSTATION1:
           case SUBSTATION2:
             extent = Constants.k_humanPlayerStationExtentCONE;
             wristAngle = Constants.k_humanPlayerStationWristCONE;
             armAngle = Constants.k_humanPlayerStationAngleCONE;
+            isConeStation = true;
             break;
             case RESET:
               extent = Constants.k_straightUpExtent;
@@ -179,6 +183,10 @@ public class SetArmPositionExtent extends CommandBase {
         } else {
           if (!placeConeOnGrid) {
             m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle + 4 : -wristAngle - 5);
+          } else if (isConeLow) {
+            m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle + 2: -wristAngle - 6);
+          } else if (isConeStation) {
+            m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle + 2 : -wristAngle - 5);
           } else {
             m_wristSubsystem.setPosition(m_throttle.getAsBoolean() ? wristAngle + 2: -wristAngle);
           }

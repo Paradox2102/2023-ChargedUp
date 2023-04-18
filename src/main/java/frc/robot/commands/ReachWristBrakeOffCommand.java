@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.ApriltagsCamera.Logger;
 import frc.robot.Constants;
@@ -17,10 +18,19 @@ import frc.robot.subsystems.WristSubsystem;
 public class ReachWristBrakeOffCommand extends InstantCommand {
   ReachSubsystem m_reachSubsystem; 
   WristSubsystem m_wristSubsystem;
+  boolean m_isEnabledCalled = false;
 
   public ReachWristBrakeOffCommand(ReachSubsystem reachSubsystem, WristSubsystem wristSubsystem) {
     m_reachSubsystem = reachSubsystem; 
     m_wristSubsystem = wristSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_reachSubsystem, m_wristSubsystem);
+  }
+
+  public ReachWristBrakeOffCommand(ReachSubsystem reachSubsystem, WristSubsystem wristSubsystem, boolean isEnabledCalled) {
+    m_reachSubsystem = reachSubsystem; 
+    m_wristSubsystem = wristSubsystem;
+    m_isEnabledCalled = isEnabledCalled;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,9 +38,21 @@ public class ReachWristBrakeOffCommand extends InstantCommand {
   @Override
   public void initialize() {
     Logger.log("brakeOffCommand", 1, "initialize");
-    m_reachSubsystem.setBrakeMode(!m_reachSubsystem.getBrakeMode());
+    boolean reach;
+    boolean wrist;
+    if (m_isEnabledCalled) {
+      reach = true;
+      wrist = true;
+    } else if (DriverStation.isTeleopEnabled()){
+      reach = true;
+      wrist = true;
+    } else {
+      reach = !m_reachSubsystem.getBrakeMode();
+      wrist = !m_wristSubsystem.getBrakeMode();
+    }
+    m_reachSubsystem.setBrakeMode(reach);
     if (Constants.k_isCompetition) {
-      m_wristSubsystem.setBrakeMode(!m_wristSubsystem.getBrakeMode());
+      m_wristSubsystem.setBrakeMode(wrist);
     }
   }
 

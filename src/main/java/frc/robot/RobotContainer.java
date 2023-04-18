@@ -23,10 +23,12 @@ import frc.robot.commands.SetArmPositionExtent;
 import frc.robot.commands.SetClawCommand;
 import frc.robot.commands.SetGamePieceCommand;
 import frc.robot.commands.SetLEDCommand;
+import frc.robot.commands.Autos.Auto_1H;
 import frc.robot.commands.Autos.Auto_1LA2MB2H;
 import frc.robot.commands.Autos.Auto_1MA2M;
 import frc.robot.commands.Autos.Auto_2LA;
 import frc.robot.commands.Autos.Auto_2LA2M;
+import frc.robot.commands.Autos.Auto_2L_Launch;
 import frc.robot.commands.Autos.Auto_5L;
 import frc.robot.commands.Autos.Charge_Station_Autos.Auto_5HS;
 import frc.robot.commands.Autos.Charge_Station_Autos.Auto_5HSMobility;
@@ -74,11 +76,11 @@ public class RobotContainer {
 
   private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   public final DriveSubsystem m_driveSubsystem;
-  private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
+  public final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = Constants.k_isCompetition ? new NewIntakeSubsystem() : new OldIntakeSubsystem();
   //Intake Subsystem only needed to get absolute mag encoder for arm 
   private final ArmSubsystem m_armSubsystem;
-  private final WristSubsystem m_wristSubsystem = Constants.k_isCompetition ? new WristSubsystem() : null; 
+  public final WristSubsystem m_wristSubsystem = Constants.k_isCompetition ? new WristSubsystem() : null; 
   // Driver 1 Controller
   private final CommandXboxController m_xbox1;// = new CommandXboxController(0);
   private final CommandJoystick m_joystick1;
@@ -124,6 +126,7 @@ public class RobotContainer {
 
     // Shuffleboard commands
     SmartDashboard.putData("Paradox Lights", new SetLEDCommand(m_LEDSubsystem, "idle"));
+    SmartDashboard.putData("7", new ReachWristBrakeOffCommand(m_reachSubsystem, m_wristSubsystem));
     // SmartDashboard.putData("Request Cube", new SetLEDCommand(m_LEDSubsystem, "cube"));
     // SmartDashboard.putData("Request Cone", new SetLEDCommand(m_LEDSubsystem, "cone"));
 
@@ -206,6 +209,8 @@ public class RobotContainer {
     m_selectAuto.addOption("Apple | 2LA 0", new Auto_2LA(m_driveSubsystem, m_reachSubsystem, m_armSubsystem, m_intakeSubsystem, m_wristSubsystem));
     m_selectAuto.addOption("Papaya | 5L", new Auto_5L(m_armSubsystem, m_intakeSubsystem));
     m_selectAuto.addOption("Onion | 1", new SetArmPositionExtent(m_reachSubsystem, m_armSubsystem, m_wristSubsystem, ArmPosition.RESET, m_switchSides1));
+    m_selectAuto.addOption("Fig", new Auto_1H(m_armSubsystem, m_wristSubsystem, m_reachSubsystem, m_intakeSubsystem));
+    m_selectAuto.addOption("Perssimon", new Auto_2L_Launch(m_driveSubsystem, m_armSubsystem, m_wristSubsystem, m_intakeSubsystem, m_reachSubsystem));
     
     SmartDashboard.putData(m_selectAuto); 
   }

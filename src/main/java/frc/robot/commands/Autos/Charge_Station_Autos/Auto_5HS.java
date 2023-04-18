@@ -40,7 +40,7 @@ public class Auto_5HS extends SequentialCommandGroup {
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.HIGH, () -> true),
       new WaitCommand(1),
       new IntakeCommand(intakeSubsystem, Constants.k_outakePower, true),
-      new WaitCommand(.5),
+      new WaitCommand(.25),
       new SetGamePieceCommand(armSubsystem, false),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, Constants.k_straightUpExtent, Constants.k_straightUpAngle, () -> false, Constants.k_straightUpWrist, 0, 0, true),
       new SetArmPositionExtent(reachSubsystem, armSubsystem, wristSubsystem, ArmPosition.MID, () -> true),
